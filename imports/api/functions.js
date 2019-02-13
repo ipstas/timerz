@@ -9,41 +9,37 @@ import { Random } from 'meteor/random'
 //window.sly = sly;
 
 export const initCurrTimer = function(currentTimer){
-	//if (currentTimer.get()) return;
-	//Tracker.autorun(function(){
-		//if (!Meteor.userId() || !t.ready.get() || currentTimer.get()) return;
-		if (!Meteor.userId()) return;
-		var initTimer = Collections.Timers.findOne({userId: Meteor.userId(), timeStarted: {$exists: true}});
-		if (initTimer && Session.get('useGPS') && initTimer.useGPS && !initTimer.gps) {
+	if (!Meteor.userId()) return;
+	var initTimer = Collections.Timers.findOne({userId: Meteor.userId(), timeStarted: {$exists: true}});
+	if (initTimer && Session.get('useGPS') && initTimer.useGPS && !initTimer.gps) {
+		if (Meteor.isCordova)
+			BackgroundLocation.getPlugin();
+		navigator.geolocation.getCurrentPosition(function(gps){
+			initTimer.update = Collections.Timers.update(initTimer._id,{$set:{'gps.latitude': gps.coords.latitude, 'gps.longitude': gps.coords.longitude}});
+			if (Session.get('debug')) console.log('[usertimer startTime] gps set:', initTimer._id, Collections.Timers.findOne(initTimer._id), gps.coords);
+			Session.set('gps',{'latitude': gps.coords.latitude, 'longitude': gps.coords.longitude});
 			if (Meteor.isCordova)
-				BackgroundLocation.getPlugin();
-			navigator.geolocation.getCurrentPosition(function(gps){
-				initTimer.update = Collections.Timers.update(initTimer._id,{$set:{'gps.latitude': gps.coords.latitude, 'gps.longitude': gps.coords.longitude}});
-				if (Session.get('debug')) console.log('[usertimer startTime] gps set:', initTimer._id, Collections.Timers.findOne(initTimer._id), gps.coords);
-				Session.set('gps',{'latitude': gps.coords.latitude, 'longitude': gps.coords.longitude});
-				if (Meteor.isCordova)
-					cordova.plugins.notification.local.schedule({
-						title: initTimer.title,
-						text: 'Timer gps location set: ' + gps.coords.latitude + ' ' + gps.coords.longitude + ' mobile: ' + Meteor.isCordova,
-						foreground: true
-					});
-				},
-				function(err){
-					console.warn('[usertimer startTime] err:', err);
-				},
-				{ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }
-			);		
-		}
+				cordova.plugins.notification.local.schedule({
+					title: initTimer.title,
+					text: 'Timer gps location set: ' + gps.coords.latitude + ' ' + gps.coords.longitude + ' mobile: ' + Meteor.isCordova,
+					foreground: true
+				});
+			},
+			function(err){
+				console.warn('[usertimer startTime] err:', err);
+			},
+			{ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }
+		);		
+	}
 
-		else 
-			console.log('[usertimer startTime] gps off:', Session.get('useGPS'), this.useGPS);
+	else 
+		console.log('[usertimer startTime] gps off:', Session.get('useGPS'), this.useGPS);
 
-		console.log('[functions.js] initCurrTimer', initTimer);
-		//computation.stop();
-		Session.set('currentTimer',	initTimer);
-		return initTimer;
+	console.log('[functions.js] initCurrTimer', initTimer);
+	//computation.stop();
+	Session.set('currentTimer',	initTimer);
+	return initTimer;
 		
-//});	
 }
 
 export const stopSession = function (params){
@@ -61,10 +57,7 @@ export const stopSession = function (params){
 		BackgroundLocation.stop();
 	Session.set('gps');
 	Session.set('currentTimer');
-
-	//currentTimer.set();
 }
-
 
 export const infCheck = function (t){
 	$('#infiniteCheck').each(function(i){
@@ -203,7 +196,9 @@ export const slyInit = function(frame, caller){
 	console.log('sly set', caller, slyFrame, slyOptions, frame);
 	return slyFrame;
 }
-window.slyInit = slyInit;
+
+if (Meteor.isClient)
+	window.slyInit = slyInit;
 //export const initSly = slyFrame.init();
 
 export const initSly2 = function(){

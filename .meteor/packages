@@ -96,3 +96,5 @@ browser-policy
 #jamielob:reloader
 mdg:reload-on-resume
 #ipstas:app-version
+meteorhacks:picker
+meteorhacks:inject-initial

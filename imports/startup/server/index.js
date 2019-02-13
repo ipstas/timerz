@@ -8,5 +8,6 @@ import './fixtures.js';
 import './import-json.js';
 import './maint.js';
 import './register-api.js';
+import './router.js';
 //import './prerender.js';
 
