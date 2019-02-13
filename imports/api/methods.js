@@ -172,7 +172,7 @@ Meteor.methods({
 		console.log('[methods.js] social.unlink service', params, this.userId);
 		Accounts.unlinkService(this.userId, params.service);
 	},	
-	'social.instagram.tag'(params){
+/* 	'social.instagram.tag'(params){
 		params = params || {};
 		params.tag = params.tag || 'fashionista';
 		//var simpleInstagramScrape = require('simple-instagram-photo-scrape');
@@ -182,14 +182,7 @@ Meteor.methods({
 				memoizedGetPhotos;
 
 		memoizedGetPhotos = memoizeClear(getRecentInstagramPhotos);
-
 		module.exports = memoizedGetPhotos;
-
-/* 		setInterval(function() {
-				console.info('Clearing Instagram Photo Cache.');
-				memoizedGetPhotos.__clear();
-		}, 1000 * 60 * 60 * 4); */
-
 		function getRecentInstagramPhotos(tag) {
 			var options = {
 				uri: `https://www.instagram.com/explore/tags/${ encodeURIComponent(tag) }/`
@@ -213,50 +206,24 @@ Meteor.methods({
 						return [];
 				});
 		}
-
-		return getRecentInstagramPhotos(params.tag)
-/* 			.then(function(photos) {
-				console.log('social.instagram.tag', photos);
-				return photos;
-					// Do something with the photos 
-			}) */
-		//console.log('social.instagram.get', params, '\nres:', res);
-		
+		return getRecentInstagramPhotos(params.tag)	
 	},
 	'social.instagram.media'(params){
 		params = params || {};
 		params.shortcode = params.shortcode || 'fashionista';
-		//var simpleInstagramScrape = require('simple-instagram-photo-scrape');
-		
 		var requestPromise = require('request-promise'),
 				memoizeClear = require('memoize-clear'),
 				memoizedGetPhotos;
-
 		memoizedGetPhotos = memoizeClear(getRecentInstagramPhotos);
-
 		module.exports = memoizedGetPhotos;
-
-/* 		setInterval(function() {
-				console.info('Clearing Instagram Photo Cache.');
-				memoizedGetPhotos.__clear();
-		}, 1000 * 60 * 60 * 4); */
-
 		function getRecentInstagramPhotos(shortcode) {
 			var options = {
 				uri: `https://www.instagram.com/p/${ encodeURIComponent(shortcode) }/`
 			};
-
 			return requestPromise(options)
 				.then(function(htmlString) {
 					var instagramPage = JSON.parse(htmlString.match(/<script\stype="text\/javascript">window._sharedData\s?=\s?(.*)(?=<\/script>)/g)[0].substring(52).replace(/;/g, ''), null, 4);
 					console.log('instagramPage', instagramPage.entry_data);
-/* 					var data = instagramPage['entry_data'].TagPage[0].tag.media.nodes // jshint ignore:line
-						.map(function(item) {
-							console.log('instagramPage item', item, item.id, item.owner.id, item.thumbnail_src);
-							return item['display_src']; // jshint ignore:line
-						})
-						.slice(0, 12);
-					return {page: instagramPage.entry_data, data: data}; */
 					return {page: instagramPage.entry_data};
 				})
 				.catch(function (err) {
@@ -265,15 +232,7 @@ Meteor.methods({
 						return [];
 				});
 		}
-
-		return getRecentInstagramPhotos(params.shortcode)
-/* 			.then(function(photos) {
-				console.log('social.instagram.tag', photos);
-				return photos;
-					// Do something with the photos 
-			}) */
-		//console.log('social.instagram.get', params, '\nres:', res);
-		
+		return getRecentInstagramPhotos(params.shortcode)		
 	},
 	'social.instagram.get'(params){
 		params = params || {};
@@ -286,11 +245,8 @@ Meteor.methods({
 			clientId: Meteor.settings.private.instagram.clientId,
 			clientSecret: Meteor.settings.private.instagram.clientSecret,
 			accessToken: accessToken
-		});
-		
+		});		
 		try {
-			//ig.use({ client_id: Meteor.settings.private.instagram.clientId, client_secret: Meteor.settings.private.instagram.clientSecret, accessToken: accessToken });
-			//ig.use({ accessToken: accessToken });
 			url = url + 'tags/' + params.tag + '/media/recent';
 			const res = HTTP.call('GET', url, {
 				params: { access_token: accessToken }
@@ -302,26 +258,9 @@ Meteor.methods({
 		}
 		//console.log('social.instagram.get ig:', instagram, ig, params, Meteor.settings.private.instagram);
 		console.log('social.instagram.get ig:', params, Meteor.settings.private.instagram, accessToken);
-/* 		ig.user('1174348327', function(err, result, remaining, limit) {
-			console.log('ig.user', err, result, remaining, limit);
-		}); */
-		//var options = { [min_tag_id], [max_tag_id] };
-/* 		try {
-			res = ig.tag(params.tag, function(err, medias, pagination, remaining, limit) {
-				console.log('social.instagram.get inside', err, medias, pagination, remaining, limit);
-			});
-		} catch (e){
-			console.warn('social.instagram.get tag1 err:', e);
-		} */
-/* 		try {
-			res = instagram.get('tags/fashionista');
-		} catch (e) {
-			console.warn('social.instagram.get tag2 err:', e);
-		} */
 		console.log('social.instagram.get', params, '\nres:', res);
-		
 	},
-	
+	 */
 	'social.mailchimp'(params){
 		var user, chimpres, updated;
 		if (params.newUser && params.emails && params.emails[0].address)
