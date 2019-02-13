@@ -380,151 +380,131 @@
 </template>
 
 <template name="settings">
-	<div class="container-fluid">
+
 	
-		<div class="row text-left">
-			{{#if user.profile.agree.checked}}
+	<div class="row text-left">
+		{{#if user.profile.agree.checked}}
 
-			{{else}}
-					<div class="col-7 col-sm-7 col-md-5 offset-md-2 ">
-						Please agree to <a href="/about?get=terms">terms and conditions</a> first 
-					</div>	
-					<div class="col-5 col-sm-5 col-md-3">
-						<button class="btn btn-default agree" >Agree</button> 
-					</div>
-			{{/if}}
-		</div>
-		
-		<br/>
-		<div class="row">
-			<div class="col-md-8 offset-md-2">
-				<h4 class="brand-heading">SETTINGS</h4>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-6 col-md-6 offset-md-2 leftswitch">
-				<span class="?">notify me in a browser about long running timers</span>
-			</div>
-			<div class="col-5 col-sm-5 col-md-3 ">	
-				<label class="switch">
-					<input type="checkbox" {{useAdvanced}} class="useAdvanced " id="useAdvanced">
-					<div class="slider round"></div>	
-				</label>
-			</div>
-		</div>		
-		<div class="row">
-			<div class="col-6 col-md-6 offset-md-2 leftswitch">
-				<span class="?">use GPS to switch off timers</span>
-			</div>
-			<div class="col-5 col-sm-5 col-md-3 ">	
-				<label class="switch">
-					<input type="checkbox" {{useGPS}} class="useGPS " id="useGPS">
-					<div class="slider round"></div>	
-				</label>
-			</div>
-			{{#with gps}}
-				<div class="col-12 ">
-					Location: {{gps.latitude}} lat, {{gps.longitude}} long, {{gps.accuracy}} accuracy, 
+		{{else}}
+				<div class="col-7 col-sm-7 col-md-5 offset-md-2 ">
+					Please agree to <a href="/about?get=terms">terms and conditions</a> first 
+				</div>	
+				<div class="col-5 col-sm-5 col-md-3">
+					<button class="btn btn-default agree" >Agree</button> 
 				</div>
-			{{/with}}
-		</div>	
-	<!-- 	<div class="row">
-			<div class="col-6 col-md-6 offset-md-2 leftswitch">
-				<span class="?">Use advanced</span>
-			</div>
-			<div class="col-5 col-sm-5 col-md-3 ">	
-				<label class="switch">
-					<input type="checkbox" {{useAdvanced}} class="useAdvanced " id="useAdvanced">
-					<div class="slider round"></div>	
-				</label>
-			</div>
-		</div>	<div class="row">
-			<div class="col-6 col-md-6 offset-md-2 leftswitch">
-				<span class="?">Use advanced</span>
-			</div>
-			<div class="col-5 col-sm-5 col-md-3 ">	
-				<label class="switch">
-					<input type="checkbox" {{useAdvanced}} class="useAdvanced " id="useAdvanced">
-					<div class="slider round"></div>	
-				</label>
-			</div>
-		</div> -->
-
-		{{#if isAdmin}}
-			<br/>
-
-			<div class="row">
-				<div class="col-md-8 offset-md-2">
-					<h4 class="brand-heading">ADMIN STUFF</h4>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-6 col-md-6 offset-md-2 leftswitch">
-					<span class="?">debug: </span>
-				</div>
-				<div class="col-5 col-sm-4 col-md-3 ">	
-					<label class="switch">
-						<input type="checkbox" {{statusDebug}} class="debug" >
-						<div class="slider round"></div>	
-					</label>
-				</div>
-			</div>
-		
-			<div class="row">				
-				{{#with status}}
-					<div class="col-6 col-md-6 offset-md-2 leftswitch">
-						<span class="?">server {{server}} </span>
-					</div>
-					<div class="col-5 col-sm-4 col-md-3 ">		
-						<label class="switch">
-							<input type="checkbox" {{status.checked}} class="reconnect " >
-							<div class="slider round"></div>	
-						</label>
-
-					</div>
-				{{/with}}
-			</div>
-			
-			<div class="row text-left">
-				<div class="col-12">
-					3rd party libraries:
-				</div>
-			</div>
-			{{#each libraries}}
-				<div class="row text-left">
-					<div class="col-3">
-						<a href="{{link}}">{{type}}</a>
-					</div>	
-					<div class="col-3">
-						{{#if personal}}
-							personal: <input type="checkbox" class="toggleSwitch enableLib" id="{{id}}" {{enabled}} data-toggle="toggle" data-onstyle="info" data-width="50" data-height="25" >
-						{{else}}
-							common: <input type="checkbox" class="toggleSwitch" id="{{id}}" {{enabled}} disabled data-toggle="toggle" data-onstyle="info" data-width="50" data-height="25" >
-						{{/if}}
-					</div>										
-					<div class="col-3">
-						{{createdAt}}
-					</div>		
-				</div>
-				<hr>
-			{{/each}}
-		
 		{{/if}}
-		
-		<div class="row">
-			<div class="col-12 col-md-8 offset-md-2">
-				
-				{{#if changePwd}}
-					{{> atForm state='changePwd'}}
-				{{else}}
-					<button class="btn btn-default" id="changePwd">Change password</button> 
-					{{> atNavButton}}
-				{{/if}}
-			</div>	
+	</div>
+	
+	<br/>
+	<div class="row">
+		<div class="col-12">
+			<h4 class="brand-heading">SETTINGS</h4>
 		</div>
 	</div>
+	
+	<div class="row">
+		<div class="col-7 leftswitch">
+			<span class="?">notify me in a browser about long running timers</span>
+		</div>
+		<div class="col-5">	
+			<label class="switch">
+				<input type="checkbox" {{useAdvanced}} class="useAdvanced " id="useAdvanced">
+				<div class="slider round"></div>	
+			</label>
+		</div>
+	</div>		
+	<div class="row">
+		<div class="col-7 leftswitch">
+			<span class="?">use GPS to switch off timers</span>
+		</div>
+		<div class="col-5  ">	
+			<label class="switch">
+				<input type="checkbox" {{useGPS}} class="useGPS " id="useGPS">
+				<div class="slider round"></div>	
+			</label>
+		</div>
+		{{#with gps}}
+			<div class="col-12 ">
+				Location: {{gps.latitude}} lat, {{gps.longitude}} long, {{gps.accuracy}} accuracy, 
+			</div>
+		{{/with}}
+	</div>	
+
+
+	{{#if isAdmin}}
+		<br/>
+
+		<div class="row">
+			<div class="col-md-8">
+				<h4 class="brand-heading">ADMIN STUFF</h4>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-7 leftswitch">
+				<span class="?">debug: </span>
+			</div>
+			<div class="col-5 ">	
+				<label class="switch">
+					<input type="checkbox" {{statusDebug}} class="debug" >
+					<div class="slider round"></div>	
+				</label>
+			</div>
+		</div>
+	
+		<div class="row">				
+			{{#with status}}
+				<div class="col-7 leftswitch">
+					<span class="?">server {{server}} </span>
+				</div>
+				<div class="col-5">		
+					<label class="switch">
+						<input type="checkbox" {{status.checked}} class="reconnect " >
+						<div class="slider round"></div>	
+					</label>
+
+				</div>
+			{{/with}}
+		</div>
+		
+		<div class="row text-left">
+			<div class="col-12">
+				3rd party libraries:
+			</div>
+		</div>
+		{{#each libraries}}
+			<div class="row text-left">
+				<div class="col-3">
+					<a href="{{link}}">{{type}}</a>
+				</div>	
+				<div class="col-3">
+					{{#if personal}}
+						personal: <input type="checkbox" class="toggleSwitch enableLib" id="{{id}}" {{enabled}} data-toggle="toggle" data-onstyle="info" data-width="50" data-height="25" >
+					{{else}}
+						common: <input type="checkbox" class="toggleSwitch" id="{{id}}" {{enabled}} disabled data-toggle="toggle" data-onstyle="info" data-width="50" data-height="25" >
+					{{/if}}
+				</div>										
+				<div class="col-3">
+					{{createdAt}}
+				</div>		
+			</div>
+			<hr>
+		{{/each}}
+	
+	{{/if}}
+	
+	<div class="row">
+		<div class="col-12 col-md-8 offset-md-2">
+			
+			{{#if changePwd}}
+				{{> atForm state='changePwd'}}
+			{{else}}
+				<button class="btn btn-default" id="changePwd">Change password</button> 
+				{{> atNavButton}}
+			{{/if}}
+		</div>	
+	</div>
+
 </template>
 
 <template name="privacy">
@@ -574,10 +554,16 @@
 	</div>
 	{{#each services}}
 		<div class="row text-center fontsmaller">
-			<div class="col-3 "  id="{{_id}}"> 
-				<div class="button btn btn-primary btn-sm connect{{service}}" rel="publisher" data-toggle="tooltip" title="connect to {{service}}">	
-					<i class="connected fa fa-{{service}}"></i>
-				</div>
+			<div class="col-3 " id="{{_id}}"> 
+				{{#unless connected}}
+					<div class="button btn btn-secondary btn-sm connect{{service}}" rel="publisher" data-toggle="tooltip" title="disconnect from {{service}}">	
+						<i class="connected fa fa-{{service}}"></i>
+					</div>
+				{{else}}
+					<div class="button btn btn-warning btn-sm disconnect" rel="publisher" data-toggle="tooltip" title="connect to {{service}}">	
+						<i class="connected fa fa-{{service}}"></i>
+					</div>				
+				{{/unless}}
 			</div>
 			<div class="col-2"> 
 				{{#if connected}}
@@ -595,9 +581,9 @@
 					{{#if $eq service 'facebook'}}
 <!-- 								{{facebook}}
 						{{> quickForm id="privacyForm2" schema=schema doc=facebook type="method" meteormethod="user.privacy.facebook" template="bootstrap3-inline" afFieldInput-placeholder="schemaLabel"}} -->
-						{{#autoForm id="privacyForm" template="bootstrap3" doc=facebook schema=schema type="method" meteormethod="user.privacy.facebook" autosave=true}}
+<!-- 						{{#autoForm id="privacyForm" template="bootstrap3" doc=facebook schema=schema type="method" meteormethod="user.privacy.facebook" autosave=true}}
 							{{> afQuickFields}}
-						{{/autoForm}}
+						{{/autoForm}} -->
 					{{/if}}
 				{{/if}}
 			</div>
@@ -611,12 +597,12 @@
 			{{#if connected}}
 				<div class="row text-left">
 					<div class="col-12"> 
-						{{#if facebook.messenger}}
+<!-- 						{{#if facebook.messenger}}
 							<span>FB messenger connected</span>
 						{{else}}
 							To connect FB Messenger send us a message "<b>connect</b>" at <a href="https://www.facebook.com/VirGO360VR/messages" target=_blank>VirGO 360 page</a>
 							After you have Messenger connected you will be able to receive comments there.
-						{{/if}}
+						{{/if}} -->
 					</div>	
 				</div>
 			{{/if}}

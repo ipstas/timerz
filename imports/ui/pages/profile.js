@@ -730,11 +730,10 @@ Template.settings.events({
 	},	
 	'change .useGPS' ( e, t ) {
 		Session.setPersistent('useGPS', !Session.get('useGPS'));
-		//Meteor.setTimeout(()=>{
-			if (Session.get('useGPS')) BackgroundLocation.start();			
-			else BackgroundLocation.stop();
-	//},1000)
-		
+		if (Session.get('useGPS')) 
+			BackgroundLocation.start();			
+		else 
+			BackgroundLocation.stop();
 	},	
 	'change .autosuggest': function (event, template) {
 		//Session.set('debug', true);
@@ -794,34 +793,10 @@ Template.settings.events({
 		Meteor.call('settings.set', {_id: this._id, type: this.type, enable: e.target.checked, personal: true});
 	},	
 	
-	// non used
-
-/* 	'click': function (event, template) {
-		console.log('general click ',  event, this, template);
-	}, */
-/* 	'click .removeauto': function (event, template) {
-		var myId = template.find('.removeauto');
-		console.log('template.find ', myId.attr, myId.name, myId.id, myId );
-		AutoPlaces.remove(myId.id);
-	},
-	'click .disconnect': function (event, template) {
-		Meteor.disconnect();
-		console.log('meteor status ',  Meteor.status());
-	}, */
-
-/* 	'click .reconnect': function (event, template) {
-		Meteor.reconnect();
-		console.log('meteor status ',  Meteor.status());
-	}, */
-
-/* 	'click .nondebug': function (event, template) {
-		Session.set('debug', false);
-	}, */
-
 
 });
 
-Template.connectAccounts.onCreated(function () {
+Template.connectAccounts.onCreated( ()=> {
 	Meteor.subscribe('services');
   let t = Template.instance();
 	t.errorState = new ReactiveVar();
@@ -829,7 +804,7 @@ Template.connectAccounts.onCreated(function () {
 		console.log('social.facebook.roles', err, res);
 	});	
 });
-Template.connectAccounts.onRendered(function () {
+Template.connectAccounts.onRendered( ()=> {
 
 });
 Template.connectAccounts.helpers({
@@ -859,14 +834,17 @@ Template.connectAccounts.helpers({
 });
 Template.connectAccounts.events({
   'click .connectfacebook'(e,t) {
+		console.log('[connectAccounts] connectfacebook his', this);
 		t.errorState.set();
-		Meteor.linkWithFacebook({requestPermissions: ['user_friends', 'email', 'publish_actions']}, (err, r)=> {
+
+		Meteor.linkWithFacebook({requestPermissions:  ['email', 'public_profile', 'user_friends', 'user_likes']}, (err, r)=> {
 			console.log('linkWithFacebook', err, r);
 			if (err)
 				t.errorState.set(err.error);
 			else
 				t.errorState.set();
 		});
+		
   },
   'click .connectgoogle'(e,t) {
     Meteor.linkWithGoogle({},(err,r)=> {
@@ -888,7 +866,7 @@ Template.connectAccounts.events({
   },	
   'click .disconnect'(e,t) {
 		console.log('clicked disconnect', this.service, this);
-    Meteor.call('social.unlink', {serviceName: this.service});
+    Meteor.call('social.unlink', {service: this.service});
   }, 
 	'submit'(e,t){
 		e.stopPropagation();	

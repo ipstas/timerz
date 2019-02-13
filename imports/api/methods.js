@@ -168,6 +168,439 @@ Meteor.methods({
 			console.log('Daily aggr timer:', timer, '\naggr:', aggr.length, 'updated:', updated, '\ntimer:',  Collections.Timers.findOne(timer._id).title);
 	},
 
+	'social.unlink': function(params){
+		console.log('[methods.js] social.unlink service', params, this.userId);
+		Accounts.unlinkService(this.userId, params.service);
+	},	
+	'social.instagram.tag'(params){
+		params = params || {};
+		params.tag = params.tag || 'fashionista';
+		//var simpleInstagramScrape = require('simple-instagram-photo-scrape');
+		
+		var requestPromise = require('request-promise'),
+				memoizeClear = require('memoize-clear'),
+				memoizedGetPhotos;
+
+		memoizedGetPhotos = memoizeClear(getRecentInstagramPhotos);
+
+		module.exports = memoizedGetPhotos;
+
+/* 		setInterval(function() {
+				console.info('Clearing Instagram Photo Cache.');
+				memoizedGetPhotos.__clear();
+		}, 1000 * 60 * 60 * 4); */
+
+		function getRecentInstagramPhotos(tag) {
+			var options = {
+				uri: `https://www.instagram.com/explore/tags/${ encodeURIComponent(tag) }/`
+			};
+
+			return requestPromise(options)
+				.then(function(htmlString) {
+					var instagramPage = JSON.parse(htmlString.match(/<script\stype="text\/javascript">window._sharedData\s?=\s?(.*)(?=<\/script>)/g)[0].substring(52).replace(/;/g, ''), null, 4);
+					console.log('instagramPage', instagramPage.entry_data);
+					var data = instagramPage['entry_data'].TagPage[0].tag.media.nodes // jshint ignore:line
+						.map(function(item) {
+							console.log('instagramPage item', item, item.id, item.owner.id, item.thumbnail_src);
+							return item['display_src']; // jshint ignore:line
+						})
+						.slice(0, 12);
+					return {page: instagramPage.entry_data, data: data};
+				})
+				.catch(function (err) {
+						console.error(`ERROR Instagram Scrape ${ err }`);
+						console.error('Instagram Scrape Failed, Returning Default images.');
+						return [];
+				});
+		}
+
+		return getRecentInstagramPhotos(params.tag)
+/* 			.then(function(photos) {
+				console.log('social.instagram.tag', photos);
+				return photos;
+					// Do something with the photos 
+			}) */
+		//console.log('social.instagram.get', params, '\nres:', res);
+		
+	},
+	'social.instagram.media'(params){
+		params = params || {};
+		params.shortcode = params.shortcode || 'fashionista';
+		//var simpleInstagramScrape = require('simple-instagram-photo-scrape');
+		
+		var requestPromise = require('request-promise'),
+				memoizeClear = require('memoize-clear'),
+				memoizedGetPhotos;
+
+		memoizedGetPhotos = memoizeClear(getRecentInstagramPhotos);
+
+		module.exports = memoizedGetPhotos;
+
+/* 		setInterval(function() {
+				console.info('Clearing Instagram Photo Cache.');
+				memoizedGetPhotos.__clear();
+		}, 1000 * 60 * 60 * 4); */
+
+		function getRecentInstagramPhotos(shortcode) {
+			var options = {
+				uri: `https://www.instagram.com/p/${ encodeURIComponent(shortcode) }/`
+			};
+
+			return requestPromise(options)
+				.then(function(htmlString) {
+					var instagramPage = JSON.parse(htmlString.match(/<script\stype="text\/javascript">window._sharedData\s?=\s?(.*)(?=<\/script>)/g)[0].substring(52).replace(/;/g, ''), null, 4);
+					console.log('instagramPage', instagramPage.entry_data);
+/* 					var data = instagramPage['entry_data'].TagPage[0].tag.media.nodes // jshint ignore:line
+						.map(function(item) {
+							console.log('instagramPage item', item, item.id, item.owner.id, item.thumbnail_src);
+							return item['display_src']; // jshint ignore:line
+						})
+						.slice(0, 12);
+					return {page: instagramPage.entry_data, data: data}; */
+					return {page: instagramPage.entry_data};
+				})
+				.catch(function (err) {
+						console.error(`ERROR Instagram Scrape ${ err }`);
+						console.error('Instagram Scrape Failed, Returning Default images.');
+						return [];
+				});
+		}
+
+		return getRecentInstagramPhotos(params.shortcode)
+/* 			.then(function(photos) {
+				console.log('social.instagram.tag', photos);
+				return photos;
+					// Do something with the photos 
+			}) */
+		//console.log('social.instagram.get', params, '\nres:', res);
+		
+	},
+	'social.instagram.get'(params){
+		params = params || {};
+		params.tag = params.tag || 'fashionista';
+		var options = {}, ig, accessToken, res, url = 'https://api.instagram.com/v1/';
+		ig = require('instagram-node').instagram();
+		if (!this.userId || !Meteor.users.findOne(this.userId)) return;
+		accessToken = Meteor.users.findOne(this.userId).services.instagram.accessToken;
+		const instagram = new Instagram({
+			clientId: Meteor.settings.private.instagram.clientId,
+			clientSecret: Meteor.settings.private.instagram.clientSecret,
+			accessToken: accessToken
+		});
+		
+		try {
+			//ig.use({ client_id: Meteor.settings.private.instagram.clientId, client_secret: Meteor.settings.private.instagram.clientSecret, accessToken: accessToken });
+			//ig.use({ accessToken: accessToken });
+			url = url + 'tags/' + params.tag + '/media/recent';
+			const res = HTTP.call('GET', url, {
+				params: { access_token: accessToken }
+			});
+			console.log('social.instagram.get res', res);
+		} catch (e){
+			console.warn('social.instagram.get use err:', url, e, '\nig:', params, accessToken);
+			throw new Meteor.Error(500, e);
+		}
+		//console.log('social.instagram.get ig:', instagram, ig, params, Meteor.settings.private.instagram);
+		console.log('social.instagram.get ig:', params, Meteor.settings.private.instagram, accessToken);
+/* 		ig.user('1174348327', function(err, result, remaining, limit) {
+			console.log('ig.user', err, result, remaining, limit);
+		}); */
+		//var options = { [min_tag_id], [max_tag_id] };
+/* 		try {
+			res = ig.tag(params.tag, function(err, medias, pagination, remaining, limit) {
+				console.log('social.instagram.get inside', err, medias, pagination, remaining, limit);
+			});
+		} catch (e){
+			console.warn('social.instagram.get tag1 err:', e);
+		} */
+/* 		try {
+			res = instagram.get('tags/fashionista');
+		} catch (e) {
+			console.warn('social.instagram.get tag2 err:', e);
+		} */
+		console.log('social.instagram.get', params, '\nres:', res);
+		
+	},
+	
+	'social.mailchimp'(params){
+		var user, chimpres, updated;
+		if (params.newUser && params.emails && params.emails[0].address)
+			user = params;
+		else if (params.userId)
+			user = Meteor.users.findOne(params.userId);
+		else
+			return console.warn('social.mailchimp.add. no email for new user, can not signup for mailchimp', params);
+
+		var settings = Meteor.settings.private.MailChimp;
+
+		console.log('social.mailchimp.add', params);
+		var mailchimp = new Mailchimp(settings.apiKey);
+		
+		async function mainPost(){
+			return await mailchimp.post('/lists/' + settings.listId + '/members', {
+				email_address : user.emails[0].address,
+				status : 'subscribed',
+				merge_fields: {
+					FNAME: user.profile.firstName,
+					LNAME: user.profile.lastName,
+					MMERGE3: user.username,
+				}
+			})
+		}
+		
+		async function mainPut(){
+			var hash = md5(user.emails[0].address);
+			return await mailchimp.put('/lists/' + settings.listId + '/members/' + hash, {
+				email_address : user.emails[0].address,
+				merge_fields: {
+					FNAME: user.profile.firstName,
+					LNAME: user.profile.lastName,
+					MMERGE3: user.username,
+				}
+			})
+		}
+		
+		async function mainGet(){
+			var hash = md5(user.emails[0].address);
+			return await mailchimp.put('/lists/' + settings.listId + '/members/' + hash, {
+				email_address : user.emails[0].address,
+				merge_fields: {
+					FNAME: user.profile.firstName,
+					LNAME: user.profile.lastName,
+					MMERGE3: user.username,
+				}
+			})
+		}
+
+		async function update(){
+			try{
+				var res = await mainPut();
+				await console.log('social.mailchimp.add res2: ', res);
+				await mongoGo(res)
+				return await res;
+			} catch(e){
+				console.warn('social.mailchimp.add mainPost err: ', e);
+				var res2 = await mainPut();
+				await console.log('social.mailchimp.add res2 after err: ', res2);
+				throw new Meteor.Error('social.mailchimp error', e);
+			}
+		}
+
+		function mongoGo(res){
+			if (user._id) 
+				updated = Meteor.users.update(user._id, {$set:{'profile.mailchimp.id': res.id, 'profile.mailchimp.unique_email_id': res.unique_email_id}});
+		}
+
+		try{
+			return update();
+			// if (user._id)
+				// updated = Meteor.users.update(user._id, {$set:{'profile.mailchimp.id': chimpres.unique_email_id}});
+			//console.log('social.mailchimp.add res3: ', chimpres);
+			//return {chimp: chimpres, user: user, updated: updated};
+		} catch(e) {
+			console.warn('social.mailchimp.add update err: ', e);
+			//throw new Meteor.Error('error:', e);
+		};
+
+	},
+	'social.mailchimp.get'(params){
+		var user, hash, settings, request, chimpres, updated;
+		settings = Meteor.settings.private.MailChimp;
+		
+		if (params.userId)
+			user = Meteor.users.findOne(params.userId);
+		if (user && user._id) {
+			hash = md5(user.emails[0].address);
+			request = '/lists/' + settings.listId + '/members/' + hash;
+		} else {
+			request = '/lists/' + settings.listId + '/members';
+		}
+		
+		console.log('social.mailchimp.get', params);
+		var mailchimp = new Mailchimp(settings.apiKey);
+		
+		async function mainGet(){
+			//var hash = md5(user.emails[0].address);
+			return await mailchimp.get(request)
+		}
+		
+		async function mainPut(){
+			var hash = md5(user.emails[0].address);
+			return await mailchimp.put('/lists/' + settings.listId + '/members/' + hash, {
+				email_address : user.emails[0].address,
+				status_if_new: 'subscribed',
+				merge_fields: {
+					FNAME: user.profile.firstName,
+					LNAME: user.profile.lastName,
+					MMERGE3: user.username,
+				}
+			})
+		}
+
+		async function update(){
+			try{
+				var res = await mainGet();
+				await console.log('social.mailchimp.get res2: ', res);
+				await mongoGo(res);
+				return await res;
+			} catch(e){
+				console.warn('social.mailchimp.get mainPost err: ', e);
+				var res2 = await mainPut();
+				await console.log('social.mailchimp.get res2 after err: ', res2);
+				throw new Meteor.Error('social.mailchimp error', e);
+			}
+		}
+
+		function mongoGo(res){
+			if (user._id && res) 
+				updated = Meteor.users.update(user._id, {$set:{
+					'profile.mailchimp.id': res.id,
+					'profile.mailchimp.unique_email_id': res.unique_email_id,
+					'profile.mailchimp.data': res.timestamp_opt,
+					'profile.mailchimp.status': res.status,
+					'profile.mailchimp.updatedDate': res.last_changed,
+					'profile.mailchimp.stats': res.stats,
+				}});
+		}
+
+		try{
+			return update();
+			// if (user._id)
+				// updated = Meteor.users.update(user._id, {$set:{'profile.mailchimp.id': chimpres.unique_email_id}});
+			//console.log('social.mailchimp.add res3: ', chimpres);
+			//return {chimp: chimpres, user: user, updated: updated};
+		} catch(e) {
+			console.warn('social.mailchimp.get update err: ', e);
+			//throw new Meteor.Error('error:', e);
+		};
+
+	},
+	'social.mailchimp.all'(params){
+		var user, hash, settings, request, chimpres, updated;
+		settings = Meteor.settings.private.MailChimp;
+		
+		request = '/lists/' + settings.listId + '/members';
+		
+		
+		console.log('social.mailchimp.all', params);
+		var mailchimp = new Mailchimp(settings.apiKey);
+		
+		async function mainGet(){
+			//var hash = md5(user.emails[0].address);
+			return await mailchimp.request({
+				method : 'get',
+				path : request,
+				query : {
+					count: 1000,
+					//fields: 'id, unique_email_id, status, timestamp_opt, last_changed, stats'
+				},
+			});
+		}
+
+		async function update(){
+			try{
+				var res = await mainGet();
+				await console.log('social.mailchimp.all res2: ', res);
+				await mongoGo(res);
+				return await res;
+			} catch(e){
+				console.warn('social.mailchimp.all Get err: ', e);
+				throw new Meteor.Error('mailchimp err:', e);
+			}
+		}
+
+		function mongoGo(res){
+			if (res.members) 
+				_.each(res.members, (member)=>{
+					updated = Meteor.users.update({'emails.address': member.email_address}, {
+						$set:{
+							'profile.mailchimp.id': member.id,
+							'profile.mailchimp.unique_email_id': member.unique_email_id,
+							'profile.mailchimp.data': member.timestamp_opt,
+							'profile.mailchimp.status': member.status,
+							'profile.mailchimp.updatedDate': member.last_changed,
+							'profile.mailchimp.stats': member.stats,
+						},
+						$addToSet:{'profile.mailchimp.lists': res.list_id}
+					});
+					console.log('social.mailchimp.all user updated:', updated, member.status, member.email_address );
+				});
+				
+		}
+
+		try{
+			return update();
+		} catch(e) {
+			console.warn('social.mailchimp.all update err: ', e);
+		};
+
+	},
+	'social.mailchimp.suball'(params){
+		var user, hash, settings, request, chimpres, updated;
+		settings = Meteor.settings.private.MailChimp;
+		request = '/lists/' + settings.listId + '/members';
+		
+		var data = Meteor.users.find({'profile.mailchimp.status': {$exists: false}});
+		var users = data.fetch();
+		console.log('social.mailchimp.suball users:', data.count());
+		var mailchimp = new Mailchimp(settings.apiKey);
+		
+		async function mainPut(user){
+			//console.log('updating user', user);
+			if (!user || !user.emails[0]) return;
+			var hash = md5(user.emails[0].address);
+			return await mailchimp.put('/lists/' + settings.listId + '/members/' + hash, {
+				email_address : user.emails[0].address,
+				status_if_new: 'subscribed',
+				merge_fields: {
+					FNAME: user.profile.firstName,
+					LNAME: user.profile.lastName,
+					MMERGE3: user.username,
+				}
+			})
+		}
+
+		async function update(user){
+			try{
+				var res = await mainPut(user);
+				//await console.log('social.mailchimp.suball res2: ', res.id);
+				await mongoGo(res);
+				return await res;
+			} catch(e){
+				console.warn('social.mailchimp.suball Get err: ', e);
+				throw new Meteor.Error('mailchimp err:', e);
+			}
+		}
+
+		function mongoGo(member){
+
+			updated = Meteor.users.update({'emails.address': member.email_address}, {
+				$set:{
+					'profile.mailchimp.id': member.id,
+					'profile.mailchimp.unique_email_id': member.unique_email_id,
+					'profile.mailchimp.data': member.timestamp_opt,
+					'profile.mailchimp.status': member.status,
+					'profile.mailchimp.updatedDate': member.last_changed,
+					'profile.mailchimp.stats': member.stats,
+				},
+				$addToSet:{'profile.mailchimp.lists': settings.listId}
+			});
+			console.log('social.mailchimp.suball user updated:', updated, member.status, member.email_address );
+
+		}
+
+		try{
+			for (let user of users) {
+				 Meteor._sleepForMs(1000);
+				update(user);
+			}
+		} catch(e) {
+			console.warn('social.mailchimp.suball update err: ', e);
+			throw new Meteor.Error('social.mailchimp error', e);
+		};
+
+	},
+	
 	'email.admin'(doc) {
 		if (verbose) console.log('email.admin 0', doc);
 		check(doc, Object);
