@@ -1,0 +1,16 @@
+.editbox{
+		background: grey;
+    box-shadow: none;
+    color: #ffffff;
+    height: 100%;
+    max-width: 95%;
+    overflow-y: auto;
+    padding: 3em 2em;
+    position: fixed;
+    right: 0;
+    top: 0;
+/*     visibility: hidden; */
+    width: 40em;
+		height: 100%;
+    z-index: 10002;
+}

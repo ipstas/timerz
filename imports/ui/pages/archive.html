@@ -1,0 +1,46 @@
+<template name="archive">		
+	<section id="archive" class="container-fluid text-center animated fadeIn">
+
+		<div class="row text-center">
+<!-- 			<div class="col-lg-3 offset-lg-3 col-md-4 offset-md-2 col-sm-6 col-6 h1 ">		
+				<a href="/timers/{{currentUser.username}}">Timers</a>
+			</div>		 -->	
+			<div class="col-lg-3 col-md-4 col-sm-6 col-6 h1 ">		
+				Archive
+			</div>
+		</div>
+		
+		{{> archivetimers}}
+			
+	</section>
+</template>
+
+<template name="archivetimers">
+		
+	<div class="row text-left">
+		{{#each timers}}
+			<div class="col-lg-2 col-md-3 col-sm-6">
+				<div class="h2">{{title}}</div>			
+				<div class="">created: {{createdAt}}</div>			
+				<div class="">restarted: {{timeStarted}}</div>			
+				<div class="">spent: {{spent}}</div>
+				<div class="">archived: {{archivedAt}}</div>
+				<div class="">tags: {{#each tags}}<span class="selectTag label label-info">{{this}}</span> {{/each}}</div>
+				<div class="pointer linkblue showDaily">daily: <span class=" label label-default">{{countDaily}}</span> </div>
+				<div class="pointer linkblue showSessions">sessions: <span class=" label label-default">{{countSessions}}</span> </div>
+
+				<button class="btn btn btn-outline-dark unarchive m-1">Un Archive</button>	
+				<button class="btn btn btn-outline-danger deleteTimer m-1">Delete</button>	
+
+			</div>
+		{{else}}
+			<div class="col-lg-3 offset-lg-3 col-md-12">
+				No timers yet
+			</div>			
+		{{/each}}
+	</div>
+
+</template>
+
+
+

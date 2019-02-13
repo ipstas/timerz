@@ -1,0 +1,98 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-base            # Packages every Meteor app needs to have
+mobile-experience      # Packages for a great mobile UX
+mongo                  # The database Meteor supports right now
+ecmascript
+underscore
+blaze-html-templates    # Compile .html files into Meteor Blaze views
+reactive-var            # Reactive variable for tracker
+reactive-dict
+jquery                 # Helpful client-side library
+session
+tracker              # Meteor's client-side reactive programming library
+check
+email
+npm-bcrypt
+http
+oauth2
+dynamic-import
+fourseven:scss
+less
+insecure
+#standard-minifier-css   # CSS minifier run for production mode
+
+
+accounts-base
+accounts-ui
+service-configuration
+accounts-password
+#accounts-google
+#google-config-ui
+accounts-facebook
+facebook-config-ui
+useraccounts:bootstrap
+useraccounts:flow-routing
+bozhao:link-accounts
+alanning:roles
+
+zimme:active-route
+#kadira:flow-router-ssr  # FlowRouter is a very simple router for Meteor
+kadira:flow-router
+kadira:blaze-layout     # Layout manager for blaze (works well with FlowRouter)
+arillo:flow-router-helpers
+
+#mfactory:admin-lte
+#sach:flow-db-admin
+
+#aldeed:schema-index
+aldeed:collection2
+aldeed:autoform
+ipstas:autoform-tags-typeahead
+
+dburles:collection-helpers
+raix:handlebar-helpers
+
+
+gadicohen:headers
+simple:json-routes	#add headers and cors
+themeteorchef:bert	#alerts
+
+#practicalmeteor:mocha             # A package for writing and running your meteor app and package tests with mocha
+#johanbrook:publication-collector  # Test a Meteor publication by collecting its output
+
+# Styling
+
+natestrauser:animate-css
+peppelg:bootstrap-3-modal
+
+swiper:swiper
+
+miro:json2html
+simple:rest
+
+#images
+ipstas:autoform-cloudinary3
+
+
+
+okgrow:analytics
+cultofcoders:persistent-session
+simply:reactive-local-storage
+meteorhacks:subs-manager
+reywood:publish-composite
+tmeasday:publish-counts
+sakulstra:aggregate 
+ipstas:userfeedback
+imajus:autoform-bootstrap4
+ipstas:background-geolocation-plus
+#ipstas:geolocation-plus
+browser-policy
+
+#jamielob:reloader
+mdg:reload-on-resume
+#ipstas:app-version

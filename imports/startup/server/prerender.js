@@ -1,0 +1,1 @@
+prerenderio.blacklisted(['/archives', '/wp-json', '/xmlrpc.php', 'well-known', 'forgot-password', 'embed']));

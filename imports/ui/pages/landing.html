@@ -1,0 +1,78 @@
+<template name="landing">
+	<!-- Intro Header -->
+
+	{{#if currentUser}}
+		<div class="feedback cursor pointer tryIt tryMe"><span class="button btn btn-info">See it now</span></div>
+	{{/if}}
+	
+	{{#with landing}}
+		<section id="banner" class="landing" data-bg="banner.jpg">
+			<div class="inner">
+				<header>
+					<h1>{{intro}}</h1>
+					<h2>{{more}}</h2>
+				</header>
+			</div>
+			<div class="more linkwhitewhite pointer toOne"><i class="fa fa-chevron-circle-down fa-5x" aria-hidden="true"></i></div>
+		</section>
+
+		<!-- One -->
+		<section id="one" class="landing wrapper post bg-img" data-bg="banner2.jpg">
+			<div class="inner animated fadeIn">
+				<article class="box">
+					<header>
+						<h1>{{about.h2}}</h1>
+					</header>
+					<div class="content h2">
+						{{{about.text}}}
+					</div>
+<!-- 					<footer>
+						<a href="generic.html" class="button alt">Learn More</a>
+					</footer> -->
+				</article>
+			</div>
+			<div class="more linkwhitewhite pointer toTwo"><i class="fa fa-chevron-circle-down fa-5x" aria-hidden="true"></i></div>
+		</section>
+
+		<!-- Two -->
+		<section id="two" class="landing wrapper post bg-img" data-bg="banner5.jpg">
+			<div class="inner animated fadeIn">
+				<article class="box">
+					<header>
+						<h2>{{solutions.h2}}</h2>
+					</header>
+					<div class="content h3">
+						{{{solutions.text}}}
+						<br /><br />
+
+						<div class="button btn btn-lg btn-info cursor pointer tryMe ">Try Now</div>
+
+					</div>
+
+				</article>
+			</div>
+			<div class="more linkwhitewhite pointer toContact"><i class="fa fa-chevron-circle-down fa-5x" aria-hidden="true"></i></div>
+		</section>
+
+		<!-- Contact Section -->
+		<section id="contact" class="landing wrapper post bg-img" data-bg="banner4.jpg">
+			<div class="inner animated fadeIn">
+				<article class="box">
+					<header>
+						<h2>{{contact.h2}}</h2>
+					</header>
+					<div class="content h3">
+						<div class="p">{{{contact.text}}}</div>
+						{{#if contactUs}}
+							{{> contactForm}}
+						{{else}}
+							<br/>
+							<button class="btn btn-info toCon toContact" id="contactUs">Contact Us</button>
+						{{/if}}
+					</div>
+				</article>>
+			</div>
+		</section>
+	{{/with}}
+
+</template>

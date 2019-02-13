@@ -1,0 +1,690 @@
+<template name="profileModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Profile</h4>
+                </div>
+
+                <div class="modal-body">
+									{{#autoForm collection="Meteor.users" doc=this id="profileForm" type="update" autosave=true
+										template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"
+									}}
+										{{> afQuickField label-class="sr-only" name='username'}}
+					<!-- 					{{> afObjectField name='emails'}} -->
+										{{> afObjectField label=false label-class="sr-only" name='profile'}}
+										<button type="submit" class="btn btn-outline-dark" data-dismiss="modal">Update</button>
+									{{/autoForm}}									
+                </div>
+
+<!--                 <div class="modal-footer text-center">
+										<button type="submit" class="btn btn-outline-dark" data-dismiss="modal">Update</button>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="editAvatarModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content editAvatarModal">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Avatar</h4>
+                </div>
+
+                <div class="modal-body">
+									{{#autoForm collection="Meteor.users" doc=this id="profileForm" type="update" autosave=true
+										template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"
+									}}
+										{{> afQuickField label-class="sr-only" name='username'}}
+					<!-- 					{{> afObjectField name='emails'}} -->
+										{{> afObjectField label=false label-class="sr-only" name='profile'}}
+										<button type="submit" class="btn btn-outline-dark" data-dismiss="modal">Update</button>
+									{{/autoForm}}									
+                </div>
+
+<!--                 <div class="modal-footer text-center">
+										<button type="submit" class="btn btn-outline-dark" data-dismiss="modal">Update</button>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="newTimerModal">
+	<div class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h4 class="modal-title">New Timer</h4>
+				</div>
+
+				{{> addtimer}}
+
+<!-- 				<div class="modal-footer text-center">
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Dismiss</button> 
+				</div> -->
+
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="editTimerModal">
+	<div class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h4 class="modal-title">Edit Timer</h4>
+				</div>
+
+				{{> edittimer}}
+
+				<div class="modal-footer text-center">
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Dismiss</button> 
+				</div>
+
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="showDailyModal">
+	<div class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h4 class="modal-title">Show Daily for {{title}}</h4>
+				</div>
+
+				<div class="xlSessions container-fluid text-center animated fadeIn">
+					<div class="row">
+						<div class="col-3">Date</div><div class="col-3">Sessions</div><div class="col-3">Spent</div><div class="col-3">Notes</div>
+					</div>			
+					{{debug}}
+					{{#each data.daily}}
+						<div class="row">
+							<div class="col-3">{{date}}</div><div class="col-3">{{count}}</div><div class="col-3">{{timing}}</div><div class="col-3">{{notes}}</div>{{debug2}}
+						</div>
+					{{/each}}
+				</div>
+
+				<div class="modal-footer text-center">
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Dismiss</button> 
+				</div>
+
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="showSessionsModal">
+	<div class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h4 class="modal-title">Show Sessions for {{title}}</h4>
+				</div>
+
+				<div class="xlSessions container-fluid text-center animated fadeIn">
+					<div class="row">
+						<div class="col-2 offset-1">Start</div><div class="col-2">Stop</div><div class="col-2">Timing</div><div class="col-4">Notes</div>
+					</div>			
+					{{debug}}
+					{{#each this.data}}
+						<div class="row">
+							{{#unless $eq editRecord _id}}
+								<div class="col-1">
+									<i class="pointer text-info editRecord fa fa-pencil" aria-hidden="true"></i>
+								</div>
+								<div class="editRecord col-2">{{start}}</div>
+								<div class="editRecord col-2">{{stop}}</div>
+								<div class="editRecord col-2"><span class="badge badge-default">{{timing}}</span></div>
+								<div class="col-4">{{notes}}</div>
+								<div class="col-1">
+									<i class="pointer text-danger delRecord fa fa-remove" aria-hidden="true"></i>
+								</div>
+							{{else}}
+								<div class="col-12">
+<!-- 									{{>quickForm id="editSessionForm" collection=collection schema=schema doc=doc type="update" autosave=true}} -->
+									{{#autoForm id="editSessionForm" collection=collection schema=schema doc=record type="update" autosave=true}}
+										{{#each afFieldNames}}
+<!-- 											{{> afQuickField name=this.name options=afOptionsFromSchema}} -->
+											{{> afQuickField name=this.name }}
+										{{/each}}
+										<div class="form-group">
+											<button class="closeForm btn btn-primary">Update</button>
+											<button class="closeForm btn btn-secondary">Close</button>
+										</div>
+									{{/autoForm}}
+								</div>
+							{{/unless}}
+						</div>
+					{{/each}}
+				</div>
+
+<!-- 				<div class="modal-footer text-center">
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Dismiss</button> 
+				</div> -->
+
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="shareModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Share this tour</h4>
+                </div>
+
+                <div class="modal-body ">
+									{{#if first}}
+										<div class="row cursive fontlarge">
+											<div class="col-sm-2 col-sm-offset-2">
+												<img src="/img/Businesswoman-1-icon.png" class="img100" 	alt="?" title="?" />
+											</div>
+											<div class="col-sm-6 ">
+												Your first VR tour, let's celebrate and share<br/>		
+											</div>
+										</div>
+									{{/if}}
+									<div class="img100 text-center">
+										
+										<!-- <img src="{{iconUrl}}" class="img100" /> -->
+										<img src="{{dataImg}}" class="img100" />
+										{{#if $eq sharingService 'facebook'}}
+											<div class="arrow-left vertcenter pointer linkwhitewhite"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></div>
+											<div class="vertline" style="left: {{lineposition}}%;"></div>
+											<div class="arrow-right vertcenter pointer linkwhitewhite"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></div>
+										{{/if}}
+										
+									</div>
+									<div class="card hovercard">
+										<div class="bottom">
+												<div class="shareIt pointer button btn twcolor btn-twitter btn-sm twitter" id="twitter" href="{{twitter}}" data-toggle="tooltip" title="share in twitter">
+														<i class="fa fa-twitter"></i>
+												</div>
+												<div class="shareIt pointer button btn googcolor btn-sm googleplus grayscale" rel="publisher" id="googleplus" href="{{googleplus}}" data-toggle="tooltip" title="share in g-plus">
+														<i class="fa fa-google-plus"></i>
+												</div>
+												<div class="shareIt pointer button btn fbcolor btn-sm facebook" rel="publisher" id="facebook" href="{{facebook}}" data-toggle="tooltip" title="share in FB">
+														<i class="fa fa-facebook"></i>
+												</div>
+<!-- 												<div class="pointer button btn btn-warning btn-sm instagram grayscale" rel="publisher" id="instagram"  href="{{instagram}}" data-toggle="tooltip" title="share in IG">
+														<i class="fa fa-instagram"></i>
+												</div> -->
+												<div class="button btn btn-warning btn-sm embed" rel="publisher" href="#" data-toggle="tooltip" title="show embed code">
+													<i class="fa fa-code" aria-hidden="true"></i>
+												</div>												
+<!-- 												<div class="button btn btn-success btn-sm embed" rel="publisher" href="mailto" data-toggle="tooltip" title="share in email">
+													<i class="fa fa-envelope" aria-hidden="true"></i>
+												</div> -->
+										</div>
+									</div>
+									{{#if $eq sharingService 'facebook'}}										
+										<div class="text-center">
+											<input id="north" data-slider-id='northSLider' type="text" data-slider-min="-180" data-slider-max="180" data-slider-step="1" data-slider-value="{{north}}"/>
+										</div>	
+										<div class="text-center">
+											{{#autoForm id="shareForm" template="bootstrap3" doc=facebook schema=schema type="method" meteormethod="user.settings.facebook" autosave=true}}
+<!-- 												{{> afQuickFields}} -->
+												{{> afFormGroup name="privacy" type="select" value=facebook.privacy firstOption=facebook.privacy}}	
+												{{> afFormGroup  name="account" type="select" value=facbook.accounts firstOption='me' options=options}}	
+											{{/autoForm}}
+<!-- 											<input id="shareTo"/>
+										</div>											
+										<div class="text-center">
+											<input id="privacy" /> -->
+										</div>											
+									{{/if}}
+									<div class="text-center">
+										{{#if showText}}
+											<div type="text" class="jumbotron transition text-center img100 animated fadeIn">
+												<form id="{{showText}}" alt="showText">
+													<textarea maxlength="128" id="showText" name="showText" rows="2" placeholder="Say something to share..."></textarea>
+													<button class="btn btn-primary shareSubmit" >Share</button>
+												</form>
+<!-- 												<input id="showText" type="text" value="{{title}}"/> -->
+											</div>
+										{{/if}}
+									</div>										
+									<div class="text-center">
+										{{#if sharingRes}}
+											<div type="text" class="jumbotron transition text-center img100 animated fadeIn">
+												{{#if sharingRes.link}}
+													<a href="{{sharingRes.link}}" target=_blank><span class="btn-success">Shared on {{sharingRes.service}}, click to see</span></a>
+												{{else}}
+													<span class="btn-info">{{sharingRes.info}}</span>
+												{{/if}}
+											</div>
+										{{/if}}
+									</div>									
+<!-- 									<div class="text-center">
+										<div type="text" id="url" class="jumbotron selectable transition text-center img100">
+											{{url}}
+										</div>
+									</div> -->
+									{{#if embed}}
+										<div class="text-center animated slideInUp">
+											<div type="text" id="embed" class="jumbotron selectable transition text-center img100">
+												{{embed}}
+											</div>
+										</div>
+									{{/if}}									
+									{{#if error}}
+										<div class="text-center animated tada">
+											<div type="text" id="embed" class="jumbotron selectable transition text-center img100 red">
+												{{error}}
+											</div>
+										</div>
+									{{/if}}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="embedModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Embed this tour</h4>
+                </div>
+
+                <div class="modal-body ">
+									<div class="img100 text-center">
+										<img src="{{iconUrl}}" class="img50" />
+									</div>
+									<div class="text-center">
+										<div type="text" id="url" class="jumbotron selectable transition text-center img100">
+											{{url}}
+										</div>
+									</div>
+									<div class="text-center animated slideInUp">
+										<div type="text" id="embed" class="jumbotron selectable transition text-center img100">
+											{{embed}}
+										</div>
+									</div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="prouserModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Update your PRO details</h4>
+                </div>
+
+                <div class="modal-body text-left">
+									<div class="h4">Plan: {{plan}}. Max File Size: {{upload}}MB. Expiration: {{exp}}</div>										
+									{{#autoForm collection="ProUsers" doc=this id="prousersForm"  type="method" meteormethod="user.editpro" autosave=true
+										template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"}}
+										{{> afQuickField label=false label-class="sr-only" name='userId' autosave=true}}
+										{{> afQuickField label=false label-class="sr-only" name='logo' autosave=true}}
+										<button type="submit" class="btn btn-outline-dark" data-dismiss="modal">Update</button>
+									{{/autoForm}}		
+<!-- 									{{> quickForm collection="ProUsers" afFieldInput-placeholder="schemaLabel" type="method" meteormethod="user.editpro" doc=this id="prousersForm" autosave=true}} -->
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button> 
+										<button class="btn btn-primary submit">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="teamuserModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Update your PRO details</h4>
+                </div>
+
+                <div class="modal-body text-left">
+									<div class="h4">Plan: {{plan}}. Max File Size: {{upload}}MB. Expiration: {{exp}}</div>										
+									{{#autoForm collection="ProUsers" doc=this id="prousersForm"  type="update" autosave=true
+										template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"}}
+										{{> afQuickField label-class="sr-only" name='teamUser'}}
+										{{> afQuickField label=false label-class="sr-only" name='logo' autosave=true}}
+										<button type="submit" class="btn btn-outline-dark" data-dismiss="modal">Update</button>
+									{{/autoForm}}		
+<!-- 									{{> quickForm collection="ProUsers" afFieldInput-placeholder="schemaLabel" type="method" meteormethod="user.editpro" doc=this id="prousersForm" autosave=true}} -->
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button> 
+										<button class="btn btn-primary submit">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="addCommentModal">
+	<div class="modal fade fadeblack">
+		<div class="modal-dialog">
+			<div class="modal-content modal-blur">
+				<div class="modal-header">
+						<h4 class="modal-title white">Add a comment</h4>
+				</div>
+
+				<div class="modal-body text-left white">
+
+					{{> addComment}}
+					
+				</div>
+
+<!-- 				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">OK</button>
+				</div> -->
+
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="soonModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Soon</h4>
+                </div>
+
+                <div class="modal-body text-center h3">
+									This feature is coming soon
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="tryModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">{{modal.h2}}</h4>
+                </div>
+
+                <div class="modal-body ">
+									<div class="row cursive">
+										<div class="col-6 col-sm-3 col-sm-offset-1 h3">
+											<a href="{{pathFor 'worldtours'}}" class="img100" data-dismiss="modal">
+												<img src="/img/Man-16-icon.png" class="img100" 	alt="?" title="?" />
+											</a>	
+										</div>
+										<div class="col-6 col-sm-6 animated">
+											<!-- Words are cheap, let's <a href="#" class="exploreVR">see 360 tours</a> -->
+											{{{modal.text}}}
+										</div>
+									</div>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="{{modal.url}}">
+											<button type="button" class="btn btn-info exploreVR" data-dismiss="modal">{{modal.OKbutton}}</button>
+										</a>
+										<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="notificationsModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Enable notifications</h4>
+                </div>
+
+                <div class="modal-body ">
+									<div class="row cursive fontlarge">
+										<div class="col-6 col-sm-4 col-sm-offset-2">
+											<img src="/img/Businesswoman-1-icon.png" class="img100" 	alt="?" title="?" />
+										</div>
+										<div class="col-6 col-sm-6 h3 animated">
+											Would you like to enable notifications about new tour or comments in your browser?
+										</div>
+									</div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info enablePush" data-dismiss="modal">OK</button>								
+										<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Later</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="promotionModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Promotion</h4>
+                </div>
+
+                <div class="modal-body ">
+									<div class="row ">
+										<div class="col-6 col-sm-3 col-sm-offset-1">
+											<a class="" href="{{pathFor 'sign-in'}}"  data-dismiss="modal">
+												<img src="/img/Man-16-icon.png" class="img100" 	alt="?" title="?" />
+											</a>
+										</div>
+										<div class="col-6 col-sm-6">
+											{{{sale.text}}}
+										</div>
+									</div>
+                </div>
+
+                <div class="modal-footer">
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="serverofflineModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Offline</h4>
+                </div>
+                <div class="modal-body ">
+									<div class="row cursive fontlarge">
+										<div class="col-4 col-md-4 text-center ">
+												<!-- <img src="/img/Boss-5-icon.png" class="img100" 	alt="?" title="?" /> -->
+											<br/><br/>
+											<span class="glyphicon glyphicon-cog animated infinite rotateIn rotating fontlarge96"></span>
+										</div>
+										<div class="col-8 col-md-6 h3">
+											The server is offline at the moment. We are probably updating the server code. It will be back momentarily. However you still can work with it because the app is already loaded on your computer.<br/>
+											server {{server}} 
+										</div>
+									</div>
+                </div>
+<!--                 <div class="modal-body">
+									The server is offline at the moment. We are probably updating the server code. It will be back momentarily. However you still can work with it because the app is already loaded on your computer.
+									<div class="row">				
+										{{#with status}}
+											<div class="col-12 col-md-8 col-md-offset-2">
+												server {{server}} r\<span class="glyphicon glyphicon-cog rotating"></span>
+											</div>
+											<div class="col-md-2 col-4">					
+
+
+											</div>
+										{{/with}}
+									</div>
+                </div> -->
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="feedbackModal">
+  <div id="feedback" class="modal fade">
+    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Leave us a feedback</h4>
+				</div>
+				<div class="modal-body">
+<!-- 					{{> quickForm id="addContact" type="insert" collection="Contact" schema='Schemas.Contact' doc=this}} -->
+						{{#if currentUser}}
+							{{#with contactUser}}
+								{{> feedbackForm}}
+							{{/with}}
+						{{else}}
+							{{> feedbackForm}}
+						{{/if}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="askFaqModal">
+  <div id="feedback" class="modal fade">
+    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Ask us a question</h4>
+				</div>
+				<div class="modal-body">
+<!-- 					{{> quickForm id="addContact" type="insert" collection="Contact" schema='Schemas.Contact' doc=this}} -->
+					{{# autoForm collection="Faq" type="method" meteormethod="text.askfaq" id="askFaqForm" label=false label-class="hidden" afFieldInput-placeholder="schemaLabel" }}
+						{{> afQuickField name="title" }}
+						{{> afQuickField name="question" }}
+						<button class="btn btn-outline-dark delete" data-dismiss="modal">Cancel</button> 
+						<button class="btn btn-primary submit" data-dismiss="modal">Ask</button>
+					{{/autoForm}}
+					<div class="modal-footer">	
+
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="complainModal">
+  <div id="feedback" class="modal fade">
+    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Complain form</h4>
+				</div>
+				<div class="modal-body">
+<!-- 					{{> quickForm id="addContact" type="insert" collection="Contact" schema='Schemas.Contact' doc=this}} -->
+						{{#if currentUser}}
+							{{#with currentUser}}
+								{{> feedbackForm}}
+							{{/with}}
+						{{else}}
+							{{> feedbackForm}}
+						{{/if}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="sendMessageModal">
+  <div id="feedback" class="modal fade">
+    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Send Message</h4>
+				</div>
+				<div class="modal-body">
+<!-- 					<input type="text" id="{{value.messender}}" name="message" class="form-control sendMessage" >
+					<button class="btn btn-primary submit" >Send</button> -->
+					{{> quickForm id="sendMessage" type="method" meteormethod="social.facebook.messenger" schema=schema doc=doc}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="sendPushModal">
+  <div id="feedback" class="modal fade">
+    <div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Send Message</h4>
+				</div>
+				<div class="modal-body">
+<!-- 					<input type="text" id="{{value.messender}}" name="message" class="form-control sendMessage" >
+					<button class="btn btn-primary submit" >Send</button> -->
+					{{> quickForm id="sendMessage" type="method" meteormethod="push.msg" schema=schema doc=doc}}
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

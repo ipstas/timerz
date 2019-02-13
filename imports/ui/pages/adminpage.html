@@ -1,0 +1,915 @@
+<template name="adminpage">
+
+	<section id="adminpage" class="container content-section topsection">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<h4 class="brand-heading text-center">ADMIN</h4>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2 offset-lg-1 col-md-2 col-sm-3 col-12">
+				{{#each selectors}}
+					<div class="row">
+						<div class="pointer selector col-12 {{active}}" id="{{value}}"> 
+							<i class="fa fa-caret-square-o-right" aria-hidden="true"></i> {{label}}
+						</div>
+					</div>
+				{{/each}}
+			</div>
+			
+			<div class="col-lg-8 col-md-10 col-sm-9 col-12">
+				
+				<div class="h2">{{selector.label}}</div>
+
+				{{> Template.dynamic template=selector.value}}
+
+				{{#if $eq selector.value 'userbilling'}}
+					<div class="h4">
+						Show deleted <input type="checkbox" class="toggleSwitch showDeleted" data-toggle="toggle" data-onstyle="info"> 
+						<span class="pointer getBilling">Refresh <i class="linkblue fa fa-refresh {{activeRotate}}" aria-hidden="true"></i></span>
+					</div>
+					{{#each users}}
+						<div class="row ">
+							<div class="col-12 h2" > 
+								<a class="linkblue" href="/user/{{username}}"><b>{{username}}</b></a>
+							</div>
+						</div>
+						{{> userbilling}}
+						{{#unless stripe.deleted}}
+							<div class="pointer btn btn-sm btn-danger deleteCustomer"><i class="fa fa-trash {{activeRotate}}" aria-hidden="true"></i> Delete customer</div>
+						{{/unless}}
+						<hr />
+					{{/each}}
+				{{/if}}
+
+				<hr/>
+
+				{{#if $eq selector.value 'landing'}}
+					<select id="selectText" class="form-control selectText">
+						{{#each texts}}
+							<option value="{{title}}">{{title}}</option>
+						{{/each}}
+					</select>
+					<br/><br/>
+					<div class="row animated fadeInRight">
+						<div class="col-12">
+							{{#if dataTexts}}
+								{{> quickForm collection="Texts" doc=dataTexts type="update" id="updateTexts"
+									template="bootstrap3-inline" label=false label-class="hidden" afFieldInput-placeholder="schemaLabel" }}
+							{{else}}
+								{{> quickForm collection="Texts" type="insert" id="insertTexts"
+									template="bootstrap3-inline" label=false label-class="hidden" afFieldInput-placeholder="schemaLabel" }}
+							{{/if}}
+						</div>
+					</div>
+				{{/if}}
+
+				{{#if $eq selector.value 'productnews'}}
+					<div class="row animated fadeInRight">
+						<div class="col-12">
+							{{#if $eq editRecord 'new'}}
+								{{#autoForm collection="Texts" template="bootstrap3-horizontal" type="insert" doc=this label-class="hidden" afFieldInput-placeholder="schemaLabel"  id="insertNewsForm"}}
+									{{> afQuickField name="title" value="productnews" readonly=true}}
+									{{> afQuickField name="about.h2"  }}
+									{{> afQuickField name="about.text"  }}
+									<div class="form-group">
+										<button type="submit" class="btn btn-primary submitted">
+											Submit
+											</button>
+									</div>
+								{{/autoForm}}
+							{{else}}
+								<button id="newRecord" class="button btn btn-info newRecord ">Add news</button>
+							{{/if}}
+						</div>
+					</div>
+					{{#each news}}
+						<div class="row animated fadeInRight">
+							<div class="col-12">
+								{{#autoForm collection="Texts" template="bootstrap3-horizontal" type="update" doc=this label-class="hidden" afFieldInput-placeholder="schemaLabel" id=formId}}
+									{{> afQuickField name="title" readonly=true}}
+									{{> afQuickField name="about.h2"  }}
+									{{> afQuickField name="about.text"  }}
+									{{> afQuickField name="createdAt" readonly=true}}
+									<div class="form-group">
+										<button type="submit" class="btn btn-primary submitted">        
+											Submit
+										</button>
+									</div>
+								{{/autoForm}}
+								<button class="remove button btn btn-inforemove submitted">Remove</button>
+							</div>
+						</div>
+					{{/each}}
+				{{/if}}
+
+				{{#if $eq selector.value 'emails'}}
+					<div class="row animated fadeInRight">
+						<div class="col-12">
+							{{> emailTemplates}}
+						</div>
+					</div>
+				{{/if}}
+
+			</div>
+		</div>
+
+	</section>
+</template>
+
+<template name='contacts'>
+	<div class="row animated fadeInRight">
+		<div class="col-12">
+			<table class="table table-responsive table-striped">
+				<tbody>
+				{{#each contacts}}
+				<tr>
+					<td>
+						{{date}}
+						<code>{{questionType}}</code>
+						{{#each reason}}<p>{{this}}</p>{{/each}}
+					</td>
+					<td>
+						{{name}} {{username}} {{email}}<br/>
+						{{#with details}}
+							<div>
+							<code>
+								{{ip}} {{platform}} {{userAgent}}
+								{{referrer}}
+							</code>
+							</div>
+						{{/with}}
+						{{#with geo}}
+							<div>
+							<code>
+								{{city}} {{region}}, {{zip}} {{country}}						
+							</code>
+							</div>
+						{{/with}}
+						<p>{{{question}}}</p>
+						{{#with related}}<div><code><a href="{{this}}" target=_blank>{{this}}</a></code></div>{{/with}}
+					</td>
+					<td>
+						{{#unless ifSeen}} 
+							<button id="{{_id}}" class="button btn btn-info btn-small seen">OK</button>
+						{{/unless}}
+						<br />
+						<button id="{{_id}}" class="button btn btn-small remove">remove</button>
+					</td>
+				</tr>
+				{{else}}
+					<h4 class="animated fadeInRight">No contacts saved in DB</h4>
+				{{/each}}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</template>
+
+<template name='reports'>
+	<div class="row animated fadeInRight">
+		<div class="col-12">
+			<table class="table table-responsive table-striped">
+				<tbody>
+				{{#each data}}
+				<tr>
+					<td>
+						{{date}}
+						<code>{{questionType}}</code>
+						{{#each reason}}<p>{{this}}</p>{{/each}}
+					</td>
+					<td>
+						{{name}} {{username}} {{email}}<br/>
+						{{#with details}}
+							<div>
+							<code>
+								{{ip}} {{platform}} {{userAgent}}
+								{{referrer}}
+							</code>
+							</div>
+						{{/with}}
+						{{#with geo}}
+							<div>
+							<code>
+								{{city}} {{region}}, {{zip}} {{country}}						
+							</code>
+							</div>
+						{{/with}}
+						<p>{{{question}}}</p>
+						{{#with related}}<div><code><a href="{{this}}" target=_blank>{{this}}</a></code></div>{{/with}}
+					</td>
+					<td>
+						{{#unless ifSeen}} 
+							<button id="{{_id}}" class="button btn btn-info btn-small seen">OK</button>
+						{{/unless}}
+						<br />
+						<button id="{{_id}}" class="button btn btn-small remove">remove</button>
+					</td>
+				</tr>
+				{{else}}
+					<h4 class="animated fadeInRight">No reports saved in DB</h4>
+				{{/each}}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</template>
+
+<template name='surveys'>
+	<div class="row animated fadeInRight">
+		<div class="col-12">
+			<table class="table table-responsive table-striped">
+				<tbody>
+					{{#each data}}
+						{{#if $eq editRecord _id}} 	
+							<tr>
+								<td>
+									{{> quickForm class="main form btn-rxs" id="newSurvey" collection=collection schema=schema type="insert" doc=this}}
+									<span class="cursor btn  btn-xs button btn-warning cancel"><b>Close</b></span>
+								</td>
+							</tr>	
+						{{else}}				
+							<tr>
+								<td>
+									{{date}}
+								</td>
+								<td class="">					
+									<code>{{txt}}</code>
+									<code><a href="{{url}}" target=_blank >{{url}}</a></code>
+								</td>
+								<td>
+									{{userId.length}} <br/>
+									{{#each userId}}
+										{{#with user}}
+											{{username}}
+										{{else}}
+											{{this}}
+										{{/with}}
+									{{/each}}
+								</td>				
+								<td>
+									<span class="cursor btn btn-xs button btn-default editRecord"><b>Edit</b></span> 
+									<span class="cursor btn btn-xs button btn-default delRecord"><b>Del</b></span> 
+								</td>
+							</tr>		
+						{{/if}}
+					{{else}}
+						<h4 class="animated fadeInRight">No surveys saved in DB</h4>
+					{{/each}}
+					<tr>
+						<td>			
+							{{#if newRecord}} 
+								{{> quickForm class="main form btn-rxs" id="newSurvey" collection=collection schema=schema type="insert" doc=this}}
+								<span class="cursor btn btn-xs button btn-warning cancel"><b>Close</b></span> 
+							{{else}}
+								<span class="cursor btn btn-xs button btn-default newRecord"><b>New</b></span>
+							{{/if}}							
+						</td>
+					</tr>		
+				</tbody>
+			</table>
+		</div>
+	</div>
+</template>
+
+<template name='campaigns'> 
+	<div class="row text-left">
+		<div class="col-12 fontlarger">
+			Campaign: {{userCount}}
+		</div>
+	</div>
+	<hr/>
+	<div class="row text-left fontlarger linkblue">
+		<div class="col-5 text-info">
+			Ext text / Campaign text
+		</div>
+		<div class="col-4 sort text-info" id="signed">
+			Users signed
+		</div>
+		<div class="col-3 sort text-info" id="sent">
+			Visible till
+		</div>
+	</div>
+	<hr/>
+	{{#each data}}
+		<div class="row text-left">
+			{{#if $eq editRecord _id}} 
+				<div class="col-12">
+					{{> quickForm class="main form btn-rxs" id="updateCamp" collection=collection schema=schema type="update" doc=this}}
+					<span class="cursor btn button btn-warning cancel"><b>Close</b></span>
+				</div>
+			{{else}}		
+				<div class="col-5">
+					<div class="h3 editRecord pointer text-info">Extension text</div>
+					<div class="p">{{{exttext}}}</div>
+					<div class="h3 text-info">Campaign text</div>
+					<div class="p">{{{texts}}}</div>
+				</div>				
+				<div class="col-4">
+					{{#each userIds}}{{userId}} {{/each}}
+				</div>			
+				<div class="col-3 editRecord pointer">
+					visible: <input type="checkbox" class="" {{checked}}> 
+					<br />
+					ends on: {{tillAt}}	
+					<span class="button btn-xs btn-info">Edit</span>
+				</div>
+			{{/if}}
+		</div>
+	{{/each}}
+	
+	<div class="row text-left">
+		<div class="col-12">
+			{{#if newRecord}} 
+				{{> quickForm class="main form btn-rxs" id="newCamp" collection=collection schema=schema type="insert" doc=this}}
+				<span class="cursor btn button btn-warning cancel"><b>Close</b></span>
+			{{else}}
+				<span class="cursor btn btn-xs button btn-default newRecord"><b>New</b></span>
+			{{/if}}					
+		</div>
+	</div>
+
+</template>
+
+<template name='subusers'> 
+	<div class="row text-left">
+		<div class="col-12 fontlarger">
+			Total users signed: {{userCount}} with Graffiti {{userSelected}}
+		</div>
+	</div>
+	<hr/>
+	<div class="row text-left fontlarger linkblue">
+		<div class="col-2 sort" id="userId">
+			User
+		</div>
+		<div class="col-1">
+			Avatar
+		</div>
+		<div class="col-3 sort" id="signed">
+			Signed
+		</div>
+		<div class="col-3 sort" id="sent">
+			Sent
+		</div>
+		<div class="col-3 filter" id="pushing">
+			{{filter}}
+		</div>
+	</div>
+	{{> sortElementAdm}}
+	<hr/>
+	{{#each user}}
+		<div class="row text-left">
+			<div class="col-3">
+				<div class="animated fadeInUp  ">
+					<div><a class="linkblue fontlarge" href="/user/{{username}}">{{username}}</a></div>
+					{{userId}}<br/>
+					<div>Devices: <span class="badge">{{tokenLength}}</span> </div>
+					{{#each device}}<div class="label label-default">{{platform}} {{model}}</div> {{/each}}
+				</div>
+			</div>
+			<div class="col-1">
+				<img class="img-responsive maxwidth100" src="{{profile.avatar}}" />
+			</div>
+			<div class="col-3">
+				Since: <code>{{date}}</code><br/>
+				Ref: <code>{{referrer}}</code><br/>
+				At the time of sign:<br/>
+				{{#with details}}
+					ip <code>{{ip}}</code><br/>
+					City <code>{{city}}</code><br/>
+					Region <code>{{region}}</code><br/>
+					Country <code>{{country}}</code><br/>
+					Visited pages <code>{{pageCountAcrossAllVisits}}</code><br/>
+					Pages last visit <code>{{pageCountForThisVisit}}</code><br/>
+					Visits <code>{{visitCount}}</code><br/>
+				{{/with}}
+			</div>
+			<div class="col-3">
+				Sent: <code>{{sentAt}}</code><br/>
+				Latest: <code>{{msg.notification.title}}</code><br/>
+				<code>{{msg.notification.body}}</code>
+			</div>
+			<div class="col-2">
+				Pushing: 
+				{{#if pushing}}
+					<i class="fa fa-check-square"></i>
+				{{else}}
+					<i class="fa fa-square-o"></i>
+				{{/if}}
+				{{#if blocked}}<span class="label label-danger">blocked</span>{{/if}}
+				<!-- <input type="checkbox" class="" id="{{_id}}" {{pushing}} data-toggle="toggle" data-onstyle="info"> -->
+				<br/><br/>
+				<div class="button btn btn-info pushmessage">Message</div>
+				<br/><br/>
+				<div class="button btn btn-danger remove">Remove</div>
+			</div>
+		</div>
+		<hr>
+	{{else}}
+		<div class="row text-left">
+			<div class="col-12">
+				Nobody in push yet
+			</div>
+		</div>
+	{{/each}}
+
+		<div class="contMore load-more-btn load-more cursor text-info">
+			{{#if ready}}
+				{{#if showMore}}
+					<span id="infiniteCheck" class="animated fadeIn ">more...</span>
+				{{else}}
+					<span class="animated fadeIn ">All loaded</span>
+				{{/if}}
+			{{else}}
+				<span class="ready animated fadeIn ">coming...</span>
+			{{/if}}
+		</div>
+
+</template>
+
+<template name='allusers'> 
+<!-- 	<div class="row h4 animated fadeInUp linkwhite fontlarge">
+		<div class="col-8">
+			<input type="text" id="username" label="username" name="username" class="form-control" value="{{text}}"> 
+		</div>
+		<div class="col-2">
+			<button class="submit button btn btn-small">Add</button>
+		</div>
+	</div> -->
+
+	<div class="row text-left">
+		<div class="col-12 fontlarger">
+			<div>
+				Total users: {{userCount}} Selected: {{userSelected}}
+			</div>
+<!-- 			<div class="btn btn-info btn-sm button withTours">Show with tours</div>
+			<div class="btn btn-info btn-sm button withNoPublishes">Show with NONpublished tours</div>
+			<div class="btn btn-info btn-sm button withNoPanos">Show with NO panos</div> -->
+			<div class="btn btn-info btn-sm button saveFile">Save to csv file</div>
+		</div>
+	</div>
+
+	<div class="row text-left">
+		<div class="col-2">
+			Avatar
+		</div>
+		<div class="col-4">
+			User
+		</div>
+		<div class="col-6 sortIt">
+			{{>sortElementAdm}}
+		</div>
+
+	</div>
+	{{#each user}}
+		<div class="row text-left">
+		
+			<div class="col-2">
+				<div class="fontsmaller text-center">
+					{{#if profile.picture}}
+						<img class="img-responsive maxwidth100" src="{{profile.picture}}" /> <br/>
+						app
+					{{else}} 
+						no avatar
+					{{/if}}
+				</div>
+				{{#each userservices}}
+					{{#if serviceAvatar}}
+						<div class="fontsmaller text-center">
+							<img class="img-responsive maxwidth100" src="{{serviceAvatar}}" alt="no {{service}} avatar" title="{{service}}"/> <br/>
+							{{service}}
+						</div>
+					{{/if}}
+				{{/each}}
+			</div>
+			
+			<div class="col-4">
+				<div class="text-left animated fadeInUp  fontlarge">
+<!-- 					<a class="linkblue" href="/user/{{username}}">{{username}}</a> {{profile.firstName}} {{profile.lastName}} -->
+					{{#if premium}}<i class="fa fa-user-plus" aria-hidden="true" data-toggle="tooltip" title="Premium user"></i>{{/if}}
+					{{username}} {{profile.firstName}} {{profile.lastName}}
+				</div>
+
+				<div>Email: <code>{{emails.[0].address}}</code></div>
+				<div>{{#with profile.referred}}Ref: <code>{{ref}}</code>{{/with}}</div>
+				<div>GPS: <i class="fa {{ifGPS}}" aria-hidden="true"></i></div>
+				<div>
+					Push: <i class="fa {{ifPush}}" aria-hidden="true"></i> 
+					{{#each push.device}}<code>{{platform}} {{model}}</code> {{/each}}
+				</div>
+				<div>{{#with roles}}Role: <span class="label label-info">{{this}}</span>{{/with}}</div>
+<!-- 				<div>
+					Mailchimp: 
+					{{#with profile.mailchimp}}
+						<code>{{status}} {{#with updatedDate}}{{localDate}}{{/with}}</code> 
+						{{#if id}}<i class="fa fa-check-square-o" aria-hidden="true"></i>{{/if}}
+					{{/with}}
+					<i class="pointer linkblue fa fa-refresh userMailchimp {{activeRotate}}" aria-hidden="true"></i><br/>
+				</div> -->
+
+				{{#each userservices}}
+					<div id="service_{{service}}" class="img100 striped">
+						<span class="linkblue">{{service}}</span>&nbsp;
+						<span class="label label-info"><a href="{{value.link}}" target=_blank>{{value.name}}</a></span>&nbsp;
+						<span class="label label-info">{{value.email}}</span>&nbsp;
+						{{#with value.role}}service role: <span class="label label-info">{{this}}</span> <br/>{{/with}}
+						{{#if value.messenger}}messenger: <span class="label label-info pointer fbmessenger">FB messenger</span> <br/>{{/if}}
+					</div>
+				{{/each}}
+			</div>
+
+			<div class="col-4 fontsmaller">
+				Since <code>{{#with createdAt}}{{localDate}}{{/with}}</code><br/>
+				Last: <code>{{#with visitedAt}}{{localDate}}{{/with}}</code><br/>
+				Posts: <code>{{posts}}</code>
+			</div>
+			<div class="col-2">
+				<button class="delUser button btn btn-sm btn-danger">Delete</button>
+			</div>
+
+		</div>
+		<hr>
+	{{/each}}
+
+	<div class="row">
+		<div class="col-12 animated zoomIn contMore load-more-btn load-more cursor text-info">
+			{{#if ready}}
+				{{#if showMore}}
+					<span id="infiniteCheck" class="animated fadeIn ">more...</span>
+				{{else}}
+					<span class="animated fadeIn ">All loaded</span>
+				{{/if}}
+			{{else}}
+				<span class="ready animated fadeIn ">coming...</span>
+			{{/if}}
+		</div>
+	</div>
+		
+</template>
+
+<template name='nonusers'> 
+
+	<div class="row text-left">
+		<div class="col-12 fontlarger">
+			<div>
+				Total users: {{userCount}} Selected: {{userSelected}}
+			</div>
+			<div class="btn btn-info btn-sm button saveFile">Save to csv file</div>
+		</div>
+	</div>
+
+	<div class="row text-left">
+		<div class="col-4">
+			User
+		</div>
+		<div class="col-4">
+			Geo
+		</div>
+		<div class="col-4 sortIt">
+			{{>sortElementAdm}}
+		</div>
+	</div>
+	
+	{{#each user}}
+		<div class="row text-left">
+			<div class="col-4">
+				<div class="text-left animated fadeInUp  fontlarge">
+					<a class="linkblue" href="/user/{{username}}">{{username}}</a> 
+				</div>
+				{{#if token}}<div>token: <i class="fa fa-check-square-o" aria-hidden="true"></i></div>{{/if}}
+				{{#with details}}
+					<div>IP: <code>{{ip}}</code></div>
+					<div>Ref: <code>{{referrer}}</code></div>
+					<div>Lang: <code>{{lang}}</code></div>
+					<div>User-agent: <code>{{agent}}</code></div>
+				{{/with}}
+			</div>
+			
+			<div class="col-4">
+				{{#with geo}}
+					<div>Country: <code>{{country}}</code></div>
+					<div>Region: <code>{{region}}</code></div>
+					<div>City: <code>{{city}}</code></div>
+					<div>Zip: <code>{{zip}}</code></div>
+				{{/with}}
+			</div>
+
+			<div class="col-4 fontsmaller">
+				Since <code>{{#with createdAt}}{{localDate}}{{/with}}</code><br/>
+				Last: <code>{{#with visitedAt}}{{localDate}}{{/with}}</code><br/>
+				Posts: <code>{{posts}}</code><br/>
+				<button class="delUser button btn btn-sm btn-danger">Delete</button>
+			</div>
+
+		</div>
+		<hr>
+	{{/each}}
+
+	<div class="row">
+		<div class="col-12 animated zoomIn contMore load-more-btn load-more cursor text-info">
+			{{#if ready}}
+				{{#if showMore}}
+					<span id="infiniteCheck" class="animated fadeIn ">more...</span>
+				{{else}}
+					<span class="animated fadeIn ">All loaded</span>
+				{{/if}}
+			{{else}}
+				<span class="ready animated fadeIn ">coming...</span>
+			{{/if}}
+		</div>
+	</div>
+		
+</template>
+
+<template name='premusers'> 
+	<div class="row text-left">
+		<div class="col-6 fontlarger">
+			Total prem users: {{userCount}}
+		</div>		
+<!-- 			{{#autoForm collection=collection schema=schema template="bootstrap3-horizontal" label-class="col-3" input-col-class="col-9" type="insert" afFieldInput-placeholder="schemaLabel"  id="insertPremiumForm"}}
+				{{> afQuickField name="userId" }}
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary submitted">
+						Add
+					</button>
+				</div>
+			{{/autoForm}} -->
+		<div class="col-4">
+			<input type="text" id="username" label="username" name="username" class="form-control" placeholder="username" value=""> 
+		</div>
+		<div class="col-2">
+			<button class="submit button btn btn-small">Add</button>
+		</div>
+
+	</div>
+	<hr/>
+	<div class="row text-left fontlarger linkblue">
+		<div class="col-3 sort" id="userId">
+			User
+		</div>
+		<div class="col-3 sort" id="signed">
+			Ref
+		</div>
+		<div class="col-3 sort" id="sent">
+			...
+		</div>
+		<div class="col-3 filter" id="pushing">
+			{{filter}}
+		</div>
+	</div>
+	<!-- {{> sortElementAdm}} -->
+	<hr/>
+	{{#each users}}
+		<div class="row text-left">
+			<div class="col-3">
+				<div class="animated fadeInUp  ">
+					<div><a class="linkblue fontlarge" href="/user/{{username}}">{{user.username}}</a></div>
+					{{userId}}<br/>
+					<div><img class="img-responsive maxwidth100" src="{{user.profile.avatar}}" /></div>
+				</div>
+			</div>
+			<div class="col-1">
+				
+			</div>
+			<div class="col-3">
+				Since: <code>{{created}}</code><br/>
+				Ref: <code>{{referrer}}</code><br/>
+				Referral used: <code>{{refnumbers}}</code><br/>
+				Expiration: <code>{{expired}}</code>
+			</div>
+			<div class="col-3">
+<!-- 				Sent: <code>{{sentAt}}</code><br/>
+				Latest: <code>{{msg.notification.title}}</code><br/>
+				<code>{{msg.notification.body}}</code> -->
+			</div>
+			<div class="col-2">
+<!-- 				<div class="button btn btn-info pushmessage">Message</div>
+				<br/><br/> -->
+				<div class="button btn btn-danger remove"><i class="fa fa-trash {{activeRotate}}" aria-hidden="true"></i></div>
+			</div>
+		</div>
+		<hr>
+	{{else}}
+		<div class="row text-left">
+			<div class="col-12">
+				Nobody in premiums users yet
+			</div>
+		</div>
+	{{/each}}
+
+		<div class="contMore load-more-btn load-more cursor text-info">
+			{{#if ready}}
+				{{#if showMore}}
+					<span id="infiniteCheck" class="animated fadeIn ">more...</span>
+				{{else}}
+					<span class="animated fadeIn ">All loaded</span>
+				{{/if}}
+			{{else}}
+				<span class="ready animated fadeIn ">coming...</span>
+			{{/if}}
+		</div>
+
+</template>
+
+<template name='mailchimp'> 
+	<div class="row text-left">
+		<div class="col-12 fontlarger">
+			<div>Total users: {{userCount}}</div>
+			<div class="btn btn-info button withTours">Show with tours</div>
+			<div class="btn btn-info button withNoPublishes">Show with NONpublished tours</div>
+			<div class="btn btn-info button withNoPanos">Show with NO panos</div>
+			<div class="btn btn-info button saveFile">Save to csv file</div>
+		</div>
+	</div>
+
+	<div class="row text-left">
+		<div class="col-12">
+			Username, Email Address, First Name, Last Name
+		</div>		
+	</div>
+		
+	{{#each user}}
+		<div class="row text-left">
+			<div class="col-8">
+				{{username}}, {{emails.[0].address}}, {{profile.firstName}}, {{profile.lastName}}
+			</div>					
+			<div class="col-4">
+				{{#each profile.count}}
+					{{type}}: <code>{{number}}</code> 
+				{{/each}}
+			</div>		
+		</div>
+	{{/each}}
+		
+</template>
+
+<template name='adminusers'>
+	<div class="row h4 animated fadeInUp linkwhite fontlarge">
+		<div class="col-5">
+			<input type="text" id="addadmin" label="username" name="username" class="form-control" placeholder="username" value="{{text}}"> 
+		</div>			
+		<div class="col-5">
+			<input type="text" id="role" label="role" name="role" class="form-control" placeholder="role" value="admin"> 
+		</div>
+		<div class="col-2">
+			<button class="submit button btn btn-small">Add</button>
+		</div>
+	</div>
+	
+	{{#each admin}}
+		<div class="row text-left">
+			<div class="col-4">
+				<div class="animated fadeInUp linkwhite fontlarge">	
+					{{username}}
+				</div>
+				<div class="animated fadeInUp linkwhite fontlarge">
+					<img class="img-fluid" src="{{profile.avatar}}" />
+				</div>
+				<div class="fontsmaller">
+					Email: 
+					{{#each emails}}
+						<span class="teamuser">{{address}}</span>&nbsp;<br/>
+						Verified: <span class="teamuser">{{verified}}</span>&nbsp;
+					{{/each}}
+				</div>
+			</div>		
+<!-- 			<div class="col-4 fontsmaller">
+				Roles: 
+				{{#each roles}}
+					<span class="label label-sm label-default teamuser">{{this}}</span>&nbsp;
+				{{/each}}
+			</div> -->
+			<div class="col-4">
+				<p>Since {{createdAt}}<br/></p>
+			</div>
+			<div class="col-4">
+				<p><button class="removeadm button btn btn-sm btn-danger">Remove</button></p>
+			</div>
+		</div>
+	{{/each}}
+</template>
+
+<template name='adminpages'>
+
+	<section class="adminpages">		
+		<table class="table table-responsive table-striped">
+			<tbody>
+				{{#each pages}}
+					<tr class="animated fadeIn ">
+						<td>
+							<a href="{{pathFor 'pageGraffiti' page=pageUrlQueryHash}}">
+								<img class="img40" alt="graffiti" src="{{icon}}" />
+							</a>
+						</td>
+						<td class="animated fadeIn">
+							<div><a href="{{pathFor 'pageGraffiti' page=pageUrlQueryHash}}">{{og.title}}</a></div>
+							<div> {{og.url}}</div>
+							<div class="editPage">
+								{{#with hidden}}<span class="badge">hidden</span>{{/with}}
+								{{#with dynamic}}<span class="badge">dynamic</span>{{/with}}							
+							</div>
+						</td>
+					</tr>
+				{{else}}
+					{{#if ready}}
+						<tr class="animated fadeIn">
+							<td>
+								<p>Nothing was created for this page yet</p>
+								<p>See more graffiti <a href="/">here</a></p>
+							</td>
+						</tr>
+					{{else}}
+						<p>Loading...</p>
+					{{/if}}
+				{{/each}}		
+			</tbody>
+		</table>
+	</section>
+</template>
+
+<template name="emailTemplates">
+
+	<div class="col-md-8 offset-md-2">
+		<h4 class="brand-heading text-center">Email templates</h4>
+	</div>
+	<br/><br/><br/>
+
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+			{{#if editRecord}}
+				{{#if $eq editRecord 'new'}}
+
+					{{> quickForm collection=collection type="insert" id="insertEmails"
+					template="bootstrap3-inline" label=false label-class="hidden" afFieldInput-placeholder="schemaLabel" }}
+				{{else}}
+				{{/if}}
+			{{else}}
+				<button id="newRecord" class="button btn btn-info newRecord">New Email</button>
+			{{/if}}
+		</div>
+	</div>
+	<br/><br/>
+
+	{{#each emails}}
+		<div id="{{_id}}" class="row text-left ">
+			{{#if $eq editRecord _id}}
+				<div class="col-12">
+				
+					{{> quickForm collection="EmailsTmpl" doc=this type="update" id="updateEmails"
+					template="bootstrap3-inline" label=false label-class="hidden" afFieldInput-placeholder="schemaLabel" }}
+					<button class="remove button btn btn-inforemove">Remove</button>
+				</div>
+			{{/if}}
+
+		{{#unless editRecord}}
+			<div id="{{_id}}" class="col-2 editRecord pointer linkblue">
+				<span class="h3">{{id}}</span>&nbsp;
+			</div>
+			<div class="col-2">
+				<span class=" h3">{{subject}}</span>&nbsp;
+			</div>
+			<div class="col-8">
+				{{{text}}}
+			</div>
+		{{/unless}}
+		</div>
+	{{/each}}
+
+</template>
+
+<template name='integration'>
+	<div class="row text-left">
+		<div class="col-12">
+			3rd party libraries:
+		</div>
+	</div>
+	{{#each libraries}}
+		<div class="row text-left">
+			<div class="col-4">
+				<a href="{{url}}">{{type}}</a>
+			</div>	
+			<div class="col-4">
+				<input type="checkbox" class="toggleSwitch enableLib" id="{{id}}" {{enabled}} data-toggle="toggle" data-onstyle="info" data-width="50" data-height="25" >
+			</div>					
+			<div class="col-4">
+				{{createdAt}}
+			</div>		
+		</div>
+		<hr>
+	{{/each}}		
+</template>
+
+<template name="sortElementAdm">					
+	<div class="row">
+		<div class="btn-group btn-group-justified" role="group" aria-label="...">
+			{{#each buttonEl}}
+				<div class="btn-group" role="group">
+					<button id="{{label}}" type="button" class="sort btn btn-sm btn-success {{active}}">{{{caret}}}{{value}}</button>
+				</div>
+			{{/each}}
+			<div id="engaged" type="button" class="engaged btn btn-sm btn-success">{{engaged}}</div>
+		</div>
+	</div>
+	<br/><br/>	
+</template>

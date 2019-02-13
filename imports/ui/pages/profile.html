@@ -1,0 +1,637 @@
+<template name="profile">
+
+	<section id="profile" class=" topsection container-fluid text-left profile animated fadeIn">
+	
+		<div class="row xlDesktop text-left">	
+			<div class="col-2 col-sm-3 offset-sm-1 col-md-2 offset-md-1 col-lg-2 offset-lg-2 fontsmaller" > 
+				<div class="hovercard p-2">
+					<div class="avatar pointer img100 editAvatar">
+						{{#with userProfile}}		
+							<img alt="{{username}}" src="{{avaurl}}" class="img100">						
+						{{/with}}
+					</div>		
+				</div>
+				<div class="pointer selector linkblue h3" id="userprofile"> 
+					<i class="fa fa-user" aria-hidden="true"></i> <span class="d-none d-sm-inline">Profile</span>
+				</div>				
+				<div class="pointer selector linkblue h3" id="settings"> 
+					<i class="fa fa-sliders" aria-hidden="true"></i> <span class="d-none d-sm-inline">Settings</span>
+				</div>
+				<div class="pointer selector linkblue h3 soon" id="connectSocial"> 
+					<i class="fa fa-facebook" aria-hidden="true"></i>+ <span class="d-none d-sm-inline">Social</span>
+				</div>
+				<div class="pointer selector linkblue h3" id="changePwd"> 
+					<i class="fa fa-unlock-alt" aria-hidden="true"></i> <span class="d-none d-sm-inline">Password</span>
+				</div>				
+				<div class="pointer linkblue h3" id="logOut"> 
+					<i class="fa fa-sign-out" aria-hidden="true"></i> <span class="d-none d-sm-inline">Logout</span>
+				</div>
+			</div>
+
+			<div class="col-9 col-sm-8 col-md-7 offset-lg-1 col-lg-5"> 						
+				{{#with userProfile}}			
+					{{#with pro}}
+						<div class="h4">Plan: <span class="uppercase">{{type}}</span></div>										
+						<div class="h4">Max File Size: {{maxsize}}MB</div>										
+						<div class="h4">Expiration: {{expire}}</div>
+					{{else}}
+						<div class="h4">Plan: <span class="uppercase">Starter</span></div>		
+					{{/with}}
+				{{/with}}
+				<br/><br/>
+						
+				{{#if $eq selector 'userprofile'}}	
+					{{#with userProfile}}			
+						{{> userprofile}}
+					{{/with}}
+				{{/if}}
+				
+				{{#if $eq selector 'settings'}}	
+					{{#with userProfile}}			
+						{{> settings}}
+					{{/with}}
+				{{/if}}
+								
+				{{#if $eq selector 'proprofile'}}	
+					{{#with userProfile}}			
+						{{#with pro}}								
+<!-- 								{{#autoForm collection="ProUsers" doc=this id="prousersForm"  type="update" 
+								template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"}}
+								{{> afQuickField label=false label-class="sr-only" name='logo' }}
+								<button type="submit" class="btn btn-default" data-dismiss="modal">Update</button>
+							{{/autoForm}}		 -->
+						{{else}}
+							<a href="/pricing">Upgrade</a> 
+							to PRO and receive:
+							{{{pricing.features}}}
+						{{/with}}
+					{{/with}}
+				{{/if}}				
+
+				{{#if $eq selector 'soon'}}	
+					This feature is coming soon
+				{{/if}}
+				
+				{{#if $eq selector 'changePwd'}}	
+					{{> atForm state='changePwd'}}
+				{{/if}}				
+				
+				{{#if $eq selector 'connectSocial'}}	
+					{{> connectAccounts}}
+				{{/if}}											
+			</div>
+		</div>
+
+
+	</section>
+	
+</template>
+
+<template name="profileOld">
+
+	<section id="profile" class=" topsection container-fluid text-left profile animated fadeIn">
+	
+		{{#unless mobile}}
+			<div class="row xlDesktop">	
+				<div class="col-4 col-sm-3 offset-sm-1 col-md-2 offset-md-1 col-lg-2 offset-lg-2 fontsmaller" > 
+					<div class="hovercard">
+						<div class="avatar pointer img100 editAvatar">
+							{{#with userProfile}}		
+								<img alt="{{username}}" src="{{avaurl}}" class="img100">						
+							{{/with}}
+						</div>		
+					</div>
+					<div class="pointer selector linkblue h3" id="userprofile"> 
+						Profile
+					</div>				
+					<div class="pointer selector linkblue h3" id="settings"> 
+						Settings
+					</div>
+<!-- 					<div class="pointer selector linkblue h3" id="proprofile"> 
+						Pro logo
+					</div> -->
+					<div class="pointer selector linkblue h3 soon" id="connectSocial"> 
+						Connect social accounts
+					</div>
+					<div class="pointer selector linkblue h3" id="changePwd"> 
+						Change password
+					</div>				
+					<div class="pointer linkblue h3" id="logOut"> 
+						Log Out
+					</div>
+				</div>
+
+				<div class="col-8 col-sm-8 col-md-7 offset-lg-1 col-lg-5"> 						
+					{{#with userProfile}}			
+						{{#with pro}}
+							<div class="h4">Plan: <span class="uppercase">{{type}}</span></div>										
+							<div class="h4">Max File Size: {{maxsize}}MB</div>										
+							<div class="h4">Expiration: {{expire}}</div>
+						{{else}}
+							<div class="h4">Plan: <span class="uppercase">Starter</span></div>		
+						{{/with}}
+					{{/with}}
+					<br/><br/>
+							
+					{{#if $eq selector 'userprofile'}}	
+						{{#with userProfile}}			
+							{{> userprofile}}
+						{{/with}}
+					{{/if}}
+					
+					{{#if $eq selector 'settings'}}	
+						{{#with userProfile}}			
+							{{> settings}}
+						{{/with}}
+					{{/if}}
+									
+					{{#if $eq selector 'proprofile'}}	
+						{{#with userProfile}}			
+							{{#with pro}}								
+<!-- 								{{#autoForm collection="ProUsers" doc=this id="prousersForm"  type="update" 
+									template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"}}
+									{{> afQuickField label=false label-class="sr-only" name='logo' }}
+									<button type="submit" class="btn btn-default" data-dismiss="modal">Update</button>
+								{{/autoForm}}		 -->
+							{{else}}
+								<a href="/pricing">Upgrade</a> 
+								to PRO and receive:
+								{{{pricing.features}}}
+							{{/with}}
+						{{/with}}
+					{{/if}}				
+
+					{{#if $eq selector 'soon'}}	
+						This feature is coming soon
+					{{/if}}
+					
+					{{#if $eq selector 'changePwd'}}	
+						{{> atForm state='changePwd'}}
+					{{/if}}				
+					
+					{{#if $eq selector 'connectSocial'}}	
+						{{> connectAccounts}}
+					{{/if}}											
+				</div>
+			</div>
+		{{else}}
+			<div class="row xlSelect fontsmaller">	
+<!-- 				<div class="col-2" > 
+					<div class="pointer selector linkblue" id="userplan"> 
+						Plan
+					</div>		
+				</div>			 -->	
+				<div class="col-2" > 
+					<div class="pointer selector linkblue" id="userprofile"> 
+						Profile
+					</div>		
+				</div>
+				<div class="col-2" > 		
+					<div class="pointer selector linkblue" id="settings"> 
+						Settings
+					</div>
+				</div>
+<!-- 				<div class="col-2" > 		
+					<div class="pointer selector linkblue" id="proprofile"> 
+						Pro logo
+					</div>
+				</div> -->
+				<div class="col-2" > 		
+					<div class="pointer selector linkblue" id="connectSocial"> 
+						Connect social
+					</div>
+				</div>
+				<div class="col-2" > 		
+					<div class="pointer selector linkblue" id="changePwd"> 
+						Change password
+					</div>
+				</div>				
+				<div class="col-2" > 		
+					<div class="pointer selector linkblue" id="logOut"> 
+						<a href="/sign-out">Log Out</a>
+					</div>
+				</div>
+			</div>
+<!-- 			<div class="row xlUserPlan">				
+				{{#if $eq selector 'userplan'}}	
+					<div class="col-4"> 	
+						<div class="hovercard">
+							<div class="avatar pointer img100">
+								{{#with userProfile}}		
+									<img alt="{{username}}" src="{{avaurl}}" class="img100">						
+								{{/with}}
+							</div>		
+						</div>
+					</div>
+					<div class="col-8"> 	
+						{{#with userProfile}}			
+							{{#with pro}}
+								<div class="h4">Plan: <span class="uppercase">{{type}}</span></div>										
+								<div class="h4">Max File Size: {{maxsize}}MB</div>										
+								<div class="h4">Expiration: {{expire}}</div>
+							{{else}}
+								<div class="h4">Plan: <span class="uppercase">Starter</span></div>		
+							{{/with}}
+						{{/with}}
+					</div>
+				{{/if}}
+			</div> -->
+			<div class="row">	
+				<div class="col-12"> 	
+					{{#if $eq selector 'userprofile'}}	
+						{{#with userProfile}}			
+							{{> userprofile}}
+						{{/with}}
+					{{/if}}
+					
+<!-- 					{{#if $eq selector 'settings'}}	
+						{{#with userProfile}}			
+							{{> settings}}
+						{{/with}}
+					{{/if}} -->
+									
+					{{#if $eq selector 'proprofile'}}	
+						{{#with userProfile}}			
+							{{#with pro}}								
+								{{#autoForm collection="ProUsers" doc=this id="prousersForm"  type="update" 
+									template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"}}
+									{{> afQuickField label=false label-class="sr-only" name='logo' }}
+									<button type="submit" class="btn btn-default" data-dismiss="modal">Update</button>
+								{{/autoForm}}		
+							{{else}}
+								<a href="/pricing">Upgrade</a> 
+								to PRO and receive:
+								{{{pricing.features}}}
+							{{/with}}
+						{{/with}}
+					{{/if}}				
+
+					{{#if $eq selector 'soon'}}	
+						This feature is coming soon
+					{{/if}}
+					
+					{{#if $eq selector 'changePwd'}}	
+						{{> atForm state='changePwd'}}
+					{{/if}}				
+					
+					{{#if $eq selector 'connectSocial'}}	
+						{{> connectAccounts}}
+					{{/if}}							
+					
+				</div>
+			</div>		
+		{{/unless}}
+
+	</section>
+	
+</template>
+
+<template name="userprofile">
+
+	{{#autoForm collection="Meteor.users" schema=schema doc=user id="profileForm" type="update"
+		template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"}}
+		{{> afQuickField name='username'}}
+		{{> afQuickField name='profile.firstName' autosave=true}}
+		{{> afQuickField name='profile.lastName' autosave=true}}
+		{{> afQuickField name='profile.phone' autosave=true}}
+<!-- 		{{> afQuickField label=false label-class="sr-only" name='profile.twitter' autosave=true}}
+		{{> afQuickField label=false label-class="sr-only" name='profile.facebook' autosave=true}} -->
+		{{> afQuickField label=false label-class="sr-only" name='profile.avatar' autosave=true}}
+		<button type="submit" class="btn btn-default" data-dismiss="modal">Update</button>
+	{{/autoForm}}					
+
+<!-- 	{{user.username}} -->
+<!-- 	{{>quickForm collection="Meteor.users" schema=schema doc=user id="profileForm1" type="update" template="bootstrap3" afFieldInput-placeholder="schemaLabel"}}		 -->
+	
+<!-- 	{{>quickForm collection="Meteor.users" schema=schema doc=profile id="profileForm2" type="update" template="bootstrap3-inline" label=false label-class="sr-only" afFieldInput-placeholder="schemaLabel"}}			 -->
+	
+</template>
+
+<template name="topprofile">
+	<section id="topprofile" class="profile animated fadeIn">
+		<div class="container-fluid">
+			<div class="row m-3">
+			</div>
+			<div class="row">
+				{{#with userProfile}}
+					<div class="col-md-2 col-sm-3 col-3 pointer avatar text-right">
+						<img class="img-fluid" alt="{{username}}" src="{{avaurl}}">
+					</div>	
+					<div class="col-md-4 col-sm-6 col-6 pointer editProfile">
+						<a class="linkblue" href="#">
+							{{#if profile.firstName}}
+								{{profile.firstName}} {{profile.lastName}}
+							{{else}}
+								{{username}}
+							{{/if}}
+						</a>
+					</div>
+					<div class="col-md-5 col-sm-3 col-3 pointer editProfile">						
+						<div class="title editPro">Free tier</div>
+						{{#if author}}
+							{{#unless mobile}}
+								<div>
+									Become a PRO and have:
+								</div>
+							{{/unless}}
+						{{/if}}							
+						<br/>
+						<a class="linkblue editPro text-left " href="#">
+							<img alt="" class="pointer editPro linkblue prologo img50" src="{{pro.logo}}">
+						</a>
+
+					</div>
+				{{/with}}
+			</div>
+		</div>
+		{{#if author}}
+			<div class="row">
+				<div class="col-12 col-md-10 offset-md-1">
+					<div id="profilesett" class="transition hidden animated fadeInLeft">
+						{{> settings}}
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-12 col-md-10 offset-md-1">
+					
+					{{#if comments.[0]}}
+						You have unanswered comments in 
+						{{#each comments}}
+							{{#with comment}}
+								<span id="{{_id}}" alt="{{tour_id}}" class="pointer openComments label label-default">{{tour.title}}</span>
+								{{debug}}
+							{{/with}}
+						{{/each}}
+					{{/if}}
+					
+				</div>
+			</div>
+			{{#if author.nopubs}}
+				<div class="row">
+					<div class="col-12 col-md-10 offset-md-1 h2 jumbotron blue">
+						You don't have any tours published. To publish a tour click a globe icon on a tour.
+					</div>
+				</div>
+			{{/if}}
+		{{/if}}
+	</section>
+</template>
+
+<template name="settings">
+	<div class="container-fluid">
+	
+		<div class="row text-left">
+			{{#if user.profile.agree.checked}}
+
+			{{else}}
+					<div class="col-7 col-sm-7 col-md-5 offset-md-2 ">
+						Please agree to <a href="/about?get=terms">terms and conditions</a> first 
+					</div>	
+					<div class="col-5 col-sm-5 col-md-3">
+						<button class="btn btn-default agree" >Agree</button> 
+					</div>
+			{{/if}}
+		</div>
+		
+		<br/>
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<h4 class="brand-heading">SETTINGS</h4>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-6 col-md-6 offset-md-2 leftswitch">
+				<span class="?">notify me in a browser about long running timers</span>
+			</div>
+			<div class="col-5 col-sm-5 col-md-3 ">	
+				<label class="switch">
+					<input type="checkbox" {{useAdvanced}} class="useAdvanced " id="useAdvanced">
+					<div class="slider round"></div>	
+				</label>
+			</div>
+		</div>		
+		<div class="row">
+			<div class="col-6 col-md-6 offset-md-2 leftswitch">
+				<span class="?">use GPS to switch off timers</span>
+			</div>
+			<div class="col-5 col-sm-5 col-md-3 ">	
+				<label class="switch">
+					<input type="checkbox" {{useGPS}} class="useGPS " id="useGPS">
+					<div class="slider round"></div>	
+				</label>
+			</div>
+			{{#with gps}}
+				<div class="col-12 ">
+					Location: {{gps.latitude}} lat, {{gps.longitude}} long, {{gps.accuracy}} accuracy, 
+				</div>
+			{{/with}}
+		</div>	
+	<!-- 	<div class="row">
+			<div class="col-6 col-md-6 offset-md-2 leftswitch">
+				<span class="?">Use advanced</span>
+			</div>
+			<div class="col-5 col-sm-5 col-md-3 ">	
+				<label class="switch">
+					<input type="checkbox" {{useAdvanced}} class="useAdvanced " id="useAdvanced">
+					<div class="slider round"></div>	
+				</label>
+			</div>
+		</div>	<div class="row">
+			<div class="col-6 col-md-6 offset-md-2 leftswitch">
+				<span class="?">Use advanced</span>
+			</div>
+			<div class="col-5 col-sm-5 col-md-3 ">	
+				<label class="switch">
+					<input type="checkbox" {{useAdvanced}} class="useAdvanced " id="useAdvanced">
+					<div class="slider round"></div>	
+				</label>
+			</div>
+		</div> -->
+
+		{{#if isAdmin}}
+			<br/>
+
+			<div class="row">
+				<div class="col-md-8 offset-md-2">
+					<h4 class="brand-heading">ADMIN STUFF</h4>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-6 col-md-6 offset-md-2 leftswitch">
+					<span class="?">debug: </span>
+				</div>
+				<div class="col-5 col-sm-4 col-md-3 ">	
+					<label class="switch">
+						<input type="checkbox" {{statusDebug}} class="debug" >
+						<div class="slider round"></div>	
+					</label>
+				</div>
+			</div>
+		
+			<div class="row">				
+				{{#with status}}
+					<div class="col-6 col-md-6 offset-md-2 leftswitch">
+						<span class="?">server {{server}} </span>
+					</div>
+					<div class="col-5 col-sm-4 col-md-3 ">		
+						<label class="switch">
+							<input type="checkbox" {{status.checked}} class="reconnect " >
+							<div class="slider round"></div>	
+						</label>
+
+					</div>
+				{{/with}}
+			</div>
+			
+			<div class="row text-left">
+				<div class="col-12">
+					3rd party libraries:
+				</div>
+			</div>
+			{{#each libraries}}
+				<div class="row text-left">
+					<div class="col-3">
+						<a href="{{link}}">{{type}}</a>
+					</div>	
+					<div class="col-3">
+						{{#if personal}}
+							personal: <input type="checkbox" class="toggleSwitch enableLib" id="{{id}}" {{enabled}} data-toggle="toggle" data-onstyle="info" data-width="50" data-height="25" >
+						{{else}}
+							common: <input type="checkbox" class="toggleSwitch" id="{{id}}" {{enabled}} disabled data-toggle="toggle" data-onstyle="info" data-width="50" data-height="25" >
+						{{/if}}
+					</div>										
+					<div class="col-3">
+						{{createdAt}}
+					</div>		
+				</div>
+				<hr>
+			{{/each}}
+		
+		{{/if}}
+		
+		<div class="row">
+			<div class="col-12 col-md-8 offset-md-2">
+				
+				{{#if changePwd}}
+					{{> atForm state='changePwd'}}
+				{{else}}
+					<button class="btn btn-default" id="changePwd">Change password</button> 
+					{{> atNavButton}}
+				{{/if}}
+			</div>	
+		</div>
+	</div>
+</template>
+
+<template name="privacy">
+	<div class="terms">
+		{{#if privacy}}
+			{{{privacy.text}}}
+		{{else}}
+			{{#if isAdmin}}
+				{{> quickForm class="main form page btn-rxs" id="insertAbout" schema=Schemas.About type="insert" collection="About"}}
+			{{/if}}
+		{{/if}}
+	</div>
+</template>
+
+<template name="agreement">
+	{{#if currentUser}}
+		<div class="termsbts">
+			{{#if agreeTerm}}
+				You have agreed to Terms and Conditions on {{dateAgree}}
+			{{else}}
+				{{#autoForm id="agreeTerm" template="bootstrap3" schema="SchemasUserProfile" type="method" meteormethod="user.terms"}}
+					{{> afQuickField name="agree.checked" type="boolean-checkbox" value=checked}}
+					<div class="form-group">
+						<button class="btn btn-warning" id="noway">No</button> 
+						<button type="submit" class="btn btn-primary" id="close">Agree</button>
+					</div>
+				{{/autoForm}}
+			{{/if}}
+		</div>
+	{{/if}}
+</template>
+
+<template name="connectAccounts">
+	<div class="row text-center">
+		<div class="col-3"> 
+				Account
+		</div>
+		<div class="col-2"> 
+				Connect
+		</div>
+		<div class="col-4"> 
+				Settings
+		</div>
+		<div class="col-3"> 
+				Extras
+		</div>
+	</div>
+	{{#each services}}
+		<div class="row text-center fontsmaller">
+			<div class="col-3 "  id="{{_id}}"> 
+				<div class="button btn btn-primary btn-sm connect{{service}}" rel="publisher" data-toggle="tooltip" title="connect to {{service}}">	
+					<i class="connected fa fa-{{service}}"></i>
+				</div>
+			</div>
+			<div class="col-2"> 
+				{{#if connected}}
+					<a class="disconnect fontlarger" id="{{service}}"  href="{{url}}" target=_blank>
+						<i class="toconnect fa fa-check-square"></i>
+					</a>
+				{{else}}
+					<a class="connect fontlarger" id="{{service}}"  href="{{url}}" target=_blank>
+						<i class="pointer toconnect fa fa-square-o connect{{service}}"></i>
+					</a>								
+				{{/if}}
+			</div>
+			<div class="col-4"> 
+				{{#if connected}}
+					{{#if $eq service 'facebook'}}
+<!-- 								{{facebook}}
+						{{> quickForm id="privacyForm2" schema=schema doc=facebook type="method" meteormethod="user.privacy.facebook" template="bootstrap3-inline" afFieldInput-placeholder="schemaLabel"}} -->
+						{{#autoForm id="privacyForm" template="bootstrap3" doc=facebook schema=schema type="method" meteormethod="user.privacy.facebook" autosave=true}}
+							{{> afQuickFields}}
+						{{/autoForm}}
+					{{/if}}
+				{{/if}}
+			</div>
+			<div class="col-3"> 
+					{{#if $eq service 'facebook'}}
+						{{facebook.role}}
+					{{/if}}
+			</div>
+		</div> 
+		{{#if $eq service 'facebook'}}
+			{{#if connected}}
+				<div class="row text-left">
+					<div class="col-12"> 
+						{{#if facebook.messenger}}
+							<span>FB messenger connected</span>
+						{{else}}
+							To connect FB Messenger send us a message "<b>connect</b>" at <a href="https://www.facebook.com/VirGO360VR/messages" target=_blank>VirGO 360 page</a>
+							After you have Messenger connected you will be able to receive comments there.
+						{{/if}}
+					</div>	
+				</div>
+			{{/if}}
+		{{/if}}
+	{{/each}}
+
+	<div class="row">	
+		<div class="col-12 animated zoomIn red">
+			{{errorState}}
+		</div>
+	</div>
+	{{#if on_connected}}
+		<div>
+			Let's switch on autopublish. Every your new picture will be published to <b><span class="cursor autopublish">{{on_connected}}</span></b>
+		</div>
+	{{/if}}
+
+</template>

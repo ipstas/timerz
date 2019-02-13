@@ -1,0 +1,12 @@
+#top {
+	min-height: 5em;
+}
+.container-fluid{
+	@media screen and (max-width: 574px) {
+		padding:2px;
+	}
+}
+
+.minheight70{
+	min-height:72px;
+}

@@ -1,0 +1,46 @@
+<template name="portfolio">
+
+	<section id="tour" class="container content-section">
+		<div class="col-md-8 col-md-offset-2">
+			<h4 class="brand-heading text-center">ADMIN</h4>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2"> 
+				Contacts:
+			</div>
+		</div>
+		<br/>
+
+		<div class="row">		
+			<div class="col-md-8 col-md-offset-2">
+				<table class="table  table-responsive table-striped">
+					{{#each contacts}}
+					<tr>
+						<td>
+						{{name}} <br/>
+						{{username}} {{email}}<br/><br/>
+						</td>
+						<td>
+						{{question}}
+						</td>		
+					</tr>
+					{{/each}}
+				</table>
+			</div>
+		</div>
+
+		<div class="row">		
+			<div class="col-md-12">
+				{{#if dataTexts}}
+					{{> quickForm collection="Texts" doc=dataTexts type="update" id="updateTexts"
+						template="bootstrap3-inline" label=false label-class="hidden" afFieldInput-placeholder="schemaLabel" }}
+				{{else}}
+					{{> quickForm collection="Texts" type="insert" id="insertTexts"
+						template="bootstrap3-inline" label=false label-class="hidden" afFieldInput-placeholder="schemaLabel" }}
+				{{/if}}
+			</div>
+		</div>
+		
+	</section>
+</template>

@@ -1,0 +1,163 @@
+/* #clock {
+
+	height: 200px;
+	width: 100%;
+	max-width: 200px;
+		
+	.time {
+		font-family: Raleway;
+		font-weight: bold;
+		font-size: 28px;
+		text-align: center;
+		color: #f9f9f9;
+		position: absolute;
+		top: 242px;
+		left: 180px;
+		width: 162px;
+	}
+	.clock {
+
+	}
+	.rings {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		margin: auto;
+	}
+	.rings .h {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+	.rings .m {
+		position: absolute;
+		width: 150px;
+		height: 150px;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+	.rings .s {
+		position: absolute;
+		width: 100px;
+		height: 100px;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+	.set div{
+		width: 100%;
+		height: 100%;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;	
+	}
+	.set canvas{
+		width: 100%;
+		height: 100%;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;	
+	}
+	
+	input {
+		display: none;
+	}
+}
+
+ */
+ 
+$background: white;
+
+.radial-timer {
+  $size: 144px;
+  $thickness: 9px;
+  $duration: 10s;
+  $color: red;
+  
+  overflow: hidden;
+  height: $size;
+  width: $size;
+  position: relative;
+  
+  .radial-timer-half {
+    height: $size;
+    width: $size/2;
+    border-radius: $size/2 0 0 $size/2;
+    background: $color;
+    position: absolute;
+    &:nth-of-type(2) {
+      z-index: 100;
+      -webkit-transform-origin: center right;
+      -webkit-transform: rotate(180deg);
+    }
+    
+    &:before {
+      content: "";
+      position: absolute;
+      top: $thickness;
+      left: $thickness;
+      height: $size - 2*$thickness;
+      width: ($size - 2*$thickness)/2;
+      border-radius: ($size - $thickness)/2 0 0 ($size - $thickness)/2;
+      background: $background;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      background: $background;
+      height: $size*2;
+      width: $size*1.5;
+      left: -$size;
+      top: -$size/2;
+      -webkit-transform-origin: center right;
+    }
+  }
+  
+  &.s-animate {
+    -webkit-transform-origin: center right;
+    .radial-timer-half:nth-of-type(1):after {
+      -webkit-animation: rotateLeftMask $duration infinite linear;
+    }
+    .radial-timer-half:nth-of-type(2):after {
+      -webkit-animation: rotateRightMask $duration infinite linear;
+    }
+  }
+	
+	.radial-timer-inside{
+		position: absolute;
+		top:0;
+		bottom:0;
+		left:0;
+		right:0;
+		margin: auto;
+
+    top: 30%;
+    /* bottom: 0; */
+    left: 11%;
+    /* right: 0; */
+    margin: auto;
+    z-index: 99999;
+	}
+}
+
+
+@-webkit-keyframes rotateLeftMask {
+  0%   { -webkit-transform: rotate(0deg); }
+  50%   { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(180deg); }
+}
+@-webkit-keyframes rotateRightMask {
+  0%   { -webkit-transform: rotate(0deg); }
+  50%   { -webkit-transform: rotate(180deg); visibility: hidden; }
+  100% { -webkit-transform: rotate(180deg); visibility: hidden; }
+}

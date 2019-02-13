@@ -1,0 +1,282 @@
+<template name="contactForm">
+	<div class="row justify-content-center pt-5">
+		<div class="col-xs-12 col-sm-8 col-md-10 col-lg-9 ">
+			{{#if contacted}}
+				{{#with contacted}}
+					<p>Dear {{name}}, thank you for your submission. Your question id is <strong>{{contactId}}</strong>, please save it for future references</p>
+					<p>We also sent you a confirmation for subscription to our Newsletter. Please help us to understand you needs better and subscribe</p>
+					<button type="close" class="cancel btn btn-default">Dismiss</button>
+				{{/with}}
+			{{else}}
+				<div class="contact_form">
+<!-- 					{{> quickForm id="addContact" type="insert" collection=collection schema=schema doc=user}} -->
+					{{#autoForm id="contactForm" collection=collection schema=schema type="insert" doc=user}}
+					<fieldset>
+						{{> afFieldInput name="userId" type="hidden" value=user._id }}
+						
+						{{> afFieldInput name="questionType" type="hidden" value='support'}}
+						{{> afFieldInput name="createdAt" type="hidden" value=today}}
+						{{> afFieldInput name="device" type="hidden" value=device}}
+						{{> afQuickField name="name" value=user.username }}
+						{{> afQuickField name="email" placeholder='optional email' value=email}}
+						{{> afQuickField name="question" }}
+						{{> afQuickField name="referrer" type="hidden" value=referrer }}
+						<p class="h6">* required field</p>
+						<div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+<!-- 							<button type="close" class="cancel btn btn-default">Close</button> -->
+						</div>
+					</fieldset>
+					{{/autoForm}}
+				</div>
+			{{/if}}
+		</div>
+	</div>
+</template>
+
+<template name="collectForm">
+	
+	{{#if collected}}
+		<div class="close" data-toggle="tooltip" data-placement="top" title="Clear">x</div><br/><br/>
+		<p class="">
+			{{#if collected.name}}{{collected.name}}, thank{{else}}Thank{{/if}} you for subscribing. We will send an App Store link in no time to {{collected.email}}
+		</p>
+	{{else}}
+		<p class="">Please sign up for the beta</p>
+
+		{{#autoForm id="collectForm" collection=collection schema=schema type="insert"}}
+		<fieldset>
+			{{> afFieldInput name="userId" type="hidden" }}
+			{{> afFieldInput name="questionType" type="hidden" value='beta'}}
+			{{> afFieldInput name="createdAt" type="hidden" value=today}}
+			{{> afFieldInput name="device" type="hidden" value=device}}
+<!-- 			{{> afQuickField name="name" }} -->
+			{{> afQuickField name="email" }}
+			{{> afQuickField name="abtest" label=false type="hidden" value=abtest}} 
+			{{> afQuickField name="question" type="hidden" value="collected email for beta" }}
+			{{> afQuickField name="referrer" type="hidden" value=referrer }}
+			<div>
+				<button type="submit" class="btn btn-primary">Sign Up</button>
+				<button type="close" class="cancel btn btn-default">Close</button>
+			</div>
+		</fieldset>
+		{{/autoForm}}
+	{{/if}}
+
+</template>
+
+<template name="feedbackForm">
+
+	{{#if contacted}}
+		{{#with contacted}}
+			<p>Dear {{name}}, thank you for your submission. Your question id is <strong>{{contactId}}</strong>, please save it for future references</p>
+			<p>We also sent you a confirmation for subscription to our Newsletter. Please help us to understand you needs better and subscribe</p>
+			<button type="cancel" class="btn btn-primary close">Close</button>
+		{{/with}}
+	{{else}}
+		{{#autoForm id="feedbackForm" type="insert" collection=collection schema=schema doc=this}}
+			<fieldset>
+				{{> afFieldInput name="userId" type="hidden" }}	
+				{{> afFieldInput name="questionType" type="hidden" value=type}}
+				{{> afFieldInput name="createdAt" type="hidden" value=today}}
+				{{> afFieldInput name="device" type="hidden" value=device}}
+				{{> afFieldInput name="related" type="hidden" value=url}}
+				{{> afQuickField name="name" }}
+				{{> afQuickField name="email" }}
+				{{> afQuickField name="related" type='hidden' value=location.href}}
+				{{> afQuickField name="question"}}
+				
+				<div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+
+				</div>
+			</fieldset>
+		{{/autoForm}}
+	{{/if}}
+
+</template>
+
+<template name="reportForm">
+
+	{{#if contacted}}
+		{{#with contacted}}
+		<div class="complain-modal-body">
+			<p>Dear {{name}}, thank you for your submission. Your question id is <strong>{{contactId}}</strong>, please save it for future references</p>
+			<button type="cancel" data-dismiss="modal" class="btn btn-primary close">CLOSE</button>
+		</div>
+		{{/with}}
+	{{else}}
+		{{#autoForm id="reportForm" type="insert" collection=collection schema=schema doc=this}}
+			<fieldset>
+				{{> afFieldInput name="userId" type="hidden" value=user._id}}
+				{{> afFieldInput name="questionType" type="hidden" value="report"}}
+				{{> afFieldInput name="createdAt" type="hidden" value=today}}
+				{{> afFieldInput name="device" type="hidden" value=device}}
+				{{> afQuickField name="name" value=user.username}}
+				{{> afQuickField name="email" value=email}}
+				<h6><em>Please leave your email so we can follow up with you later</em></h6>
+				{{> afQuickField name="related" type="hidden" label="Related to" placeholder="related" value=pageUrl}}
+				{{> afQuickField name="reported" type="hidden" label="Reported" placeholder="reported" value=_id}}
+				{{> afQuickField name="question" label="Your report" placeholder="Your report"}}
+				<div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+
+				</div>
+			</fieldset>
+		{{/autoForm}}
+	{{/if}}
+
+</template>
+
+<template name="sorryForm">
+	
+	<div class="page sorry container-fluid">
+		
+		<div class="row">
+			<div class="col-xs-12 col-md-8 col-md-offset-2">
+				
+				<div class="h1 text-center">Please help us improve</div>
+				<br/><br/>
+				
+				<div class="row ">
+					<div class="col-xs-12 col-sm-6 well">
+						
+						<p>Hi,</p>
+
+						<p>I am Stan, the CTO of GraffitiOver. We at GraffitiOver write code day and sometimes night to make it cool and awesome.</p>
+
+						<p>And sometimes it is far from perfect, but we are really code maniacs and do rewrite it again and again. If you can spend 30 secs to tell us why you uninstalled GraffitiOver that would be really great.</p>
+						
+						<p>One of us will personally review your feedback to improve. We promise to work hard to win you back as a user.</p>
+						
+						<p class="text-center">Thank you!</p>
+
+					</div>
+					
+					<div class="col-xs-12 col-sm-6">
+					
+						{{#if contacted}}
+							{{#with contacted}}
+								<p>Dear {{name}}, thank you for your submission. Your submission id is <strong>{{contactId}}</strong>, you can use it for future references</p>
+								<button type="cancel" class="btn btn-primary close">Close</button>
+							{{/with}}
+						{{else}}
+							{{#autoForm id="uninstallForm" type="insert" collection=collection schema=schema}}
+								<fieldset>
+									{{> afFieldInput name="userId" type="hidden" value=user._id}}
+									{{> afFieldInput name="questionType" type="hidden" value="uninstall"}}
+									{{> afFieldInput name="createdAt" type="hidden" value=user.today}}
+									{{> afFieldInput name="device" type="hidden" value=device}}
+									{{> afQuickField name="name" value=user.name}}
+									{{> afQuickField name="email" value=user.email}}
+									{{> afQuickField name="reason" }}
+									{{#if afFieldValueContains name="reason" value="account"}}
+										<p class="animated slideInRight">
+											You know you can still use GraffitiOver without registration? It provides some extra features, but not required to create and submit a new graffiti
+										</p>										
+										<p class="animated slideInLeft">
+											And it is really easy to use, see it <a href="/tutorial">here</a>
+										</p>
+									{{/if}}
+									{{#if afFieldValueContains name="reason" value="features"}}
+										<p class="animated slideInRight">
+											Would you like to <a href="/feedback">request it</a>? 
+										</p>
+									{{/if}}
+									{{#if afFieldValueContains name="reason" value="not working on websites"}}
+										{{> afQuickField name="websites" }}
+									{{/if}}
+									{{> afQuickField name="question" label="How we can do it better?" placeholder="Tell us how we can improve"}}
+									<div>
+										<button type="submit" class="btn btn-primary">Submit</button>
+
+									</div>
+								</fieldset>
+							{{/autoForm}}
+						{{/if}}
+		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+</template>
+
+<template name="surveyForm">
+	
+	<div id="surveyForm" class="page sorry ">
+		
+		<div class="row">
+			<div class="col-xs-12 col-md-8 col-md-offset-2">
+				
+				<div class="h1 text-center">Please help us improve</div>
+				<br/><br/>
+				
+				<div class="row ">
+					<div class="col-xs-12 col-sm-6 well">
+						
+						<p>Hi,</p>
+
+						<p>I am Theresa, the CMO of GraffitiOver. We at GraffitiOver write code day and sometimes night to make it cool and awesome.</p>
+
+						<p>If you can spend 10 secs to tell us what we can do better?</p>
+						
+						<p>One of us will personally review your feedback to improve.</p>
+						
+						<p class="text-center">Thank you!</p>
+
+					</div>
+					
+					<div class="col-xs-12 col-sm-6">
+					
+						{{#if contacted}}
+							{{#with contacted}}
+								<p>Dear {{name}}, thank you for your submission. Your submission id is <strong>{{contactId}}</strong>, you can use it for future references</p>
+								<button type="cancel" class="btn btn-primary close">Close</button>
+							{{/with}}
+						{{else}}
+							{{#autoForm id="surveyForm" type="insert" collection=collection schema=schema}}
+								<fieldset>
+									{{> afFieldInput name="userId" type="hidden" value=user._id}}
+									{{> afFieldInput name="questionType" type="hidden" value="uninstall"}}
+									{{> afFieldInput name="createdAt" type="hidden" value=user.today}}
+									{{> afFieldInput name="device" type="hidden" value=device}}
+									{{> afQuickField name="name" value=user.name}}
+									{{> afQuickField name="email" value=user.email}}
+									{{#each surveyItem}}
+										
+										{{> afQuickField name=this options="auto"}}
+									{{/each}}
+									{{#if afFieldValueContains name="reason" value="account"}}
+										<p class="animated slideInRight">
+											You know you can still use GraffitiOver without registration? It provides some extra features, but not required to create and submit a new graffiti
+										</p>										
+										<p class="animated slideInLeft">
+											And it is really easy to use, see it <a href="/tutorial">here</a>
+										</p>
+									{{/if}}
+									{{#if afFieldValueContains name="reason" value="features"}}
+										<p class="animated slideInRight">
+											Would you like to <a href="/feedback">request it</a>? 
+										</p>
+									{{/if}}
+									{{#if afFieldValueContains name="reason" value="not working on websites"}}
+										{{> afQuickField name="websites" }}
+									{{/if}}
+									{{> afQuickField name="question" label="How we can do it better?" placeholder="Tell us how we can improve"}}
+									<div>
+										<button type="submit" class="btn btn-primary">Submit</button>
+
+									</div>
+								</fieldset>
+							{{/autoForm}}
+						{{/if}}
+		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+</template>

@@ -1,0 +1,40 @@
+<template name="statusonline">		
+	{{#if offline}}
+		<span id="offline" class="pointer glyphicon glyphicon-asterisk red animated fadeIn infinite h2"></span>
+	{{/if}}
+</template>
+		
+
+<template name="versionserver">		
+	{{#with runtimecfg}}
+		<code>
+url: {{ROOT_URL}}<br/>
+ddp: {{DDP_DEFAULT_CONNECTION_URL}}<br/>
+cordova version (if mobile): {{autoupdateVersionCordova}}<br/>
+autoupdate version: {{autoupdateVersionRefreshable}}
+		</code>
+	{{/with}}	
+
+	<br/><br/>
+	<code>
+		code version:
+	</code>
+	{{> git}}
+	<br/><br/>
+
+	<code>
+		{{#if isCordova}}
+			<p>Cordova version.</p>
+			mobile: {{env.mobile}}
+			env: {{env.env}}
+			url: {{env.url}}
+		{{else}}
+			browser version
+		{{/if}}
+		{{#with status}}
+			<br/>
+			server {{server}} 
+		{{/with}}
+	</code>
+</template>
+		

@@ -1,0 +1,180 @@
+<template name="navbox">
+	<a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle menuClick"><i class="fa fa-bars"></i></a>
+	<!-- <nav id="sidebar-wrapper" class="navbox {{active}}"> -->
+	<nav id="menu" class="visible d-none animated hidden slideOutLeft {{active}}">
+		<a class="page-scroll h3 linkwhitewhite" href="/#top" >SwitchTimers</a>
+		<span id="menu-close" href="#" class="close linkwhitewhite pointer "><i class="fa fa-times menuClick"></i></span>
+		<ul class="links">
+			{{#if topLocation}}
+				<li class="animated zoomInRight">
+					<a class="page-scroll h4" href="/#one" >#About</a>
+				</li>
+				<li class="animated zoomInRight">
+					<a class="page-scroll h4" href="/#two" >#Solution</a>
+				</li>
+				<li class="animated zoomInRight">
+					<a class="page-scroll h4" href="/#contact" >#Contact</a>
+				</li>
+			{{/if}}
+
+			{{#if currentUser}}
+				<li>
+					<a class="h4" href="/timers/{{currentUser.username}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
+				</li>
+				<li>
+					<a class="h4" href="/archive/{{currentUser.username}}"><i class="fa fa-calendar" aria-hidden="true"></i> Archive</a>
+				</li>
+			{{else}}
+				<li>
+					<a class="h4" href="/{{pathFor 'sign-in'}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
+				</li>
+			{{/if}}
+			<li>
+				<a class="h4" href="/feedback"><i class="fa fa-commenting-o" aria-hidden="true"></i> Request</a>
+			</li>
+			{{#if currentUser}}
+				<li>
+					{{#if avatar}}
+						<a class="h4" href="{{pathFor 'profile' username=username}}"><img class="header_avatar" src="{{avatar}}" /> Profile</a>
+					{{else}}
+						<a class="h4" href="{{pathFor 'profile' username=username}}"><b><i class="fa fa-user"></i> Profile</b></a>				
+					{{/if}}
+				</li>
+			{{else}}
+				<li>
+					<a class="h4" href="/{{pathFor 'sign-in'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a>
+<!-- 					<a class="h4" href="{{pathFor 'signIn'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a> -->
+				</li>
+			{{/if}}
+			{{#if isInRole 'admin' 'adm-group'}}
+				<li>
+					<a class="h4" href="{{pathFor 'adminpage'}}"><b><i class="fa fa-lock" aria-hidden="true"></i> Admin</b></a>
+				</li>
+			{{/if}}
+		</ul>
+
+	</nav>
+</template>
+
+<template name="navdsk">
+<!-- 	<a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a> -->
+	<!-- <nav id="sidebar-wrapper" class="navbox {{active}}"> -->
+	
+	<nav id="menudsk" class="visible animated slideInLeft {{active}} d-sm-block">
+		<a class="h3 linkwhitewhite" href="/#top" >SwitchTimers</a>
+		<span id="menu-close" href="#" class="close linkwhitewhite pointer"><i class="fa fa-times"></i></span>
+		<ul class="links">
+			{{#if topLocation}}
+				<li class="animated zoomInRight">
+					<a class="page-scroll h4" href="/#one" >#About</a>
+				</li>
+				<li class="animated zoomInRight">
+					<a class="page-scroll h4" href="/#two" >#Solution</a>
+				</li>
+				<li class="animated zoomInRight">
+					<a class="page-scroll h4" href="/#contact" >#Contact</a>
+				</li>
+			{{/if}}
+
+			{{#if currentUser}}
+				<li class="{{isActiveRoute 'timers' class='activewhitewhite'}}">
+					<a class="h4" href="/timers/{{currentUser.username}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
+				</li>
+				<li class="{{isActiveRoute 'archive' class='activewhitewhite'}}">
+					<a class="h4" href="/archive/{{currentUser.username}}"><i class="fa fa-calendar" aria-hidden="true"></i> Archive</a>
+				</li>
+			{{else}}
+				<li class="{{isActiveRoute 'timers' class='activewhitewhite'}}">
+					<a class="h4" href="/{{pathFor 'sign-in'}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
+				</li>
+			{{/if}}
+			{{#with currentUser}}
+				<li class="{{isActiveRoute 'profile' class='activewhitewhite'}}">
+					<a class="h4" href="{{pathFor 'profile' username=username}}">
+						{{#with profile}}<img class="header_avatar" src="{{avatar}}" />{{else}}<i class="fa fa-user"></i> {{/with}} 
+						{{username}}
+					</a>
+				</li>				
+				<li class="{{isActiveRoute 'settings' class='activewhitewhite'}}">
+					<a class="h4" href="{{pathFor 'settings'}}"><i class="fa fa-sliders" aria-hidden="true"></i> Settings</a>
+				</li>
+			{{else}}
+				<li>
+					<a class="h4" href="/{{pathFor 'sign-in'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a>
+				</li>
+			{{/with}}
+			<li class="{{isActiveRoute 'feedback' class='activewhitewhite'}}">
+				<a class="h4" href="/feedback"><i class="fa fa-commenting-o" aria-hidden="true"></i> Feedback</a>
+			</li>
+			{{#if isInRole 'admin' 'adm-group'}}
+				<li class="{{isActiveRoute 'adminpage' class='activewhitewhite'}}">
+					<a class="h4" href="{{pathFor 'adminpage'}}"><b><i class="fa fa-lock" aria-hidden="true"></i> Admin</b></a>
+				</li>
+			{{/if}}
+			<li class="{{isActiveRoute 'about' class='activewhitewhite'}}">
+				<a class="h4" href="/about"><i class="fa fa-info-circle" aria-hidden="true"></i> About</a>
+			</li>
+		</ul>
+
+	</nav>
+</template>
+
+<template name="navlanding">
+	<li>
+		{{#if currentUser}}
+			<a href="{{pathFor 'profile' username=username}}"><b><i class="fa fa-user"> {{userName}}</i></b></a>
+		{{else}}
+			<a href="{{pathFor 'sign-in'}}"><b><i class="fa fa-user-secret"></i></b></a>
+		{{/if}}
+	</li>
+	
+	<li>
+			<a class="page-scroll" href="#about">About</a>
+	</li>
+	<li>
+			<a class="page-scroll" href="#services">Services</a>
+	</li>
+	<li>
+			<a class="page-scroll" href="#portfolio">Portfolio</a>
+	</li>
+	<li>
+			<a class="page-scroll contactUs" href="#contact">Contact</a>
+	</li>
+</template>
+
+<template name="navuser">
+<!-- 	<li>
+		<a class="" href="{{pathFor 'usertours' username=username}}"><i class="fa fa-universal-access" ></i> My VR</a>
+	</li> -->
+
+	<li>
+			<a class="" href="{{pathFor 'worldtours'}}"><i class="fa fa-globe" aria-hidden="true"></i></a>
+	</li>
+	<li>
+			<a class="" href="{{pathFor 'upload'}}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+	</li>
+	<li>
+			<a class="" href="{{pathFor 'coming'}}"><i class="fa fa-question" aria-hidden="true"></i></a>
+	</li>
+	{{#if currentUser}}
+		<li>
+			{{#if avatar}}
+				<a href="{{pathFor 'profile' username=username}}"><img class="header_avatar" src="{{avatar}}" /></a>
+			{{else}}
+				<a href="{{pathFor 'profile' username=username}}"><b><i class="fa fa-user"></i> Profile</b></a>				
+			{{/if}}
+		</li>
+	{{else}}
+		<li>
+			<a href="{{pathFor 'sign-in'}}"><b><i class="fa fa-user-secret"></i> Profile</b></a>
+		</li>
+	{{/if}}
+	{{#if isInRole 'admin' 'adm-group'}}
+		<li>
+			<a href="{{pathFor 'markers'}}"><b><i class="fa fa-lock" aria-hidden="true"></i> Markers</b></a>
+		</li>
+		<li>
+			<a href="{{pathFor 'adminpage'}}"><b><i class="fa fa-lock" aria-hidden="true"></i></b></a>
+		</li>
+	{{/if}}
+</template>

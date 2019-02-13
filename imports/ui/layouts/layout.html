@@ -1,0 +1,44 @@
+<template name="layoutLanding">
+
+	<span class="statusonline">{{>statusonline}}</span>	
+
+	{{> Template.dynamic template=nav}}
+
+	{{> Template.dynamic template=main}}	
+	{{> Template.dynamic template='footer'}}
+
+</template>
+
+<template name="layout">
+
+	<span class="statusonline">{{>statusonline}}</span>
+	
+<!-- 	<section id="topbars" class="">
+		<div class="containers-fluid">
+
+	
+		</div>
+
+	</section>	 -->
+
+	<section id="navsection" class="sidebar-fixed-left d-none d-sm-block">
+		{{> Template.dynamic template=nav}}
+	</section>
+
+	<section id="main" class="maincont container-fluid">
+		<div class="row justify-content-between minheight70">
+			<div id="bars" class="h2 menuClick slideInLeft col-auto m-1">
+				<i class="fa fa-bars p-1 d-block d-sm-none "></i>
+			</div>
+			<div class="col-auto align-self-end">
+				<div class="row">
+					{{> Template.dynamic template='currenttimer'}}				
+				</div>
+			</div>					
+		</div>
+			
+		{{> Template.dynamic template=main}}	
+		{{> Template.dynamic template='footer'}}
+	</section>
+
+</template>

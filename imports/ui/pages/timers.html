@@ -1,0 +1,285 @@
+<template name="user">	
+	<section id="timers" class="xlTimers container-fluid text-center animated fadeIn">
+		<div class="row text-center">
+			<div class="col-lg-3 offset-lg-3 col-md-3 offset-md-3 col-sm-4 col-4 h1 ">
+				Timers
+			</div>
+
+			<div class="col-lg-3 col-md-3 col-sm-4 col-4">
+				{{#if author}}<button class="btn btn-lg btn-outline-info newRecord"><i class="fa fa-plus" aria-hidden="true"></i></button>{{/if}}
+			</div>
+		</div>
+
+		{{> usertimers}}
+		
+		{{#with showdata}}
+			{{>editBox}}
+		{{/with}}
+
+	</section>
+</template>
+
+<template name="currenttimer">
+
+<!-- 		<div class="col-3 align-self-end">
+			{{#if ifAuthor}}
+				{{#if timeStarted}}
+					<button class="btn btn-lg btn-info stopTime"><i class="fa fa-stop" aria-hidden="true"></i></button>	
+				{{/if}}
+			{{/if}}
+		</div>	 -->
+	{{#with currentTimer}}
+		<div class="col-auto align-self-end">
+<!-- 			<div class="h1 text-center">{{>clock}}</div> -->
+<!-- 			<div class="pointer linkbluewhite editRecord h2 shadow animated fadeIn" style="background-color:{{color}};"> {{title}} </div>  -->
+			<span class="shadow" style="background-color:{{color}};">&nbsp;</span> 
+			<span class="" > {{title}} </span>
+			{{#with timeStarted}}<div class=""><span class="badge badge-default">{{this}}</span></div>{{/with}}	
+		</div>			
+		<div class="col-auto text-center align-self-end stopTime">
+			<div class="pointer spinner-border text-primary" style="{{animation}}" role="status">
+				<span class="sr-only">Running</span>
+			</div>
+			<div class="{{activeTimer}}"><span class=" badge badge-default">{{session}}</span></div>
+		</div>
+	{{/with}}
+</template>
+
+<template name="usertimers">
+	<div class="xlUsertimers row text-left">
+
+	</div>
+	<div class="row text-center text-muted table-bordered">
+		<div class="col"></div>
+<!-- 		<div class="col-sm-4 d-none d-sm-block">			
+			Title
+		</div>
+		<div class="col-sm-2 col-4">		
+			Created / Spent	
+		</div>
+		<div class="col-sm-2 col-4">		
+			Tags
+		</div>
+		<div class="col-sm-2 col-4">		
+			Days / Sessions
+		</div>
+		<div class="col-sm-1 d-none d-sm-block">		
+			Public		
+		</div>
+		<div class="col-sm-1 d-none d-sm-block">		
+		</div> -->
+	</div>
+	<div class="xlUsertimers row text-left">		
+		{{#each timers}}
+			{{>usertimer}}
+		{{else}}
+			<div class="col-12 h2 m-5">
+				No timers yet. <a href="/archive/{{currentUser.username}}">Archive</a>
+			</div>
+		{{/each}}
+	</div>
+</template>
+
+<template name="usertimer">
+	<div class="col-12 animated fadeIn">
+		<div class="row align-items-center">
+			<div class="col-md-4 col-sm-6 col-12 h2">			
+				{{#if ifAuthor}}
+					<button class="btn btn-lg btn-outline-success {{state.cssclass}}"><i class="fa {{state.icon}}" aria-hidden="true"></i></button>
+					&nbsp;
+				{{/if}}
+				<span class="d-none d-inline shadow" style="background-color:{{color}};">&nbsp;</span> 
+				<span class="pointer linkblue d-inline"><a href="/report/{{_id}}">{{title}}</a></span> 
+ 				
+			</div>
+			<div class="col-auto">					
+				<span class="h2" ><span class="text-black-50 badge badge-default">{{spent}}</span> </span>			
+			</div>			
+			<div class="col-auto h2">					
+				{{#if gps}}<span class="pointer linkblue showGPS float-right d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{/if}}
+				<span class="pointer linkblue editRecord float-right d-inline p-2"><i class="fa fa-cog" aria-hidden="true"></i></span>
+				<span class="pointer linkblue showDetails float-right d-inline p-2"><i class="fa fa-eye" aria-hidden="true"></i></span>	
+				
+			</div>			
+
+		</div>
+		{{#if $eq showDetails _id}}
+			<div class="row bg-light align-items-center animated fadeInLeft">
+				<div class="col-md-2 col-sm-4 col-4">		
+					{{#each tags}}<span class="selectTag badge badge-info">{{this}}</span> {{/each}}	
+				</div>
+				<div class="col-md-2 col-sm-4 col-4">
+					<div class=" badge badge-default">since: {{createdAt}}</div>
+					{{#if countDaily}}
+						<div class="pointer linkblue showDaily badge badge-default">days: {{countDaily}}</div>
+					{{/if}}
+					{{#if countSessions}}
+						<div class="pointer linkblue showSessions badge badge-default">sessions: {{countSessions}}</div> 
+					{{/if}}	
+				</div>
+				<div class="col-md-2 col-sm-4 col-4 ">		
+					{{#with publicTimer}}
+						<div>public: <i class="text-black-50 fa fa-check-square-o" aria-hidden="true"></i></div>
+					{{/with}}									
+					{{#with useGPS}}
+						<div>gps: <i class="text-black-50 fa fa-check-square-o" aria-hidden="true"></i></div>
+					{{/with}}									
+				</div>
+			</div>
+		{{/if}}
+		{{#if $eq showGPS _id}}
+			<div class="row bg-light align-items-center animated fadeInLeft">
+				<div class="col-12 ">									
+					{{#if useGPS}}{{#if gps}}				
+							<span class="badge badge-default">lat {{gps.latitude}}</span> 
+							<span class="badge badge-default">lng {{gps.longitude}}</span> 
+							<span class="badge badge-default">dev {{deviation.dev}}</span>
+					{{/if}}{{/if}}				
+				</div>
+			</div>
+		{{/if}}
+	</div>
+</template>
+<template name="usertimerOld">
+	<div class="col-lg-3 col-md-4 col-sm-6">
+		<div class="pointer linkbluewhite editRecord h2 shadow " style="background-color:{{color}};"> {{title}} </div>
+		<div class="" style=""><a href="/report/{{_id}}">Report</a></div> 
+		<div class="">created: <span class=" badge badge-default">{{createdAt}}</span></div>	
+
+		<div class="" >spent: <span class=" badge badge-default">{{spent}}</span> </div>
+		<div class="">tags: {{#each tags}}<span class="selectTag badge badge-info">{{this}}</span> {{/each}}</div>
+		<div>
+			{{#if countDaily}}
+				<span class="pointer linkblue showDaily">days: <span class=" badge badge-default">{{countDaily}}</span> </span>
+			{{/if}}
+			{{#if countSessions}}
+				<span class="pointer linkblue showSessions">sessions: <span class=" badge badge-default">{{countSessions}}</span> </span>
+			{{/if}}
+		</div>	
+		{{#with publicTimer}}
+			<div>public: <i class="fa fa-check-square-o" aria-hidden="true"></i></div>
+		{{/with}}	
+		{{#if ifAuthor}}
+			<div class="m-2">
+			{{#if timeStarted}}
+
+			{{else}}
+				<button class="btn btn-lg btn-success startTime"><i class="fa fa-play" aria-hidden="true"></i></button>	
+			{{/if}}
+			</div>
+		{{/if}}
+	</div>
+</template>
+
+
+<template name="editBox">
+	<div id="editBox" class="bg-info editbox animated slideInRight">
+		<span href="#" class="close pointer floating-top-right"><i class="fa fa-times"></i></span>
+		{{> Template.dynamic template=currtemplate}}
+<!-- 		{{>edittimer}} -->
+	</div>
+</template>
+
+<template name="edittimer">
+	<div class="container-fluid">
+		<div class="row xlEdittimer">
+			<div class="col-10 offset-1 animated fadeIn text-center card addTimer">
+				{{#autoForm collection=collection schema=schema  type="update" doc=this id="updateTimerForm" afFieldInput-placeholder="schemaLabel" }}
+<!-- 					{{#each afFieldNames}}
+						{{name}}
+					{{/each}}			 -->		
+					<fieldset>
+						
+						{{> afQuickField name="title" }}
+						<span style="color:{{this}}">{{> afQuickField name="color" options="allowed" noselect=true}}</span>
+						{{> afQuickField name="tags" }}
+						<div class="row">
+							<div class="col-auto">{{> afFieldInput label="GPS" name="useGPS" }}</div>
+							<div class="col-auto">{{> afFieldInput label="Public" name="publicTimer" }}</div>			
+						</div>
+
+						<button type="submit" class="btn btn-info submit">OK</button> 
+						<div class="btn btn-{{archive.btn}} archive">{{archive.name}}</div>
+					</fieldset>
+				{{/autoForm}}
+				
+			</div>
+			
+		</div>
+	</div>
+</template>
+
+<template name="showdaily">
+	<h2>{{title}}</h2>
+	<div id="showdaily" class="container-fluid">
+		<div class="row">
+			<div class="col-3">Date</div>
+			<div class="col-3">Sessions</div>
+			<div class="col-3">Spent</div>
+			<div class="col-3">Notes</div>
+		</div>			
+		{{#each data.daily}}
+			<div class="row">
+				<div class="col-3">{{date}}</div>
+				<div class="col-3">{{count}}</div>
+				<div class="col-3">{{timing}}</div>
+				<div class="col-3">{{notes}}</div>{{debug2}}
+			</div>
+		{{/each}}		
+	</div>
+</template>
+
+<template name="showsessions">
+	<div id="showsessions" class="xlSessions container-fluid text-center animated fadeIn">
+		<h2>{{title}}</h2>
+		<div class="row">
+			<div class="col-4 offset-2">Start / Stop</div><div class="col-2">Timing</div><div class="col-4">Notes</div>
+		</div>			
+		{{#each data}}
+			<div class="row">
+				{{#unless $eq editRecord _id}}
+					<div class="col-1">
+						<i class="pointer editRecord fa fa-pencil" aria-hidden="true"></i>
+					</div>
+					<div class="editRecord col-5">{{start}} {{stop}}</div>
+					<div class="editRecord col-4"><span class="badge badge-default">{{timing}}</span></div>			
+					<div class="col-2">
+						<i class="pointer text-danger delRecord fa fa-remove" aria-hidden="true"></i>
+					</div>
+					{{#if notes}}<div class="col-12">{{notes}}</div>{{/if}}
+				{{else}}
+					<div class="col-12">
+						{{#autoForm id="editSessionForm" collection=collection schema=schema doc=record type="update" autosave=true}}
+							<div class="row">
+								{{> afFieldInput type='hidden' label=false name='timerId' }}
+								<div class="col-6 p-1">{{> afFieldInput label=false name='start' }}</div>
+								<div class="col-6 p-1">{{> afFieldInput label=false name='stop' }}</div>
+								<div class="col-8 p-1">{{> afFieldInput label=false name='notes' placeholder='note' }}</div>
+								<div class="col-4 p-1 "><button class="closeForm btn btn-outline-light"><i class="fa fa-check-circle-o" aria-hidden="true"></i></button></div>
+							</div>
+						{{/autoForm}}
+					</div>
+				{{/unless}}
+			</div>
+		{{/each}}
+	</div>
+</template>
+
+<template name="addtimer">
+	<div class="container-fluid">
+		<div class="row xlAddtimer">
+			<div class="col-10 offset-1 animated fadeIn text-center card addTimer">
+				{{> quickForm collection=collection schema=schema type="insert" id="insertTimerForm" afFieldInput-placeholder="schemaLabel" }}
+	<!-- 			{{#autoForm id="insertTimerForm" collection=collection  schema=schema type="insert" afFieldInput-placeholder="schemaLabel"}}
+					{{> afQuickFields}}
+					<div>
+						<button type="submit">Submit it</button>
+					</div>
+				{{/autoForm}} -->
+			</div>
+		</div>
+	</div>
+</template>
+
+
+
