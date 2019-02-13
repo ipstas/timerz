@@ -2,13 +2,13 @@
 
 	<section id="adminpage" class="container content-section topsection">
 		<div class="row">
-			<div class="col-md-8 offset-md-2">
+			<div class="col-12">
 				<h4 class="brand-heading text-center">ADMIN</h4>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-lg-2 offset-lg-1 col-md-2 col-sm-3 col-12">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-12">
 				{{#each selectors}}
 					<div class="row">
 						<div class="pointer selector col-12 {{active}}" id="{{value}}"> 
@@ -18,7 +18,7 @@
 				{{/each}}
 			</div>
 			
-			<div class="col-lg-8 col-md-10 col-sm-9 col-12">
+			<div class="col-lg-10 col-md-10 col-sm-9 col-12">
 				
 				<div class="h2">{{selector.label}}</div>
 
@@ -488,7 +488,7 @@
 				<div class="text-left animated fadeInUp  fontlarge">
 <!-- 					<a class="linkblue" href="/user/{{username}}">{{username}}</a> {{profile.firstName}} {{profile.lastName}} -->
 					{{#if premium}}<i class="fa fa-user-plus" aria-hidden="true" data-toggle="tooltip" title="Premium user"></i>{{/if}}
-					{{username}} {{profile.firstName}} {{profile.lastName}}
+					<a href="/timers/{{username}}" class="text-muted">{{username}}</a> {{profile.firstName}} {{profile.lastName}}
 				</div>
 
 				<div>Email: <code>{{emails.[0].address}}</code></div>
