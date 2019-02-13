@@ -9,7 +9,7 @@ module.exports = {
 
 	meteor: {
 		name: 'timerzstg',
-		path: '/srv/www/meteor/timers',
+		path: '/srv/www/meteor/timerz',
 		volumes: {
 			'/localfiles':'/localfiles'
 		},
