@@ -74,6 +74,19 @@ Schemas.UserProfile = new SimpleSchema({
       }, */
     }
   },
+	agree:{
+		type: Object,
+		optional:  true
+	},
+	'agree.date':{
+		type: Date,
+		optional:  true
+	},
+	'agree.checked':{
+		type: Boolean,
+		optional:  true
+	},
+	
 });
 Schemas.User = new SimpleSchema({
 	username: {

@@ -3,6 +3,7 @@ let version = ReactiveVar();
 
 Template.footer.onCreated(()=>{
 	Meteor.call('app.version',(e,r)=>{
+		console.log('[footer] version', e,r);
 		version.set(r);
 	});
 });

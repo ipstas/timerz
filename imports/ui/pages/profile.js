@@ -100,6 +100,11 @@ Template.profile.events({
 	'click #logOut'(e,r){
 		AccountsTemplates.logout();
 	},
+	'click .agree'(e,t){
+		console.log('agree', this);
+		Meteor.users.update(Meteor.userId(),{$set: {'profile.agree.date': new Date(), 'profile.agree.checked': true}});
+		//t.editLogo.set(!t.editLogo.get());
+	},
 });
 
 Template.userprofile.helpers({
