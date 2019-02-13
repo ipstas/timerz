@@ -10,6 +10,9 @@ export const Collections = {};
 
 Collections.Texts = new Mongo.Collection('texts');
 Collections.Terms = new Mongo.Collection('terms');
+Collections.Credits = new Mongo.Collection('credits');
+Collections.Faq = new Mongo.Collection('faq');
+
 Collections.Timers = new Mongo.Collection('timers');
 Collections.Sessions = new Mongo.Collection('sessions');
 
@@ -398,11 +401,15 @@ Collections.Texts.allow({
 });
 
 Schemas.Terms = new SimpleSchema({
-  'type': {
+  type: {
     type: String,
+		unique: true
   },
-  'text': {
+  text: {
     type: String,
+		autoform: {
+			rows: 6,
+		},
   },
 	createdAt: {
 		type: Date,
@@ -422,6 +429,138 @@ Schemas.Terms = new SimpleSchema({
 });
 Collections.Terms.attachSchema(Schemas.Terms);
 Collections.Terms.allow({
+  insert: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  update: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  remove: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  }
+});
+
+Schemas.Credits = new SimpleSchema({
+	text: {
+		type: String,
+	},	
+	link: {
+		type: String,
+	},			
+	picture: {
+		type: String,
+		optional: true,
+	},
+	userId: {
+		type: String,
+		optional: true,
+		regEx: SimpleSchema.RegEx.Id,
+		autoValue: function () {
+			if (this.isInsert) {
+				return Meteor.userId();
+			}
+		},	
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+	createdAt: {
+		type: Date,
+		optional: true,	
+		autoValue: function(){
+			if (this.isInsert)
+				return new Date();
+		},
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+	updatedAt: {
+		type: Date,
+		optional: true,	
+		autoValue: function(){
+			if (this.isUpdate)
+				return new Date();
+		},
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+});
+Collections.Credits.allow({
+  insert: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  update: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  remove: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  }
+});
+
+Schemas.Faq = new SimpleSchema({
+	question: {
+		type: String,
+		optional: false,
+	},
+	answer: {
+		type: String,
+		optional: false,
+		autoform: {
+			afFieldInput: {
+				type: "textarea",
+				rows: 4
+			}
+		}
+	},
+	createdAt:{
+		type: Date,
+		index: true,
+		optional: true,
+		autoValue: function () {
+			if (this.isInsert) {
+				return new Date();
+			}
+		},
+		autoform: {
+			omit: true
+		},
+	},
+	updated: {
+		type: Date,
+		optional: true,
+		autoform: {
+			value: new Date()
+		},
+		autoform: {
+			omit: true
+		},
+	},
+});
+Collections.Faq.attachSchema(Schemas.Faq);
+Collections.Faq.allow({
   insert: function () {
 		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
 			return true;

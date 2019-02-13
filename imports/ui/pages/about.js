@@ -182,7 +182,7 @@ Template.tutorial.onCreated(()=> {
 	t.abtest = new ReactiveVar(FlowRouter.getQueryParam('abtest') || 'a');
 	let sub;
 	
-	Meteor.subscribe('landing');
+	Meteor.subscribe('texts');
 	
 });
 Template.tutorial.onRendered(()=> {
@@ -295,7 +295,7 @@ Template.faq.onCreated(function(){
 	let t = Template.instance();
 	t.newRecord = new ReactiveVar();
 	t.editRecord = new ReactiveVar();
-	PostSubs.subscribe('faq');
+	Meteor.subscribe('faq');
 });
 Template.faq.helpers({
 	newRecord(){
@@ -424,7 +424,7 @@ Template.credits.onCreated(function(){
 	let t = Template.instance();
 	t.newRecord = new ReactiveVar();
 	t.editRecord = new ReactiveVar();
-	PostSubs.subscribe('credits');
+	Meteor.subscribe('credits');
 });
 Template.credits.helpers({
 	newRecord(){

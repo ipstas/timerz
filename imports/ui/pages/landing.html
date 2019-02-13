@@ -73,6 +73,28 @@
 				</article>>
 			</div>
 		</section>
+    {{#if editRecord }}
+			<div class="container">
+				<div class="row ">
+					<div class="col-12 animated fadeIn text-left">
+						{{> quickForm class="main form btn-rxs" id="updateLP" collection=collection schema=schema	type="update" doc=this}}
+						<div class="btn btn-outline-secondary cancel">Close</div>
+					</div>
+				</div>
+			</div>
+		{{else}}
+			<div class="right-float-vert-middle text-right d-none d-sm-flex">
+				<div class="btn btn-xs btn-danger editRecord"><b>Edit</b></div>
+			</div>
+    {{/if}}
+	{{else}}
+		<section id="banner" class="landing" data-bg="banner.jpg">
+			<div class="inner">
+				<header>
+					<h1>Server is reloaded, please wait</h1>
+				</header>
+			</div>
+		</section>	
 	{{/with}}
 
 </template>

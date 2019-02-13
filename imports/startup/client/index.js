@@ -2,6 +2,7 @@
 import { Meteor } from 'meteor/meteor'
 
 import './analytics.js';
+import './ajaxscripts.js';
 import './routes.js';
 import './cordova.js';
 import './subs.js';

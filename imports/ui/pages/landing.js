@@ -15,6 +15,8 @@ Template.landing.onCreated(function () {
   t.state = new ReactiveDict();
 	t.vrloading = new ReactiveVar();
 	t.contactUs = new ReactiveVar();
+	t.newRecord = new ReactiveVar();
+	t.editRecord = new ReactiveVar();
 	Meteor.subscribe('texts');
 	t.autorun(function(){
 		if (Roles.userIsInRole(Meteor.userId(), ['admin'], 'admGroup')) 
@@ -83,6 +85,21 @@ Template.landing.helpers({
   landing() {
     return Collections.Texts.findOne({title:'landingtimers'});
   },
+	newRecord(){
+		let t = Template.instance();
+		return t.newRecord.get();
+	},
+	editRecord(){
+		let t = Template.instance();
+		console.log('editRecord', t.editRecord.get());
+		return t.editRecord.get();
+	},
+	collection() {
+    return Collections.Texts;
+  },
+  schema() {
+    return Schemas.Texts;
+  },
 	contactUs(){
 		let t = Template.instance();
 		return t.contactUs.get();
@@ -116,6 +133,23 @@ Template.landing.events({
 		FlowRouter.go('/timers');
 		$('html, body').animate({scrollTop: $('body').offset().top -200 }, 'slow');
 		//Modal.show('tryitModal');
-	}
+	},
+	'click .newRecord'(e, t) {
+		t.newRecord.set(true);
+		t.editRecord.set();
+	},
+	'click .editRecord'(e, t) {
+		console.log('[landing.js] editRecord', this);
+		t.editRecord.set(true);
+		t.newRecord.set();
+	},
+	'submit'(e,t){
+		t.newRecord.set();
+		t.editRecord.set();
+	},
+	'click .cancel'(e,t){
+		t.newRecord.set();
+		t.editRecord.set();
+	},
 });
 

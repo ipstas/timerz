@@ -1,21 +1,21 @@
 <template name="footer">
 	<!-- Footer -->
-	<footer>
-			<div class="container text-left">
-						<a href="http://www.xlazz.com" target=_blank>
-						&copy;XLazz, 2016-2019 
-						</a>
-						<a href="https://twitter.com/eXtragLasses" target=_blank>
-							<i class="fa fa-twitter fa-fw"></i> 
-						</a>
-						<a href="https://www.facebook.com/XLazzA/" target=_blank>
-							<i class="fa fa-facebook fa-fw"></i> 
-						</a>
-						{{#with env}}
-							<span class="badge">{{srv}} </span>
-							<span class="badge">{{version.complete}} </span>
-							{{#if update}}<span class="badge badge-dark pointer updateVersion">upd: {{update}} </span>{{/if}}
-						{{/with}}
-			</div>
-	</footer>
+	<section id="footer" class="footer-bottom p-1">
+		<div class="container-fluid text-right alert-light bgtransparent70">
+			<a href="http://www.xlazz.com" class="alert-link " target=_blank>
+				&copy;XLazz, 2016-2019 
+			</a>
+			<a href="https://twitter.com/eXtragLasses" class="alert-link" target=_blank>
+				<i class="fa fa-twitter fa-fw"></i> 
+			</a>
+			<a href="https://www.facebook.com/XLazzA/" class="alert-link" target=_blank>
+				<i class="fa fa-facebook fa-fw"></i> 
+			</a>
+			{{#with env}}
+				<span class="badge">{{srv}} </span>
+				<span class="badge">{{version.complete}} </span>
+				{{#if update}}<span class="badge badge-dark pointer updateVersion">upd: {{update}} </span>{{/if}}
+			{{/with}}
+		</div>
+	</section>
 </template>

@@ -5,7 +5,7 @@
       {{>aboutSelectors}}
     </ul>
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 font-large">
+      <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 font-large">
         {{> Template.dynamic template=selector.value}}
       </div>
     </div>
@@ -46,17 +46,17 @@
     <div class="main_content">
       <h1>{{section}}</h1>
       <div class="row ">
-        <div class="col-xs-offset-1 col-xs-10 animated fadeIn text-left">
+        <div class="col-12 animated fadeIn text-left">
           {{> quickForm class="main form btn-rxs" id="updateLP" collection=collectionLand schema=schemaLand
           type="update" doc=this}}
-          <div class="btn btn-default cancel">Close</div>
+          <div class="btn btn-outline-secondary cancel">Close</div>
         </div>
       </div>
     </div>
     {{else}}
     <div class="row">
-      <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-1 col-md-8 animated fadeIn">
-        {{#if isInRole 'admin,editor'}}
+      <div class="col-12 offset-sm-1 col-sm-10 offset-md-1 col-md-8 animated fadeIn">
+        {{#if isInRole 'admin,editor' 'admGroup'}}
         <div class="text-right">
           <div class="btn btn-xs btn-danger editRecord"><b>Edit</b></div>
         </div>
@@ -64,14 +64,14 @@
 
         {{#each txt}}
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-12">
             {{{this}}}
           </div>
         </div>
         {{/each}}
 
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-12">
             <!-- <h2>With DateAha extension you can: </h2> -->
             <div class="landingbullets">
               {{#each bullets}}
@@ -86,7 +86,7 @@
     </div>
     {{/if}}
     {{else}}
-    {{#if isInRole 'admin,editor'}}
+    {{#if isInRole 'admin,editor' 'admGroup'}}
     <div>
       Text 1
     </div>
@@ -104,9 +104,9 @@
     <div class="faqHeader">
       FAQ
       {{#if newRecord}}
-      {{> quickForm class="main form btn-rxs" id="newFaq" collection=collection schema=schema type="insert" doc=this}}
+				{{> quickForm class="main form btn-rxs" id="newFaq" collection=collection schema=schema type="insert" doc=this}}
       {{else}}
-      {{#if isInRole 'admin,editor'}} <span class="cursor btn btn-xs button btn-default newRecord"><b>New</b></span>{{/if}}
+				{{#if isInRole 'admin,editor' 'admGroup'}} <span class="cursor btn btn-xs button btn-outline-secondary newRecord"><b>New</b></span>{{/if}}
       {{/if}}
     </div>
 
@@ -121,7 +121,7 @@
         doc=this}}
         {{else}}
         {{{answer}}}
-        <div>{{#if isInRole 'admin,editor'}}<span class="cursor btn btn-xs button btn-default editRecord"><b>Edit</b></span>{{/if}}</div>
+        <div>{{#if isInRole 'admin,editor' 'admGroup'}}<span class="cursor btn btn-xs button btn-outline-secondary editRecord"><b>Edit</b></span>{{/if}}</div>
         {{/if}}
       </div>
     </div>
@@ -136,7 +136,7 @@
 <template name="creators">
 
   <div class="row heading">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 offset-md-3">
       <h2 class="text-center bottom-line">Meet The Team</h2>
       <p class="subheading text-center">
         Creative, Spontaneous and (Team)Players
@@ -144,7 +144,7 @@
         {{> quickForm class="main form btn-rxs" id="newRecord" collection=collection schema=schema type="insert"
         doc=this}}
         {{else}}
-        {{#if isInRole 'admin,editor'}} <span class="cursor btn btn-xs button btn-default newRecord"><b>New</b></span>{{/if}}
+        {{#if isInRole 'admin,editor' 'admGroup'}} <span class="cursor btn btn-xs button btn-outline-secondary newRecord"><b>New</b></span>{{/if}}
         {{/if}}
       </p>
     </div>
@@ -182,9 +182,9 @@
         {{else}}
         {{{answer}}}
         <div>
-          {{#if isInRole 'admin,editor'}}
-          <span class="cursor btn btn-xs button btn-default editRecord"><b>Edit</b></span>
-          <span class="cursor btn btn-xs button btn-default delRecord"><b>Delete</b></span>
+          {{#if isInRole 'admin,editor' 'admGroup'}}
+          <span class="cursor btn btn-xs button btn-outline-secondary editRecord"><b>Edit</b></span>
+          <span class="cursor btn btn-xs button btn-outline-secondary delRecord"><b>Delete</b></span>
           {{/if}}
         </div>
         {{/if}}
@@ -227,14 +227,14 @@
 
 <template name='terms'>
   <div class="row animated fadeInLeft">
-    <div class="col-xs-12 animated fadeIn">
+    <div class="col-12 animated fadeIn">
 
-      {{#if isInRole 'admin,editor'}}
+      {{#if isInRole 'admin,editor' 'admGroup'}}
 				{{#if newRecord}}
 				{{> quickForm class="main form btn-rxs" id="insertTC" collection=collection schema=schema type="insert"
 				doc=this}}
 				<div class="text-right">
-					<div class="btn btn-xs btn-default cancel"><b>Close</b></div>
+					<div class="btn btn-xs btn-outline-secondary cancel"><b>Close</b></div>
 				</div>
 				{{else}}
 				<div class="text-right">
@@ -248,30 +248,30 @@
 				<div class="main_content">
 					<h1>{{section}}</h1>
 					<div class="row ">
-						<div class="col-xs-offset-1 col-xs-10 animated fadeIn text-left">
+						<div class="col-12 animated fadeIn text-left">
 							{{> quickForm class="main form btn-rxs" id="updateTC" collection=collection schema=schema type="update"
 							doc=this}}
-							<div class="btn btn-default cancel">Close</div>
+							<div class="btn btn-outline-secondary cancel">Close</div>
 						</div>
 					</div>
 				</div>
 				{{else}}
 				<div class="row">
-					<div class="col-xs-12 animated fadeIn">
-						{{#if isInRole 'admin,editor'}}
+					<div class="col-12 animated fadeIn">
+						{{#if isInRole 'admin,editor' 'admGroup'}}
 						<div class="text-right">
 							<div class="btn btn-xs btn-danger editRecord"><b>Edit</b></div>
 						</div>
 						{{/if}}
 
 						<div class="row">
-							<div class="col-xs-12">
+							<div class="col-12">
 								<h1>{{type}}</h1>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-12">
-								{{{texts}}}
+							<div class="col-12">
+								{{{text}}}
 							</div>
 						</div>
 
@@ -279,7 +279,7 @@
 				</div>
 				{{/if}}
       {{else}}
-				{{#if isInRole 'admin,editor'}}
+				{{#if isInRole 'admin,editor' 'admGroup'}}
 				<div>
 					To add some text here click on a btn
 				</div>
@@ -302,14 +302,14 @@
 <template name="credits">
 
   <div class="row heading">
-    <div class="col-xs-12">
+    <div class="col-12">
       <h2 class="text-center bottom-line">Credits</h2>
       <p class="subheading text-center">We thank the following people and companies</p>
       {{#if newRecord}}
       {{> quickForm class="main form btn-rxs" id="newRecord" collection=collection schema=schema type="insert"
       doc=this}}
       {{else}}
-      {{#if isInRole 'admin,editor'}} <span class="cursor btn btn-xs button btn-default newRecord"><b>New</b></span>{{/if}}
+      {{#if isInRole 'admin,editor' 'admGroup'}} <span class="cursor btn btn-xs button btn-outline-secondary newRecord"><b>New</b></span>{{/if}}
       {{/if}}
       <br />
     </div>
@@ -318,14 +318,14 @@
   <div class="row team-row">
 
     {{#each record}}
-    <div class="col-xs-12 team-wrap">
+    <div class="col-12 team-wrap">
       <p>
         {{#if $eq editRecord _id}}
         {{> quickForm class="main form btn-rxs" id="updateRecord" collection=collection schema=schema type="update"
         doc=this}}
         {{else}}
         {{text}} <a href="{{link}}" target=_blank>{{link}}</a>
-        {{#if isInRole 'admin,editor'}}<span class="cursor btn btn-xs button btn-default editRecord"><b>Edit</b></span>{{/if}}
+        {{#if isInRole 'admin,editor' 'admGroup'}}<span class="cursor btn btn-xs button btn-outline-secondary editRecord"><b>Edit</b></span>{{/if}}
         {{/if}}
       </p>
       <div>

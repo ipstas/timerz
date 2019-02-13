@@ -12,6 +12,15 @@ Meteor.startup(function() {
   BrowserPolicy.content.allowOriginForAll('http://localhost');
   BrowserPolicy.content.allowOriginForAll('http://*.timerz.net');
   BrowserPolicy.content.allowOriginForAll('https://*.timerz.net');
+  BrowserPolicy.content.allowOriginForAll('https://cdnjs.cloudflare.com');
+  BrowserPolicy.content.allowOriginForAll('https://connect.facebook.net');
+  BrowserPolicy.content.allowOriginForAll('https://www.facebook.com');
+  BrowserPolicy.content.allowOriginForAll('https://staticxx.facebook.com');
+  BrowserPolicy.content.allowOriginForAll('https://www.google-analytics.com');
+  BrowserPolicy.content.allowOriginForAll('https://*.googleapis.com');
+  BrowserPolicy.content.allowOriginForAll('https://*.gstatic.com');
+  BrowserPolicy.content.allowOriginForAll('https://cdn.mxpnl.com');
+  BrowserPolicy.content.allowOriginForAll('res.cloudinary.com');
   BrowserPolicy.content.allowEval();
   BrowserPolicy.framing.disallow();
 });

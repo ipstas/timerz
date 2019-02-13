@@ -8,6 +8,22 @@ import { Collections } from '../collections.js';
 //import { Markers } from '../collections.js';
 //import { MarkerFiles } from '../collections.js';
 
+Meteor.publish('texts', function () {
+	return Collections.Texts.find();
+});
+Meteor.publish('terms', function () {
+	return Collections.Terms.find();
+});
+Meteor.publish('pricing', function () {
+	return Collections.Pricing.find();
+});
+Meteor.publish('faq', function () {
+	return Collections.Faq.find();
+});
+Meteor.publish('credits', function () {
+	return Collections.Credits.find();
+});
+
 publishComposite('userdata', function(params) {
 	console.log('[pub userdate] params', params);
 	let user, list = {}, listChildren = {}, fields, updated, userFound, count = {}, counted;
@@ -76,15 +92,7 @@ publishComposite('userdata', function(params) {
 	}
 });
 
-Meteor.publish('texts', function () {
-	return Collections.Texts.find();
-});
-Meteor.publish('terms', function () {
-	return Collections.Terms.find();
-});
-Meteor.publish('pricing', function () {
-	return Collections.Pricing.find();
-});
+
 Meteor.publish('contact', function () {
 	if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
 		return Collections.Contact.find();
