@@ -2,7 +2,7 @@
 echo
 echo
 echo deployment started $ENVIRONMENTS at `date`
-.deploy/version.sh
+#.deploy/version.sh
 
 DEBUG=mup*
 
