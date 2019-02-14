@@ -106,8 +106,14 @@
 				<span class="pointer linkblue d-inline"><a href="/report/{{_id}}">{{title}}</a></span> 
  				
 			</div>
-			<div class="col-auto">					
-				<span class="h2" ><span class="text-black-50 badge badge-default">{{spent}}</span> </span>			
+			<div class="col-auto pointer showToday">	
+				{{#unless showToday}}
+					<div>total
+					<div class="h2" ><span class="text-black-50 badge badge-default">{{spent}}</span> </div></div>
+				{{else}}
+					<div>today
+					<div class="h2" ><span class="text-black-50 badge badge-default">{{spenttoday}}</span> </div></div>			
+				{{/unless}}
 			</div>			
 			<div class="col-auto h2">					
 				{{#if gps}}<span class="pointer linkblue showGPS float-right d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{/if}}
@@ -154,6 +160,7 @@
 		{{/if}}
 	</div>
 </template>
+
 <template name="usertimerOld">
 	<div class="col-lg-3 col-md-4 col-sm-6">
 		<div class="pointer linkbluewhite editRecord h2 shadow " style="background-color:{{color}};"> {{title}} </div>
@@ -184,7 +191,6 @@
 		{{/if}}
 	</div>
 </template>
-
 
 <template name="editBox">
 	<div id="editBox" class="bg-info editbox animated slideInRight">

@@ -32,6 +32,7 @@ const currentTimer = new ReactiveVar(0);
 const timeSpent = new ReactiveVar(0);
 const currtemplate = new ReactiveVar(0);
 const showdata = new ReactiveVar(0);
+const showToday = new ReactiveVar();
 let interval;
 console.log('[timers.js] start:', currentTimer.get());
 
@@ -368,17 +369,32 @@ Template.usertimer.helpers({
 	spent(){
 		let t = Template.instance();
 		var spent = this.timeSpent || 0;
-		if (currentTimer.get() && currentTimer.get()._id == this._id)
+		if (Session.get('currentTimer') && Session.get('currentTimer')._id == this._id)
 			spent = spent + timeSpent.get();
-		spent = moment.utc(spent).format("HH:mm:ss")
-		//console.log('\ntime spent for:', spent, '\ndata:', data, 'counter:', t.timeSpent.get(), this, '\n\n');
+		spent = spent/1000;
+		spent = Math.floor(moment.duration(spent,'seconds').asHours()) + ':' + moment.duration(spent,'seconds').minutes() + ':' + moment.duration(spent,'seconds').seconds();
+		//console.log('\ntime spent for:', this.title, spent, this.timeSpent, 'counter:', t.timeSpent.get(), this, '\n');
 		return spent;
 	},	
+	spenttoday(){
+		let today, spent, time, t = Template.instance();
+		today = _.findWhere(this.daily, {_id: moment(new Date()).format("Y-MM-DD")});	
+		if (Session.get('currentTimer') && Session.get('currentTimer')._id == this._id)
+			spent = today.spent + timeSpent.get();
+		else
+			spent = today.spent;
+		time = moment.utc(spent).format("HH:mm:ss")
+		//console.log('\ntime spenttoday for:', this.title, today.spent, today.spent + timeSpent.get(), spent, time, 'counter:', t.timeSpent.get(), this, '\n\n');
+		return time;
+	},	
+	showToday(){
+		return showToday.get();
+	},
 	session(){
 		let t = Template.instance();
 		var counter = t.timeSpent.get() || 0;
 		if (currentTimer.get() && currentTimer.get()._id == this._id)
-			return moment.utc(counter).format("HH:mm:ss");
+			return moment.utc(counter).format("hh:mm:ss");
 	},
 	deviation(){
 		return Session.get('deviation');
@@ -466,6 +482,10 @@ Template.usertimer.events({
 		else
 			t.showGPS.set();
 	},	
+	'click .showToday'(e,t){
+		showToday.set(!showToday.get());
+	},	
+	
 });
 
 Template.editBox.onCreated(() => {

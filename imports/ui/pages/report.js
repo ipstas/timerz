@@ -157,13 +157,16 @@ Template.timerreport.helpers({
 	}, */
 	spentHuman(){
 		let t = Template.instance();
-		var spent = moment.utc(this.spent).format("HH:mm")
+		//var spent = moment.utc(this.spent).format("HH:mm")
+		let spent = Math.floor(moment.duration(this.spent).asHours()) + ':' + moment.duration(this.spent).minutes() + ':' + moment.duration(this.spent).seconds();
 		return spent;
 	},
 	totalHuman(){
 		let t = Template.instance();
-		var data = moment.utc(t.totalSpent.get()).format("HH:mm")
-		return data;
+		//var data = moment.utc(t.totalSpent.get()).format("HH:mm");
+		let spent = t.totalSpent.get();
+		spent = Math.floor(moment.duration(spent).asHours()) + ':' + moment.duration(spent).minutes() + ':' + moment.duration(spent).seconds();
+		return spent;
 	},
 
 	debug(){
