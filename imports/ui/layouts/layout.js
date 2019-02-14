@@ -4,6 +4,9 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Session } from 'meteor/session';
 
+import {Collections} from '/imports/api/collections.js';
+import {Schemas} from '/imports/api/collections.js';
+
 import './layout.html';
 import '../components/nav.js';
 import '../components/footer.js';
@@ -62,11 +65,24 @@ Template.layoutLanding.events({
 	}, */
 });
 
+Template.layout.onCreated(()=>{
+	Meteor.subscribe('contact');
+});
 Template.layout.onRendered(()=>{
 	$('#loadingspinner').fadeOut('slow');
 	$('#injectloadingspinner').fadeOut();
 	$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
+});
+Template.layout.helpers({
+  newContact() {
+    if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator'], 'admGroup')) return;
+    return data = Collections.Contact.findOne({
+      seen: {
+        $nin: [Meteor.userId()]
+      }
+    });
+  },
 });
 Template.layout.events({
 	'click .page-scroll'(event, template){

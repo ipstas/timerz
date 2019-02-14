@@ -96,6 +96,7 @@ publishComposite('userdata', function(params) {
 Meteor.publish('contact', function () {
 	if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
 		return Collections.Contact.find();
+	return [];
 });
 Meteor.publish('images', function () {
   return Collections.Images.find();

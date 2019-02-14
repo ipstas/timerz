@@ -286,11 +286,13 @@ Template.contacts.helpers({
 Template.contacts.events({
   'click .seen' ( event, template ) {
 		console.log('seen', this, event, 	event.target, event.target.id);
-		Collections.Contact.update(this._id, {$push: {seen: Meteor.userId()}});
+		//Meteor.call('contact.seen',{_id: this._id});
+		Collections.Contact.update({_id:this._id}, {$push: {seen: Meteor.userId()}});
   },
   'click .remove' ( event, template ) {
 		console.log('remove', this, event, 	event.target, event.target.id);
-		Collections.Contact.remove(this._id);
+		//Meteor.call('contact.remove',{_id: this._id});
+		Collections.Contact.remove({_id:this._id});
   },
 });
 

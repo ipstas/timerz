@@ -870,6 +870,13 @@ Schemas.Contact = new SimpleSchema({
 			}
 		},
 	},
+	seen:{
+		type: Array,
+		optional: true
+	},
+	'seen.$':{
+		type: String
+	}
 });
 Collections.Contact.attachSchema(Schemas.Contact);	
 Collections.Contact.allow({

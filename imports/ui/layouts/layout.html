@@ -30,6 +30,11 @@
 			<div id="bars" class="h2 menuClick slideInLeft col-auto m-1">
 				<i class="fa fa-bars p-1 d-block d-sm-none "></i>
 			</div>
+			{{#with newContact}}
+				<div id="notification" class="h2 col-auto m-1 align-self-center">
+					<a class="{{isActiveRoute 'adminpage'}} animated fadeInTop" href="/adminpage?get=contacts"><i class="fa fa-fw fa-bullhorn text-red animated tada infinite" aria-hidden="true" data-toggle="tooltip" title="You ve got mail!"></i></a>
+				</div>
+			{{/with}}
 			<div class="col-auto align-self-end">
 				<div class="row">
 					{{> Template.dynamic template='currenttimer'}}				

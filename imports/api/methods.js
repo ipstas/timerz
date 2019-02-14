@@ -659,6 +659,16 @@ Meteor.methods({
 		return sent;
 	},	
 
+	'contact.seen'(params){
+		if (!Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) return;
+		let update = Collections.Contact.update({_id:params._id}, {$push: {seen: this.userId}});
+		console.log('[contact.seen]', update, Collections.Contact.findOne({_id:params._id}));
+	},
+	'contact.remove'(params){
+		if (!Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) return;
+		Collections.Contact.remove({_id:params._id});
+	},
+	
 	'push.voted'(params){
 		check(params, Object);
 		//if (!this.userId) return;
