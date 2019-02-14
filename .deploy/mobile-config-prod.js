@@ -9,20 +9,21 @@ App.info({
 });
 
 App.icons({
-  'android-hdpi': 'assets/mipmap-hdpi/ic_launcher.png',
-  'android-mdpi': 'assets/mipmap-mdpi/ic_launcher.png',
-  'android-xhdpi': 'assets/mipmap-xhdpi/ic_launcher.png',
-  'android-xxhdpi': 'assets/mipmap-xxhdpi/ic_launcher.png',
-  'android-xxxhdpi': 'assets/mipmap-xxxhdpi/ic_launcher.png'
+  'android_hdpi': 'private/android/mipmap-hdpi/ic_launcher.png',
+  'android_mdpi': 'private/android/mipmap-mdpi/ic_launcher.png',
+  'android_ldpi': 'private/android/mipmap-ldpi/ic_launcher.png',
+  'android_xhdpi': 'private/android/mipmap-xhdpi/ic_launcher.png',
+  'android_xxhdpi': 'private/android/mipmap-xxhdpi/ic_launcher.png',
+  'android_xxxhdpi': 'private/android/mipmap-xxxhdpi/ic_launcher.png'
 });
 
-//App.launchScreens({
-  // 'android_mdpi_portrait': 'assets/screens/android/drawable-port-mdpi-screen.png',
-  // 'android_hdpi_portrait': 'assets/screens/android/drawable-port-hdpi-screen.png',
-  // 'android_xhdpi_portrait': 'assets/screens/android/drawable-port-xhdpi-screen.png',
-  // 'android_xxhdpi_portrait': 'assets/screens/android/drawable-port-xxhdpi-screen.png'
-  //'android_xxxhdpi_portrait': 'assets/screens/android/drawable-port-xxxhdpi-screen.png'
-//});
+App.launchScreens({
+  'android_mdpi_portrait': 'resources/screens/android/drawable-port-mdpi-screen.png',
+  'android_hdpi_portrait': 'resources/screens/android/drawable-port-hdpi-screen.png',
+  'android_xhdpi_portrait': 'resources/screens/android/drawable-port-xhdpi-screen.png',
+  'android_xxhdpi_portrait': 'resources/screens/android/drawable-port-xxhdpi-screen.png',
+  'android_xxxhdpi_portrait': 'resources/screens/android/drawable-port-xxxhdpi-screen.png'
+});
 
 App.setPreference('deployment-target', '7.0');
 App.setPreference('StatusBarOverlaysWebView', 'false');
