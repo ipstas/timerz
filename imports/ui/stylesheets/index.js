@@ -1,9 +1,12 @@
-import './xlazz.css';
+
 //import './bootstrapfix.scss';
-import './landing.scss';
-import './nav.scss';
-import './footer.scss';
-import './timers.scss';
-import './activeclock.scss';
-import './layout.scss';
-import './bootstrap-tagsinput.scss';
+import './__layout.scss';
+import './__landing.scss';
+import './__nav.scss';
+import './__footer.scss';
+import './__timers.scss';
+import './__activeclock.scss';
+import './__layout.scss';
+import './__bootstrap-tagsinput.scss';
+import './xlazz.css';
+//import './main.css';

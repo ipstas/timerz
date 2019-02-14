@@ -45,8 +45,23 @@
 						{{{solutions.text}}}
 						<br /><br />
 
-						<div class="button btn btn-lg btn-info cursor pointer tryMe ">Try Now</div>
-
+<!-- 						<div class="button btn btn-lg btn-info cursor pointer tryMe ">Try Now</div>
+						<div class="button btn btn-lg btn-info cursor pointer tryMe ">Try Now</div> -->
+						<div class="btn pointer store-img" id="webapp">
+							<img src="/img/webapp.png" alt="Webapp Badge">
+						</div>
+						<div class="btn pointer store-img" id="android">
+							<img src="/img/playstore.png" alt="Playstore Badge">
+						</div>
+						<div class="btn pointer store-img" id="ios">
+							<img src="/img/appstore.png" alt="Appstore Badge">
+						</div>
+						{{#if showForm}}
+							<div class="h5">
+								<p class="p-2">We are working on the ios app, would you like to be notified? Or you can get a	webapp</p>
+								{{>collectForm}}
+							</div>
+						{{/if}}
 					</div>
 
 				</article>
@@ -70,7 +85,7 @@
 							<button class="btn btn-info toCon toContact" id="contactUs">Contact Us</button>
 						{{/if}}
 					</div>
-				</article>>
+				</article>
 			</div>
 		</section>
     {{#if editRecord }}

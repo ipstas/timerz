@@ -17,6 +17,7 @@ Template.landing.onCreated(function () {
 	t.contactUs = new ReactiveVar();
 	t.newRecord = new ReactiveVar();
 	t.editRecord = new ReactiveVar();
+	t.showForm = new ReactiveVar();
 	Meteor.subscribe('texts');
 	t.autorun(function(){
 		if (Roles.userIsInRole(Meteor.userId(), ['admin'], 'admGroup')) 
@@ -104,6 +105,10 @@ Template.landing.helpers({
 		let t = Template.instance();
 		return t.contactUs.get();
 	},
+	showForm(){
+		let t = Template.instance();
+		return t.showForm.get();
+	},
 	debug(){
 		console.log('debug in landing', this, this.valueOf());
 	}
@@ -129,10 +134,36 @@ Template.landing.events({
 		t.contactUs.set(true);
 		$('html, body').animate({scrollTop: $("#contact").offset().top -1 }, 'slow');	
 	},
-	'click .tryMe' (e,t){
+	'click #webapp' (e,t){
 		FlowRouter.go('/timers');
 		$('html, body').animate({scrollTop: $('body').offset().top -200 }, 'slow');
+		if (window.analytics)
+			analytics.track('Download -> webapp', {
+				referrer: document.referrer,
+				category: "LangingSigned",
+				label: 'c'
+			});	
+	},
+	'click #android' (e,t){
+		//FlowRouter.go('/timers');
+		//$('html, body').animate({scrollTop: $('body').offset().top -200 }, 'slow');
 		//Modal.show('tryitModal');
+		window.open('https://play.google.com/store/apps/details?id=net.timerz.www.loc','_blank');
+		if (window.analytics)
+			analytics.track('Download -> android', {
+				referrer: document.referrer,
+				category: "LangingSigned",
+				label: 'c'
+			});		
+	},
+	'click #ios' (e,t){
+		t.showForm.set(true);
+		if (window.analytics)
+			analytics.track('Download -> ios', {
+				referrer: document.referrer,
+				category: "LangingSigned",
+				label: 'c'
+			});	
 	},
 	'click .newRecord'(e, t) {
 		t.newRecord.set(true);
