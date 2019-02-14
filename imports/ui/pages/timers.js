@@ -378,7 +378,8 @@ Template.usertimer.helpers({
 	},	
 	spenttoday(){
 		let today, spent, time, t = Template.instance();
-		today = _.findWhere(this.daily, {_id: moment(new Date()).format("Y-MM-DD")});	
+		today = _.findWhere(this.daily, {_id: moment(new Date()).format("Y-MM-DD")}) || {};	
+		today.spent = today.spent || 0;
 		if (Session.get('currentTimer') && Session.get('currentTimer')._id == this._id)
 			spent = today.spent + timeSpent.get();
 		else
