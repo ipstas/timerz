@@ -561,7 +561,7 @@ Meteor.methods({
 
 		//if (verbose) 
 			console.log('sendEmailAdm', doc, text);
-		var subject = 'question was asked on a Graffiti site by ' + doc.name;
+		var subject = 'question was asked on a Timerz by ' + doc.name;
 		Email.send({
 		  to: emailAddr.to,
 		  from: emailAddr.from,
