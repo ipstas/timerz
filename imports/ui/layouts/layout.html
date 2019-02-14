@@ -25,7 +25,7 @@
 		{{> Template.dynamic template=nav}}
 	</section>
 
-	<section id="main" class="maincont container-fluid">
+	<section id="main" class="maincont container-fluid pb-5">
 		<div class="row justify-content-between minheight70">
 			<div id="bars" class="h2 menuClick slideInLeft col-auto m-1">
 				<i class="fa fa-bars p-1 d-block d-sm-none "></i>
@@ -35,10 +35,8 @@
 					{{> Template.dynamic template='currenttimer'}}				
 				</div>
 			</div>					
-		</div>
-			
-		{{> Template.dynamic template=main}}	
-		
+		</div>			
+		{{> Template.dynamic template=main}}		
 	</section>
 	{{> Template.dynamic template='footer'}}
 </template>

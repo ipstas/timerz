@@ -5,40 +5,24 @@ App.info({
 	author: 'xLazz Inc',
 	email: 'info@xlazz.com',
 	website: 'http://timerz.net',
-	version: '0.0.6'
+	version: '0.0.7'
 });
 
-// App.icons({
-  // 'iphone_2x': 'resources/icons/ios/Icon-120.png',
-	// 'iphone_3x': 'resources/icons/ios/Icon@3x.png',
-  // 'ipad': 'resources/icons/ios/Icon-76.png',
-  // 'ipad_2x': 'resources/icons/ios/Icon-152.png',
-	// 'ipad_pro': 'resources/icons/ios/Icon-167.png',
-	// 'ios_settings': 'resources/icons/ios/Icon-29.png',
-	// 'ios_settings_2x': 'resources/icons/ios/Icon-58.png',
-	// 'ios_settings_3x': 'resources/icons/ios/Icon-87.png',
-	// 'ios_spotlight': 'resources/icons/ios/Icon-40.png',
-	// 'ios_spotlight_2x': 'resources/icons/ios/Icon-80.png',
-  // 'android_mdpi': 'resources/icons/android/drawable-mdpi/appicon.png',
-  // 'android_hdpi': 'resources/icons/android/drawable-hdpi/appicon.png',
-  // 'android_xhdpi': 'resources/icons/android/drawable-xhdpi/appicon.png',
-  // 'android_xxhdpi': 'resources/icons/android/drawable-xxhdpi/appicon.png',
-  // 'android_xxxhdpi': 'resources/icons/android/drawable-xxxhdpi/appicon.png'
-// });
+App.icons({
+  'android_hdpi': 'assets/mipmap-hdpi/ic_launcher.png',
+  'android_mdpi': 'assets/mipmap-mdpi/ic_launcher.png',
+  'android_xhdpi': 'assets/mipmap-xhdpi/ic_launcher.png',
+  'android_xxhdpi': 'assets/mipmap-xxhdpi/ic_launcher.png',
+  'android_xxxhdpi': 'assets/mipmap-xxxhdpi/ic_launcher.png'
+});
 
-// App.launchScreens({
-  // 'iphone_2x': 'resources/splash/Default@2x.png',
-  // 'iphone5': 'resources/splash/Default-568h@2x.png',
-	// 'iphone6': 'resources/splash/Default-667h@2x.png',
-	// 'iphone6p_portrait': 'resources/splash/Default-Portrait-736h@3x.png',
-	// 'iphone6p_landscape': 'resources/splash/Default-Landscape-736h@3x.png',
-	// 'ipad_portrait': 'resources/splash/Default-Portrait.png',
-	// 'ipad_portrait_2x': 'resources/splash/Default-Portrait@2x.png',
-  // 'android_mdpi_portrait': 'resources/splash/drawable-mdpi/splash.png',
-  // 'android_hdpi_portrait': 'resources/splash/drawable-hdpi/splash.png',
-  // 'android_xhdpi_portrait': 'resources/splash/drawable-xhdpi/splash.png',
-  // 'android_xxhdpi_portrait': 'resources/splash/drawable-xxhdpi/splash.png'
-// });
+App.launchScreens({
+  'android_mdpi_portrait': 'assets/screens/android/drawable-port-mdpi-screen.png',
+  'android_hdpi_portrait': 'assets/screens/android/drawable-port-hdpi-screen.png',
+  'android_xhdpi_portrait': 'assets/screens/android/drawable-port-xhdpi-screen.png',
+  'android_xxhdpi_portrait': 'assets/screens/android/drawable-port-xxhdpi-screen.png',
+  'android_xxxhdpi_portrait': 'assets/screens/android/drawable-port-xxhdpi-screen.png'
+});
 
 App.setPreference('deployment-target', '7.0');
 App.setPreference('StatusBarOverlaysWebView', 'false');
@@ -61,8 +45,6 @@ App.accessRule('http://*.facebook.net');
 App.accessRule('https://*.facebook.net');
 App.accessRule("http://*.google.com");
 App.accessRule("https://*.google.com");
-App.accessRule("http://*.kadira.io");
-App.accessRule("https://*.kadira.io");
 App.accessRule("http://*.cloudinary.com");
 App.accessRule("https://*.cloudinary.com");
 App.accessRule("http://*.segment.io");

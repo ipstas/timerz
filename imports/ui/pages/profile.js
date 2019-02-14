@@ -732,6 +732,10 @@ Template.settings.events({
 	},	
 	'change .useAdvanced' ( e, t ) {
 		Session.setPersistent('useAdvanced', !Session.get('useAdvanced'));
+		Meteor.setTimeout(()=>{
+			Session.setPersistent('useAdvanced');
+			Bert.alert('This feature is coming soon', 'info', 'growl-top-right', 'fas fa-info');
+		},1500);
 	},	
 	'change .useGPS' ( e, t ) {
 		Session.setPersistent('useGPS', !Session.get('useGPS'));

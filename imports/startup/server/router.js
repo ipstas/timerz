@@ -193,17 +193,14 @@ Picker.route('/timers/:username', function(params, req, res, next) {
 	let data, user, page, location, comments, meta, share = {};
 	
 	user = Meteor.users.findOne({username: params.username});
-	//if (!user) return;
-	data = Collections.Timers.findOne({userId: user._id, $or: [{publicTimer: false}, {publicTimer: {$exists: false}}]});
-	
-	//console.log('\n\n\n******\ngetting post', params, '\n\nreq.url, headers:', req.url, req.headers, '*******\n\n\n');
-	
 	if (!user) {
 		res.writeHead(302, {'Location': '/'});
 		if (verbose) console.warn('[router.js] picker NONEXISTING _id', params, '\n***\n');
 		res.end();
 		return;
 	}
+	
+	data = Collections.Timers.findOne({userId: user._id, $or: [{publicTimer: false}, {publicTimer: {$exists: false}}]});
 	
 /* 	post.image = cloudinary.url(post.cloud, { 
 		secure: true,  
