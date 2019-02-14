@@ -18,7 +18,7 @@ module.exports = {
 		},
 		buildOptions: {
 			server: 'https://www.timerz.net:443', // your app url for mobile app access (optional)
-			serverOnly: true, // skip building mobile apps, but still build the web.cordova architecture
+			serverOnly: false, // skip building mobile apps, but still build the web.cordova architecture
 			debug: false,
 			cleanAfterBuild: true, // default
 			allowIncompatibleUpdates: false //adds --allow-incompatible-updates arg to build command (optional)
@@ -33,7 +33,8 @@ module.exports = {
 		},
 		docker: {
 			//image: 'abernix/meteord:base',
-			image: 'abernix/meteord:node-8.9.1-base',
+			//image: 'abernix/meteord:node-8.9.1-base',
+			image: 'zodern/meteor:root',
 			args: [
 				'--link=mongodb:mongodb'
 			],

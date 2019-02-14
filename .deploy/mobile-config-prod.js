@@ -16,13 +16,13 @@ App.icons({
   'android-xxxhdpi': 'assets/mipmap-xxxhdpi/ic_launcher.png'
 });
 
-App.launchScreens({
-  'android_mdpi_portrait': 'assets/screens/android/drawable-port-mdpi-screen.png',
-  'android_hdpi_portrait': 'assets/screens/android/drawable-port-hdpi-screen.png',
-  'android_xhdpi_portrait': 'assets/screens/android/drawable-port-xhdpi-screen.png',
-  'android_xxhdpi_portrait': 'assets/screens/android/drawable-port-xxhdpi-screen.png'
+//App.launchScreens({
+  // 'android_mdpi_portrait': 'assets/screens/android/drawable-port-mdpi-screen.png',
+  // 'android_hdpi_portrait': 'assets/screens/android/drawable-port-hdpi-screen.png',
+  // 'android_xhdpi_portrait': 'assets/screens/android/drawable-port-xhdpi-screen.png',
+  // 'android_xxhdpi_portrait': 'assets/screens/android/drawable-port-xxhdpi-screen.png'
   //'android_xxxhdpi_portrait': 'assets/screens/android/drawable-port-xxxhdpi-screen.png'
-});
+//});
 
 App.setPreference('deployment-target', '7.0');
 App.setPreference('StatusBarOverlaysWebView', 'false');
