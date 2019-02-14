@@ -2,7 +2,7 @@
 echo
 echo
 echo deployment started $ENVIRONMENTS at `date`
-#.deploy/version.sh
+.git/hooks/post-commit
 
 DEBUG=mup*
 

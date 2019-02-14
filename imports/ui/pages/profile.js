@@ -100,11 +100,7 @@ Template.profile.events({
 	'click #logOut'(e,r){
 		AccountsTemplates.logout();
 	},
-	'click .agree'(e,t){
-		console.log('agree', this);
-		Meteor.users.update(Meteor.userId(),{$set: {'profile.agree.date': new Date(), 'profile.agree.checked': true}});
-		//t.editLogo.set(!t.editLogo.get());
-	},
+
 });
 
 Template.userprofile.helpers({
@@ -633,32 +629,27 @@ Template.settings.helpers({
 /* 	ifDebug: function () {
 		return Session.get('debug');
 	}, */
-	useAdvanced: function(){
+	useAdvanced(){
 		if (Session.get('useAdvanced'))
 			return 'checked';
 	},	
-	useGPS: function(){
+	useGPS(){
+		console.log('[useGPS]', Session.get('useGPS'));
 		if (Session.get('useGPS'))
 			return 'checked';
+		//return false;
 	},	
-	autoload: function(){
+	autoload(){
 		if (Session.get('autoload')) return 'checked';
 	},
-	gpsExif: function(){
+	gpsExif(){
 		if (Session.get('gpsExif')) return 'checked';
 	},
-
-	// admin stuff
-	statusDebug: function(){
-		//console.log('debug', this);
-		if (Session.get('debug'))
-			return 'checked';
-	},
-	fullhistory: function(){
+	fullhistory(){
 		if (!Session.get('fullhistory'))
 			return 'checked';
 	},
-	status: function(){
+	status(){
 		var status = Meteor.status();
 		if ((status.status == 'connected'))
 			status.checked = 'checked';
@@ -668,17 +659,6 @@ Template.settings.helpers({
 		if (Session.get('debug')) console.log('meteor status ',  status);
 		return status;
 	},	
-	//non used
-
-	dateEx: function(){
-		if (Session.get('exactTime'))
-			return moment(moment() - 100000).format('LLL'); 
-		else
-			return moment(moment() - 100000).fromNow(); 
-	},
-	dateCheck: function(){
-		if (Session.get('dateCheck')) return 'checked';
-	},
 	libraries(){
 		var data, sub, list;
 		// list = {personal: true};
@@ -703,6 +683,11 @@ Template.settings.helpers({
 	}
 });
 Template.settings.events({
+	'click .agree'(e,t){
+		console.log('agree', this);
+		Meteor.users.update(Meteor.userId(),{$set: {'profile.agree.date': new Date(), 'profile.agree.checked': true}});
+		//t.editLogo.set(!t.editLogo.get());
+	},
   'click #changePwd' ( event, template ) {
 		template.changePwd.set( true )
   },
@@ -738,39 +723,19 @@ Template.settings.events({
 		},1500);
 	},	
 	'change .useGPS' ( e, t ) {
-		Session.setPersistent('useGPS', !Session.get('useGPS'));
-		if (Session.get('useGPS')) 
+		Session.setPersistent('useGPS', !Session.get('useAdvanced'));
+		if (!Meteor.isCordova) {
+			Meteor.setTimeout(()=>{
+				Session.setPersistent('useGPS');
+				Bert.alert('This feature is available in mobile only', 'info', 'growl-top-right', 'fas fa-info');
+			},1500);
+			return;
+		}
+		if (Session.get('useGPS') && Session.get('currentTimer')) 
 			BackgroundLocation.start();			
 		else 
-			BackgroundLocation.stop();
+			BackgroundLocation.stop(); 
 	},	
-	'change .autosuggest': function (event, template) {
-		//Session.set('debug', true);
-		Session.setPersistent('autosuggest', !Session.get('autosuggest'));
-		
-	},
-/* 	'change .feedbacksound': function (event, template) {
-		//Session.set('debug', true);
-		Session.setPersistent('feedbacksound', !Session.get('feedbacksound'));
-	}, */
-/* 	'change .autoload': function (event, template) {
-		//Session.set('debug', true);
-		Session.setPersistent('autoload', !Session.get('autoload'));
-	}, */
-/* 	'change .gpsExif': function (event, template) {
-		//Session.set('debug', true);
-		Session.setPersistent('gpsExif', !Session.get('gpsExif'));
-	}, */
-/* 	'click .soon' (e,t){
-		Bert.alert('this feature is coming soon','info');
-	}, */
-/* 	'change .soon' (e,t){
-		console.log('change soon', e.target.id);
-		Meteor.setTimeout(function(){
-			Session.set(e.target.id, false);
-		},700);
-		Bert.alert('this feature is coming soon','info');
-	}, */
 	// admin stuff
 	'change .reconnect': function (event, template) {
 		console.log('meteor status ',  Meteor.status(), $( "input:checked" ).val());
