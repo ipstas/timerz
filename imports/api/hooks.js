@@ -53,6 +53,8 @@ export const hooksContact = {
 				});	
 			FlowRouter.setQueryParams({nav: 'signed'});
 		}
+		
+		Meteor.call('email.admin', this.insertDoc);
 			
 		this.insertDoc.contactId = result;
 		this.insertDoc.formId = this.formId;

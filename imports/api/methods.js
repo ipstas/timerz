@@ -13,6 +13,12 @@ import moment from 'moment';
 
 import { Collections } from './collections.js';
 
+let verbose;
+const emailAddr = {
+	to:'info@xlazz.com',
+	from:'xLazz Attendant <no-reply@xlazz.com>'
+};
+
 Meteor.methods({
 /*   'checkUser'() {
 
@@ -541,6 +547,7 @@ Meteor.methods({
 	},
 	
 	'email.admin'(doc) {
+		if (!Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) return;
 		if (verbose) console.log('email.admin 0', doc);
 		check(doc, Object);
 
@@ -552,7 +559,8 @@ Meteor.methods({
 						+ "on " + new Date() + "\n\n"
 						+ 'Question was: \n\n' + doc.question;
 
-		if (verbose) console.log('sendEmailAdm', doc, text);
+		//if (verbose) 
+			console.log('sendEmailAdm', doc, text);
 		var subject = 'question was asked on a Graffiti site by ' + doc.name;
 		Email.send({
 		  to: emailAddr.to,
