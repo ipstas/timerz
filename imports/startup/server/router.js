@@ -72,9 +72,9 @@ function consoleIn(params, req, res){
 };
 
 function injectIt(params){
-	//
-	//Inject.rawHead('injected_css', css);
-	//Inject.rawBody('injected', body);
+	
+	Inject.rawHead('injected_css', css);
+	Inject.rawBody('injected', body);
 	
 	try{
 		params.title = params.title || inject.title;

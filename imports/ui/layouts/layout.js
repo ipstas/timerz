@@ -23,9 +23,12 @@ BlazeLayout.setRoot('body');
 //import '/imports/external/bootstrap.js';
 
 Template.layoutLanding.onRendered(()=>{
-	$('#loadingspinner').fadeOut('slow');
-	$('#injectloadingspinner').fadeOut();
-	$('#loadingspinner').fadeOut();
+	//$('#loadingspinner').fadeOut('slow');
+	$('.injectloading').addClass('animated fadeOut');
+	Meteor.setTimeout(()=>{
+		$('.injectloading').addClass('d-none');
+	},1000)
+	//$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
 });
 Template.layoutLanding.events({
