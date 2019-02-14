@@ -5,7 +5,7 @@ App.info({
 	author: 'xLazz Inc',
 	email: 'info@xlazz.com',
 	website: 'http://timerz.net',
-	version: '0.0.9'
+	version: '0.0.10'
 });
 
 App.icons({  
