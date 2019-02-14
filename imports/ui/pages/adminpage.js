@@ -248,7 +248,7 @@ Template.adminpage.events({
 
 Template.contacts.onCreated( () => {
 	//AutoForm.debug(); 
-	Meteor.subscribe('contact');
+	
 	let t = Template.instance();
 	t.editpage = new ReactiveVar();
 	t.showcontacts = new ReactiveVar();
@@ -258,6 +258,8 @@ Template.contacts.onCreated( () => {
 	t.selector = new ReactiveVar();
 	t.running = new ReactiveVar();
 	t.showdel = new ReactiveVar();
+	
+	Meteor.subscribe('contact');
 	Meteor.call('user.contactsGeo');
 
 });
@@ -267,9 +269,9 @@ Template.contacts.onRendered( () => {
 });
 Template.contacts.helpers({
   contacts() {
-		var contacts = Collections.Contact.find({},{sort:{createdAt: -1}});
-		//console.log('uploaded tour', tour, Template.instance().tour.get());
-		return contacts;
+		var data = Collections.Contact.find({},{sort:{createdAt: -1}});
+		console.log('[adminpage] contacts', data.fetch());
+		return data;
 	},
 	date(){
 		var date = this.date || this.createdAt || new Date();
@@ -792,13 +794,13 @@ Template.allusers.helpers({
 		if (this.roles)
 			return _.values(this.roles);
 	},
-	ifGPS(){
+/* 	ifGPS(){
 		//console.log('ifGPS', this);
 		if (this.profile.gps)
 			return 'fa-check-square';
 		else
 			return 'fa-square-o';
-	},
+	}, */
 	ifPush(){
 		if (Collections.Push.findOne({userId: this._id, pushing: 'checked'}))
 			return 'fa-check-square';

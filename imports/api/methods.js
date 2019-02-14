@@ -107,6 +107,109 @@ Meteor.methods({
 		return {updated: updated};
 	},
 
+	'user.geo'(params){
+		if (!Roles.userIsInRole(this.userId, ['admin'])) return;
+		this.unblock();
+		const iplocation = require('iplocation');
+		var data = Collections.Extusers.find({'details.ip': {$exists: true}, geo: {$exists: false}}).fetch();
+		n = 0;
+		
+		async function geoUpd(record){
+			let geo = await iplocation(record.details.ip);
+			let updated = await Collections.Extusers.update(record._id, {$set: {geo: geo}});
+			await console.log('sanitation.nonuser', updated, 'res:', geo, '\n');
+		}
+		for (let record of data){	
+			try{
+				geoUpd(record);
+			} catch (e){
+				console.warn('sanitation.nonuser err:', record.details.ip,  e );
+			}
+			n++;
+		}
+		data = Collections.Extusers.find({createdAt: {$exists: false}}).fetch();
+		for (let record of data){	
+			Collections.Extusers.update(record._id, {$set: {createdAt: new Date()}});
+		}	
+		data = Collections.Extusers.find({}).fetch();
+		for (let record of data){	
+			let count = Collections.Posts.find({username: record.username}).count();
+			Collections.Extusers.update(record._id, {$set: {posts: count}});
+		}
+		if (verbose) console.log('updated nonusers:', n);
+	},		
+	'user.contactsGeo'(){
+		console.log('user.contactsGeo start', this, '\n');
+		if (!Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) return console.warn('[methods] user.contactsGeo not an admin:', this.userId);
+		this.unblock();
+		//const iplocation = require('iplocation');
+		const geoip = require('geoip-lite');
+		var data = Collections.Contact.find({'details.ip': {$exists: true}, geo: {$exists: false}}).fetch();
+		n = 0;
+		
+		//get geolocation from ip
+		async function geoUpd(record){
+			//let geo = await iplocation(record.details.ip);
+			let geo = await geoip.lookup(record.details.ip);
+			let updated = await Collections.Contact.update(record._id, {$set: {geo: geo}});
+			await console.log('user.contactsGeo', updated, 'res:', geo, '\n');
+		}		
+		
+		for (let record of data){	
+			try{
+				geoUpd(record);
+			} catch (e){
+				console.warn('user.contactsGeo err:', record.details.ip,  e );
+			}
+			n++;
+		}
+		
+		//if (verbose) 
+			console.log('updated contacts with geolocation:', n);
+	},
+	'user.mailchimp'(params){
+		const Mailchimp = require('mailchimp-api-v3');
+		if (verbose) console.log('mailchimp', )
+		const settings = Meteor.settings,
+    chimp    = new Mailchimp( settings.private.mailchimp.apiKey ),
+    listId   = settings.public.mailchimp.listId;
+				
+/*     check( params, {
+      email: String,
+      name: String,
+      //action: String
+    }); */
+		const subs = {
+			email_address: params.email,
+			status_if_new: "subscribed",
+		};
+		if (params.name) subs.merge_fields = {FNAME: params.name};
+		
+		const subscriber_hash = md5(params.email);
+		const subscribe = chimp.put('/lists/' + listId +'/members/' + subscriber_hash, subs)
+		.then(function(res) {
+			if (verbose) console.log('[user.mailchimp] subscribed:', params, res);
+			return res;
+		})
+		.catch(function (err) {
+			console.warn('[user.mailchimp] err:', params, err);
+			throw new Meteor.Error(err);
+		})
+
+	},
+	'user.sample'(params){
+		params = params || {};
+		params.limit = params.limit || 40;
+		const list = { $text: { $search: "cloudinary googleusercontent -4252rscbv5M"} };
+		data = Meteor.users.aggregate([ 
+			{$match : list},
+			{$sample: { size: params.limit }}
+		]);
+		if (verbose) console.log('[user.sample]', params, data.length);
+		return data;
+	},
+
+	
 	'count.members'(){
 		return Collections.MemberMaster.find().count();
 	},		
