@@ -17,7 +17,10 @@ Meteor.startup(function() {
   BrowserPolicy.content.allowOriginForAll('https://www.facebook.com');
   BrowserPolicy.content.allowOriginForAll('https://staticxx.facebook.com');
   BrowserPolicy.content.allowOriginForAll('https://www.google-analytics.com');
+  BrowserPolicy.content.allowOriginForAll('https://www.googletagmanager.com');
   BrowserPolicy.content.allowOriginForAll('https://*.googleapis.com');
+  BrowserPolicy.content.allowOriginForAll('https://*.firebaseapp.com/');
+  BrowserPolicy.content.allowOriginForAll('https://apis.google.com');
   BrowserPolicy.content.allowOriginForAll('https://*.gstatic.com');
   BrowserPolicy.content.allowOriginForAll('https://cdn.mxpnl.com');
   BrowserPolicy.content.allowOriginForAll('res.cloudinary.com');

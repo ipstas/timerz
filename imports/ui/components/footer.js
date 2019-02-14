@@ -26,6 +26,7 @@ Template.footer.helpers({
 Template.footer.events({
 	'click .updateVersion'(e,t){
 		console.log('[footer] reloading', window.location.href);
+		$('#loadingspinner').fadeIn();
 		window.location.replace('/');
 	},
 });

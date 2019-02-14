@@ -73,8 +73,8 @@ function consoleIn(params, req, res){
 
 function injectIt(params){
 	//
-	Inject.rawHead('injected_css', css);
-	Inject.rawBody('injected', body);
+	//Inject.rawHead('injected_css', css);
+	//Inject.rawBody('injected', body);
 	
 	try{
 		params.title = params.title || inject.title;
@@ -103,7 +103,8 @@ function injectIt(params){
 		console.warn('[router.js] injectIt err:', e);
 	}
 
-	if (verbose) console.log('[router.js] injectIt', params, '\n***\n');
+	//if (verbose) 
+		console.log('[router.js] injectIt', params, '\n***\n');
 	//Inject.rawBody('injected', body);
 }
 
