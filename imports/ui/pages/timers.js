@@ -384,7 +384,9 @@ Template.usertimer.helpers({
 			spent = today.spent + timeSpent.get();
 		else
 			spent = today.spent;
-		time = moment.utc(spent).format("HH:mm:ss")
+		//time = moment.utc(spent).format("HH:mm:ss");
+		time = Math.floor(moment.duration(spent).asHours()) + 'h ' + moment.duration(spent).minutes() + 'm ';
+		//+ moment.duration(spent).seconds() + 's ';
 		//console.log('\ntime spenttoday for:', this.title, today.spent, today.spent + timeSpent.get(), spent, time, 'counter:', t.timeSpent.get(), this, '\n\n');
 		return time;
 	},	
