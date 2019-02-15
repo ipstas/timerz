@@ -1,6 +1,7 @@
 import { Random } from 'meteor/random'
 
 import { Collections } from '/imports/api/collections.js';
+import { Schemas } from '/imports/api/collections.js';
 
 import './landing.html';
 import '../components/collectform.js';
@@ -85,6 +86,20 @@ Template.landing.helpers({
 	},
   landing() {
     return Collections.Texts.findOne({title:'landingtimers'});
+  },
+  banner1() {
+		//console.log('[banner]', this, this.images );
+		//console.log('[banner]', _.findWhere(this.images, {text: 'banner1'}) );
+    return _.findWhere(this.images, {text: 'banner1'}) || '/img/banner.jpg';
+  },
+  banner2() {
+    return _.findWhere(this.images, {text: 'banner2'}) || '/img/banner.jpg';
+  },
+  banner3() {
+    return _.findWhere(this.images, {text: 'banner3'}) || '/img/banner.jpg';
+  },
+  banner4() {
+    return _.findWhere(this.images, {text: 'banner4'}) || '/img/banner.jpg';
   },
 	newRecord(){
 		let t = Template.instance();

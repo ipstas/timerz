@@ -1,3 +1,107 @@
+#banner{
+	background-image: url("/img/banner.jpg");
+	}
+
+#one{
+	background-image: url("/img/banner2.jpg");
+}
+#two{
+	background-image: url("/img/banner3.jpg");
+}
+#three{
+	background-image: url("/img/banner4.jpg");
+}
+#contact{
+	background-image: url("/img/banner5.jpg");
+}
+
+#banner {
+	background-image: url("/img/banner.jpg");
+}
+@media screen and (max-width: 980px) {
+	#banner {
+			font-size: .85em;
+	}
+}
+#banner {
+    display: -ms-flexbox;
+    -ms-flex-pack: center;
+    -ms-flex-align: center;
+    padding: 8em 0 6em 0;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    border-top: 0;
+    min-height: 100vh;
+    height: 100vh;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+#banner .inner {
+	-moz-transform: scale(1.0);
+	-webkit-transform: scale(1.0);
+	-ms-transform: scale(1.0);
+	transform: scale(1.0);
+	-moz-transition: opacity 1s ease, -moz-transform 1s ease;
+	-webkit-transition: opacity 1s ease, -webkit-transform 1s ease;
+	-ms-transition: opacity 1s ease, -ms-transform 1s ease;
+	transition: opacity 1s ease, transform 1s ease;
+/*     opacity: 1; */
+	position: relative;
+	z-index: 2;
+}
+#banner .more, .post .more {
+	-moz-transition: height 0.2s ease;
+-moz-transition: height 0.2s ease;
+    -webkit-transition: height 0.2s ease;
+    -ms-transition: height 0.2s ease;
+    transition: height 0.2s ease;
+    -moz-animation: more 0.75s ease-out 3s forwards;
+    -webkit-animation: more 0.75s ease-out 3s forwards;
+    -ms-animation: more 0.75s ease-out 3s forwards;
+    animation: more 0.75s ease-out 3s forwards;
+    /* background-color: rgba(255, 255, 255, 0.15); */
+    /* border: 0; */
+    /* border-radius: 1em 1em 0 0; */
+    bottom: 3em;
+    color: rgba(255, 255, 255, 0.75);
+    display: block;
+    /* height: 3em; */
+/*     left: 50%; */
+    /* margin-left: -1.5em; */
+    /* overflow: hidden; */
+    position: absolute;
+    /* text-indent: 3em; */
+    /* white-space: nowrap; */
+    /* width: 3em; */
+    /* z-index: 2; */
+    /* border-radius: 100%; */
+    /* text-decoration: none; */
+}
+#banner h1 {
+	font-size: 7em;
+	line-height: 1.1;
+	font-family: "Lobster", cursive;
+	margin-bottom: .25em;
+	color: rgba(255, 255, 255, 0.75);
+	text-shadow: -2px -2px 0 rgba(0, 0, 0, 0.125);
+	text-transform: none;
+}
+
 .right-float-vert-middle{
 	position: absolute;
 	top: 50%;
