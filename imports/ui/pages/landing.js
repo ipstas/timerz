@@ -137,17 +137,34 @@ Template.landing.events({
 		e.preventDefault(); 
 		t.contactUs.set(true);
 		$('html, body').animate({scrollTop: $("#one").offset().top  -1 }, 'slow');
-		
+		if (window.analytics)
+			analytics.track('toOne', {
+				referrer: document.referrer,
+				category: "Langing",
+				label: 'a'
+			});				
 	},	
 	'click .toTwo'(e, t){
 		e.preventDefault(); 
 		t.contactUs.set(true);
 		$('html, body').animate({scrollTop: $("#two").offset().top  -1}, 'slow');		
+		if (window.analytics)
+			analytics.track('toTwo', {
+				referrer: document.referrer,
+				category: "Langing",
+				label: 'a'
+			});	
 	},	
 	'click .toContact'(e, t){
 		e.preventDefault(); 
 		t.contactUs.set(true);
 		$('html, body').animate({scrollTop: $("#contact").offset().top -1 }, 'slow');	
+		if (window.analytics)
+			analytics.track('toContact', {
+				referrer: document.referrer,
+				category: "Langing",
+				label: 'a'
+			});	
 	},
 	'click .tryMe' (e,t){
 		FlowRouter.go('/timers');

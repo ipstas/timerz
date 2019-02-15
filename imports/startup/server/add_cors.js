@@ -26,6 +26,10 @@ Meteor.startup(function() {
   BrowserPolicy.content.allowOriginForAll('https://*.gstatic.com');
   BrowserPolicy.content.allowOriginForAll('https://cdn.mxpnl.com');
   BrowserPolicy.content.allowOriginForAll('res.cloudinary.com');
+	BrowserPolicy.content.allowOriginForAll('https://*.hotjar.com');
+  BrowserPolicy.content.allowOriginForAll('https://*.inspectlet.com');
+	
+  
   BrowserPolicy.content.allowEval();
   BrowserPolicy.framing.disallow();
 });

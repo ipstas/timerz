@@ -46,9 +46,9 @@ export const hooksContact = {
 		if ((this.insertDoc) && (this.insertDoc.questionType == 'beta')) {	
 			Meteor.call('user.mailchimp', {email:this.insertDoc.email, name: this.insertDoc.name});
 			if (window.analytics) 
-				analytics.track("Signed Final", {
+				analytics.track("Beta", {
 					referrer: document.referrer,
-					category: "LangingSigned",
+					category: "Contact",
 					label: this.insertDoc.abtest
 				});	
 			FlowRouter.setQueryParams({nav: 'signed'});
@@ -60,6 +60,12 @@ export const hooksContact = {
 		this.insertDoc.formId = this.formId;
 		Session.set('contacted', this.insertDoc);
 		Session.set('submitted', result);
+		if (window.analytics)
+			analytics.track('hooksContact', {
+				referrer: document.referrer,
+				category: "Contact",
+				label: 'a'
+			});	
 	},
 };
 export const hooksAddTimer = {

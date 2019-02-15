@@ -395,10 +395,24 @@ const userDetails = function(t){
 	})
 }
 
+const userEvents = function(t){
+	Tracker.autorun((computation)=>{
+		if (!Meteor.user()) return;
+		if (window.analytics)
+			analytics.track('Logging', {
+				referrer: document.referrer,
+				category: "Account",
+				label: Meteor.user().username
+			});	
+		computation.stop();
+	});
+}
+
 Meteor.startup(()=>{
 	//if (env != 'app') return window.analytics = null;
 	
 	userDetails();
 	analyticsAll();
+	userEvents();
 	//rollbarUser();
 });

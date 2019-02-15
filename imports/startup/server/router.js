@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import { Picker } from 'meteor/meteorhacks:picker';
 import { Random } from 'meteor/random';
 import { Collections } from '/imports/api/collections.js';
+import ua from 'universal-analytics';
 
 /*;
 import { addWatermark } from '/imports/api/functions.js';

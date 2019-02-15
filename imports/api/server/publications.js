@@ -52,39 +52,43 @@ publishComposite('userdata', function(params) {
 		
 	return {					
 		find(){
-			params = params || {};
+			try{
+				params = params || {};
 
-			fields = {
-				createdAt: 1,
-				visitedAt: 1,
-				username: 1,
-				profile: 1,
-				'services.facebook.name': 1,
-				'services.facebook.privacy': 1,
-				'services.facebook.role': 1,
-				'services.facebook.avatar': 1,
-				'services.google.name': 1
-			};
-				
-			if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
 				fields = {
-					empty: 0
-				}	
+					createdAt: 1,
+					visitedAt: 1,
+					username: 1,
+					profile: 1,
+					'services.facebook.name': 1,
+					'services.facebook.privacy': 1,
+					'services.facebook.role': 1,
+					'services.facebook.avatar': 1,
+					'services.google.name': 1
+				};
+					
+				if (Roles.userIsInRole(self.userId, ['admin'], 'admGroup')) 
+					fields = {
+						empty: 0
+					}	
 
-			params.limit = params.limit || 12;	
-			params.sort = params.sort || {timeStarted: -1, createdAt: -1};
-			
-			user = Meteor.users.find(list, {fields: fields}, {sort: params.sort, limit : params.limit});	
-/* 			if (params.debug) 
-				console.log('[pub userdata] params:', params, 'for:', list, '\nfields:', fields, '\nusers:', user.count(), '\n\n'); */
-			
-			return user;
+				params.limit = params.limit || 12;	
+				params.sort = params.sort || {timeStarted: -1, createdAt: -1};
+				
+				user = Meteor.users.find(list, {fields: fields}, {sort: params.sort, limit : params.limit});	
+	/* 			if (params.debug) 
+					console.log('[pub userdata] params:', params, 'for:', list, '\nfields:', fields, '\nusers:', user.count(), '\n\n'); */
+				
+				return user;
+			} catch(e){
+				console.warn('[pub userdata] err:', e);
+				throw new Meteor.Error(500, e);
+			}
 		},
 		children: [
 			{
-				find(record) {					
-					listChildren.userId = record._id;					
-					let data = Collections.Timers.find(listChildren, {sort: {start: -1}});	
+				find(record) {								
+					let data = Collections.Timers.find({userId: record._id}, {sort: {start: -1}});	
 					return data;		
 				}
 			},			
