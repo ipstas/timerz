@@ -49,10 +49,11 @@ publishComposite('userdata', function(params) {
 		list._id = {$in: params.userIds}, listChildren = {publicTimer: true};
 	else
 		list = this.userId;
-		
-	return {					
-		find(){
-			try{
+	
+	try{	
+		return {					
+			find(){
+			
 				params = params || {};
 
 				fields = {
@@ -80,30 +81,37 @@ publishComposite('userdata', function(params) {
 					console.log('[pub userdata] params:', params, 'for:', list, '\nfields:', fields, '\nusers:', user.count(), '\n\n'); */
 				
 				return user;
-			} catch(e){
-				console.warn('[pub userdata] err:', e);
-				throw new Meteor.Error(500, e);
-			}
-		},
-		children: [
-			{
-				find(record) {								
-					let data = Collections.Timers.find({userId: record._id}, {sort: {start: -1}});	
-					return data;		
-				}
-			},			
-			{
-				find(record) {		
-					//console.log('[pub userdata] analytics1', Roles.userIsInRole(self.userId, ['admin'], 'admGroup'), record._id );
-					if (!Roles.userIsInRole(self.userId, ['admin'], 'admGroup')) {
-						return [];							
+
+			},
+			children: [
+				{
+					find(record) {				
+						let list = {userId: record._id};
+						if (!Roles.userIsInRole(self.userId, ['admin'], 'admGroup')) 
+							list.publicTimer = true;
+						let data = Collections.Timers.find(list, {sort: {timeFinished: -1}});	
+						return data;		
 					}
-					let data = Collections.Analytics.find({userId: record._id});	
-					//console.log('[pub userdata] analytics2', record._id, data.fetch() );
-					return data;		
-				}
-			},			
-		]
+				},			
+				{
+					find(record) {		
+						//console.log('[pub userdata] analytics1', Roles.userIsInRole(self.userId, ['admin'], 'admGroup'), record._id );
+						let userId 
+						if (!Roles.userIsInRole(self.userId, ['admin'], 'admGroup')) 
+							userId = record._id;
+						else
+							userId = false;
+							
+						let data = Collections.Analytics.find({userId: userId});	
+						//console.log('[pub userdata] analytics2', record._id, data.fetch() );
+						return data;		
+					}
+				},			
+			]
+		}
+	} catch(e){
+		console.warn('[pub userdata] err:', e);
+		throw new Meteor.Error(500, e);
 	}
 });
 
@@ -136,50 +144,55 @@ Meteor.publish('currentTimer', function () {
 
 // App pubs
 publishComposite('timersSet', function(params) {
-	return{
-		find(){
-			params = params||{};
+	try{
+		return{
+			find(){
+				params = params||{};
 
-			var user, data, teamUser;
-			var list = {
-				publicTimer: true,
-				archived: {$exists: false}
-				//archived: {$or: [{archived: false}, {archived: {$exists: false}}]}
-			};
-			
-			if (params._id) {
-				list = params._id;
-			} else if (params.username) {
-				user = Meteor.users.findOne({username: params.username},{fields: {_id: 1, username: 1}});
-				if (user)
-					list.userId = user._id;
-			}	else if (params.userId) {
-				list.userId = params.userId;
-			}	
-			if (list.userId && list.userId == this.userId)
-				delete list.publicTimer;
-			
-			if (params.tags && params.tags.length)
-				list.tags = {$in: params.tags};
-			if (params.archived)
-				list.archived = true;
-			
-			params.limit = params.limit || 12;
-			params.sort = params.sort || {createdAt: -1};
-			
-			data = Collections.Timers.find(list, {sort: params.sort, limit : params.limit} );
-			if (params.debug) 
-				console.log('[pub timersSet]', data.count(), data.fetch(), list);
-			return data;
-		},
-		children: [
-			{
-				find(record) {
-					var data = Collections.Sessions.find({timerId:record._id});	
-					return data;
-				}
+				var user, data, teamUser;
+				var list = {
+					publicTimer: true,
+					archived: {$exists: false}
+					//archived: {$or: [{archived: false}, {archived: {$exists: false}}]}
+				};
+				
+				if (params._id) {
+					list = params._id;
+				} else if (params.username) {
+					user = Meteor.users.findOne({username: params.username},{fields: {_id: 1, username: 1}});
+					if (user)
+						list.userId = user._id;
+				}	else if (params.userId) {
+					list.userId = params.userId;
+				}	
+				if (list.userId && list.userId == this.userId)
+					delete list.publicTimer;
+				
+				if (params.tags && params.tags.length)
+					list.tags = {$in: params.tags};
+				if (params.archived)
+					list.archived = true;
+				
+				params.limit = params.limit || 12;
+				params.sort = params.sort || {createdAt: -1};
+				
+				data = Collections.Timers.find(list, {sort: params.sort, limit : params.limit} );
+				if (params.debug) 
+					console.log('[pub timersSet]', data.count(), data.fetch(), list);
+				return data;
 			},
-		]
+			children: [
+				{
+					find(record) {
+						var data = Collections.Sessions.find({timerId:record._id});	
+						return data;
+					}
+				},
+			]
+		}
+	} catch(e){
+		console.warn('[pub timersSet] err:', e);
+		throw new Meteor.Error(500, e);
 	}
 });
 
