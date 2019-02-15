@@ -293,7 +293,7 @@ Template.usertimers.helpers({
 		}
 		tags = _LocalTags.findOne();
 
-		sort = {sort: {timeStarted: -1}};
+		sort = {sort: {updatedAt: -1}};
 		data = Collections.Timers.find(list, sort);
 		//console.log('timers', data.count(), data.fetch(), list, sort);
 		return data;
@@ -372,7 +372,7 @@ Template.usertimer.helpers({
 		if (Session.get('currentTimer') && Session.get('currentTimer')._id == this._id)
 			spent = spent + timeSpent.get();
 		spent = spent/1000;
-		spent = Math.floor(moment.duration(spent,'seconds').asHours()) + ':' + moment.duration(spent,'seconds').minutes() + ':' + moment.duration(spent,'seconds').seconds();
+		spent = Math.floor(moment.duration(spent,'seconds').asHours()) + 'h ' + moment.duration(spent,'seconds').minutes() + 'm ';
 		//console.log('\ntime spent for:', this.title, spent, this.timeSpent, 'counter:', t.timeSpent.get(), this, '\n');
 		return spent;
 	},	
@@ -456,9 +456,7 @@ Template.usertimer.events({
 			stopSession({_id: initTimer._id, timer: Session.get('currentTimer'), caller: 'usertimer previous stopTime'});
 		}		
 		// start timer
-		this.updated = Collections.Timers.update(this._id,{$set:{timeStarted: timeStarted}});
-			
-		this.updated = Collections.Timers.update(this._id,{$set:{timeStarted: timeStarted}});
+		this.updated = Collections.Timers.update(this._id,{$set:{timeStarted: timeStarted, updatedAt: timeStarted}});
 		this.session = Collections.Sessions.insert({timerId: this._id, start: timeStarted, userId: Meteor.userId()});
 		if (Session.get('debug')) console.log('startTime', this, initTimer);
 		navigator.vibrate(200);
@@ -478,7 +476,7 @@ Template.usertimer.events({
 			t.showDetails.set();
 	},	
 	'click .showGPS'(e,t){
-		if (!t.showDetails.get())
+		if (!t.showGPS.get())
 			t.showGPS.set(this._id);
 		else
 			t.showGPS.set();

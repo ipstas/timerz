@@ -1318,6 +1318,20 @@ Schemas.Timers = new SimpleSchema({
       }
     }
   },
+  updatedAt: {
+    type: Date,
+		index: -1,
+    label: 'Date',
+    autoValue: function () {
+			return new Date();
+    },
+    autoform: {
+			omit: true,
+      afFieldInput: {
+        type: 'hidden'
+      }
+    }
+  },
   userId: {
     type: String,
 		index: true,

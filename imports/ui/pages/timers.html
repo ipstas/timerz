@@ -108,15 +108,17 @@
 			</div>
 			<div class="col-6 col-sm-2 pointer showToday">	
 				{{#unless showToday}}
-					<div>total
+					<div><span class="text-info">total</span> | <span class="text-muted">today</span>
 					<div class="h2" ><span class="text-black-50 badge badge-default">{{spent}}</span> </div></div>
 				{{else}}
-					<div>today
+					<div><span class="text-muted">total</span> | <span class="text-info">today</span>  
 					<div class="h2" ><span class="text-black-50 badge badge-default">{{spenttoday}}</span> </div></div>			
 				{{/unless}}
 			</div>			
 			<div class="col-auto h2">					
-				{{#if gps}}<span class="pointer linkblue showGPS float-right d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{/if}}
+				{{#if gps}}
+					<span class="pointer linkblue showGPS float-right d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+				{{/if}}
 				<span class="pointer linkblue editRecord float-right d-inline p-2"><i class="fa fa-cog" aria-hidden="true"></i></span>
 				<span class="pointer linkblue showDetails float-right d-inline p-2"><i class="fa fa-eye" aria-hidden="true"></i></span>	
 				
