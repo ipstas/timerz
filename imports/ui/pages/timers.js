@@ -104,7 +104,7 @@ Template.user.events({
 			analytics.track('Timer created', {
 				referrer: document.referrer,
 				category: "Timer",
-				label: Meteor.user().username;
+				label: Meteor.user().username
 			});	
 		//FlowRouter.setQueryParams({add: true});
 	},	
@@ -122,7 +122,7 @@ Template.user.events({
 			analytics.track('Timer edited', {
 				referrer: document.referrer,
 				category: "Timer",
-				label: Meteor.user().username;
+				label: Meteor.user().username
 			});	
 	},
 	'click .close'(e,t){

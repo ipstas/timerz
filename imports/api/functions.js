@@ -43,7 +43,7 @@ export const initCurrTimer = function(currentTimer){
 		analytics.track('Timer started', {
 			referrer: document.referrer,
 			category: "Timer",
-			label: Meteor.user().username;
+			label: Meteor.user().username,
 		});	
 			
 	return initTimer;
@@ -69,7 +69,7 @@ export const stopSession = function (params){
 		analytics.track('Timer stopped', {
 			referrer: document.referrer,
 			category: "Timer",
-			label: Meteor.user().username;
+			label: Meteor.user().username,
 		});		
 }
 
