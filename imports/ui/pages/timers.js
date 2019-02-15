@@ -293,7 +293,7 @@ Template.usertimers.helpers({
 		}
 		tags = _LocalTags.findOne();
 
-		sort = {sort: {timeFinished: -1}};
+		sort = {sort: {timeStarted: -1}};
 		data = Collections.Timers.find(list, sort);
 		//console.log('timers', data.count(), data.fetch(), list, sort);
 		return data;
