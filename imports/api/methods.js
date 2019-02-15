@@ -14,6 +14,13 @@ import moment from 'moment';
 import { Collections } from './collections.js';
 
 let verbose;
+/* const geoip = require('geoip-lite');
+const geoUpd = async function (record){
+	//let geo = await iplocation(record.details.ip);
+	let geo = await geoip.lookup(record.details.ip);
+	let updated = await Collections.Contact.update(record._id, {$set: {geo: geo}});
+	await console.log('user.contactsGeo', updated, 'res:', geo, '\n');
+}		 */
 const emailAddr = {
 	to:'info@xlazz.com',
 	from:'xLazz Attendant <no-reply@xlazz.com>'
@@ -109,6 +116,22 @@ Meteor.methods({
 
 	'user.analytics'(params){
 		//console.log('[user.analytics]', this.userId, params, this);
+		const geoip = require('geoip-lite');
+		async function ifGeo(record, geo){
+			if (!geo)
+				return console.warn('[user.analytics geo] empty', geo, record.ip, record.userId);
+			console.log('[user.analytics2] geo NOT NULL', 'geo:', geo, '\n');
+			Collections.Analytics.update(record._id, {$addToSet: {geo: geo}});
+		}
+		async function geoUpd(record, ip){
+			let geo = await geoip.lookup(ip);
+			await console.log('[user.analytics1] geo', record, 'geo:', geo, '\n');
+			await ifGeo(record, geo);
+			
+			//let updated = await Collections.Analytics.update(record._id, {$addToSet: {geo: geo}});
+			//await console.log('user.analytics2', updated, 'res:', geo, '\n');
+		}	
+		
 		let set = {userId: this.userId, visitedAt: new Date()	};
 		
 		let ip = this.connection.httpHeaders['x-forwarded-for'];
@@ -122,6 +145,9 @@ Meteor.methods({
 			$set:set, 
 			$addToSet:{platform: params.platform, device: params.device, referrer: params.referrer, ip: ip},  
 		});
+		let analytics = Collections.Analytics.findOne({userId: this.userId});
+		geoUpd(analytics, ip);
+		
 		console.log('[user.analytics]3', updated, this.userId, this.connection.httpHeaders['x-forwarded-for'], params);
 	},
 	'user.geo'(){

@@ -987,6 +987,10 @@ Schemas.Analytics = new SimpleSchema({
 		},
 	},	
 	geo: {
+		type: Array,
+		optional: true
+	},
+	'geo.$': {
 		type: Object,
 		optional: true,
 		blackbox: true,

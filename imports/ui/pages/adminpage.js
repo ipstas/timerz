@@ -833,7 +833,13 @@ Template.allusers.helpers({
 	},
 	serviceAvatar(){
 		//console.log('serviceAvatar', this);
-		return this.value.avatar || this.value.picture || this.value.profile_image_url_https;
+		let avatar;
+		if (this.service == 'facebook')
+			avatar = this.value.picture.data.url;
+		else
+			avatar = this.value.avatar || this.value.profile_image_url_https || this.value.picture;
+		console.log('serviceAvatar avatar:', avatar, 'this:', this.value.picture.data, this);
+		return avatar;
 	},
 	activeRotate(){
 		let t = Template.instance();

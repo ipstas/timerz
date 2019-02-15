@@ -16,6 +16,8 @@ Meteor.startup(function() {
   BrowserPolicy.content.allowOriginForAll('https://connect.facebook.net');
   BrowserPolicy.content.allowOriginForAll('https://www.facebook.com');
   BrowserPolicy.content.allowOriginForAll('https://staticxx.facebook.com');
+  BrowserPolicy.content.allowOriginForAll('https://*.fbsbx.com');
+  BrowserPolicy.content.allowOriginForAll('https://*.googleusercontent.com');
   BrowserPolicy.content.allowOriginForAll('https://www.google-analytics.com');
   BrowserPolicy.content.allowOriginForAll('https://www.googletagmanager.com');
   BrowserPolicy.content.allowOriginForAll('https://*.googleapis.com');
