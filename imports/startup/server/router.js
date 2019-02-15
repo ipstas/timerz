@@ -201,6 +201,8 @@ Picker.route('/timers/:username', function(params, req, res, next) {
 		return;
 	}
 	
+	user.profile = user.profile || {};
+	
 	data = Collections.Timers.findOne({userId: user._id, $or: [{publicTimer: false}, {publicTimer: {$exists: false}}]});
 	
 /* 	post.image = cloudinary.url(post.cloud, { 
