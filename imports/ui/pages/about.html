@@ -199,30 +199,19 @@
 <template name="version">
   <div class="text-left">
     Server: <span class="label label-info">{{state.status}}</span>
-    {{#if updateAvailable}}<span class="btn btn-info getUpdate">update</span>{{/if}}
   </div>
-
-  <br />
-  <br />
-  <code>
-    {{runtimecfg.ROOT_URL}}<br />
-    {{runtimecfg.DDP_DEFAULT_CONNECTION_URL}}<br />
-    Cordova: {{runtimecfg.autoupdateVersionCordova}}<br />
-    Rev: {{code_version}}<br />
-  </code>
-  <br />
-  Version: {{> git}}
-  <br />
-  <code>
-    {{#if isCordova}}
-    <p>Cordova version.</p>
-    mobile: {{env.mobile}}
-    env: {{env.env}}
-    url: {{env.url}}
-    {{else}}
-    browser version
-    {{/if}}
-  </code>
+	Cordova: <div class="badge text-muted">{{runtimecfg.autoupdate.versions["web.cordova"]}}</div><br/>
+	{{#with version}}
+		Branch <div class="badge text-muted">{{branch}} </div><br/>
+		Tag <div class="badge text-muted">{{complete}} </div><br/>
+		Commit <div class="badge text-muted">{{commit}} </div><br/>
+		Timestamp <div class="badge text-muted">{{timestamp}} </div><br/>
+	{{/with}}
+	{{#with env}}
+		Env <span class="badge text-muted">{{srv}} </span><br/>
+		{{#with hash}}Cordova <span class="badge text-muted">{{this}}</span>{{/with}}
+		{{#if update}}<span class="btn btn-sm updateVersion">Update</span>{{/if}}<br/>
+	{{/with}}
 </template>
 
 <template name='terms'>

@@ -1,5 +1,5 @@
 import './footer.html';
-let version = ReactiveVar();
+let version = new ReactiveVar();
 
 Template.footer.onCreated(()=>{
 	Meteor.call('app.version',(e,r)=>{

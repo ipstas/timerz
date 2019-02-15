@@ -22,7 +22,8 @@ PostSubs = new SubsManager();
 //jQueryBridget( 'masonry', Masonry, $ );
 //jQueryBridget( 'imagesLoaded', imagesLoaded, $ );
 
-var selectorAbout = new ReactiveVar();
+const selectorAbout = new ReactiveVar();
+const version = new ReactiveVar();
 
 const selectors = [
 /* 	{ value: 'creators', label: 'Creators'}, */
@@ -64,7 +65,10 @@ Template.about.onCreated(function () {
 
 	//PostSubs.subscribe('Followings', {caller: 'about'});
 	
-	
+	Meteor.call('app.version',(e,r)=>{
+		console.log('[about] version', e,r);
+		version.set(r);
+	});	
 
 });
 Template.about.onRendered(function(){
@@ -481,12 +485,15 @@ Template.state.helpers({
 
 Template.version.helpers({
 	env(){
-		return Session.get('env');
+		let env = {};
+		env.srv = __meteor_runtime_config__.ROOT_URL.split('.')[0].split('/').slice(-1)[0];
+		env.hash = __meteor_runtime_config__.autoupdate.versions["web.cordova"].version;
+		env.update = Reload.isWaitingForResume();
+		console.log('[footer] env', env, 'waiting:', Reload.isWaitingForResume(), 'ifnew:', Autoupdate.newClientAvailable(), __meteor_runtime_config__.autoupdate.versions["web.cordova"]);
+		return env;
 	},
-	runtimecfg(){
-		var runtimecfg = __meteor_runtime_config__;
-		console.log('meteor runtime ',  runtimecfg);
-		return runtimecfg;
+	version(){
+		return version.get()
 	},
 	state(){
 		return Meteor.status();
