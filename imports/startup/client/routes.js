@@ -130,13 +130,14 @@ FlowRouter.route('/feedback', {
   },
 });
 
-FlowRouter.route('/signIn', {
+/* FlowRouter.route('/signIn', {
   name: 'signIn',
   action: function(params, queryParams) {
+		FlowRouter.go('/sign-in');
 		console.log('signIn', this, params, queryParams);
     BlazeLayout.render('layout', { nav: navdsk, main: 'signIn' });
   },
-});
+}); */
 
 FlowRouter.route('/404', {
   name: '404',

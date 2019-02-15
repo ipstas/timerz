@@ -5,7 +5,7 @@ import { Accounts } from 'meteor/accounts-base';
 Accounts.ui.config({
   requestPermissions: {
 		google: ['profile','email','openid'],
-    facebook:  ['email', 'public_profile', 'user_friends', 'user_likes'],
+    facebook:  ['email', 'public_profile'],
 //    github: ['user', 'repo']
   },
   requestOfflineToken: {

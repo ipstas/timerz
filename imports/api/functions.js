@@ -15,15 +15,15 @@ export const initCurrTimer = function(currentTimer){
 		if (Meteor.isCordova)
 			BackgroundLocation.getPlugin();
 		navigator.geolocation.getCurrentPosition(function(gps){
-			initTimer.update = Collections.Timers.update(initTimer._id,{$set:{'gps.latitude': gps.coords.latitude, 'gps.longitude': gps.coords.longitude}});
-			if (Session.get('debug')) console.log('[usertimer startTime] gps set:', initTimer._id, Collections.Timers.findOne(initTimer._id), gps.coords);
-			Session.set('gps',{'latitude': gps.coords.latitude, 'longitude': gps.coords.longitude});
-			if (Meteor.isCordova)
+				initTimer.update = Collections.Timers.update(initTimer._id,{$set:{'gps.latitude': gps.coords.latitude, 'gps.longitude': gps.coords.longitude}});
+				if (Session.get('debug')) console.log('[usertimer startTime] gps set:', initTimer._id, Collections.Timers.findOne(initTimer._id), gps.coords);
+				Session.set('gps',{'latitude': gps.coords.latitude, 'longitude': gps.coords.longitude});
+/* 			if (Meteor.isCordova)
 				cordova.plugins.notification.local.schedule({
 					title: initTimer.title,
 					text: 'Timer gps location set: ' + gps.coords.latitude + ' ' + gps.coords.longitude + ' mobile: ' + Meteor.isCordova,
 					foreground: true
-				});
+				}); */
 			},
 			function(err){
 				console.warn('[usertimer startTime] err:', err);
