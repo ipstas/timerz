@@ -27,7 +27,7 @@ Template.footer.events({
 	'click .updateVersion'(e,t){
 		console.log('[footer] reloading', window.location.href);
 		navigator.vibrate(100);
-		$('#loadingspinner').fadeIn();
+		$('#injectloadingspinner').removeClass('d-none fadeOut').addClass('fadeIn');
 		Meteor.setTimeout(()=>{
 			window.location.replace('/');
 		},500);	

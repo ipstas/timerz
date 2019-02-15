@@ -17,7 +17,9 @@ Collections.Timers = new Mongo.Collection('timers');
 Collections.Sessions = new Mongo.Collection('sessions');
 
 Collections.Contact = new Mongo.Collection('contact');
+Collections.Analytics = new Mongo.Collection('analytics');
 Collections.Settings = new Mongo.Collection('settings');
+
 Collections.Pricing = new Mongo.Collection('pricing');
 Collections.EmailsTmpl = new Mongo.Collection('emailstmpl');
 Collections.Push = new Mongo.Collection('push');
@@ -882,6 +884,161 @@ Collections.Contact.attachSchema(Schemas.Contact);
 Collections.Contact.allow({
   insert: function () {
 		return true;
+  },
+  update: function () {
+		console.log('[Collections.Contact]', this, Roles.userIsInRole(this.userId, ['admin'], 'admGroup'));
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  remove: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  }
+});
+
+Schemas.Analytics = new SimpleSchema({
+	userId: {
+		type: String,
+		optional: true,
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+	ip: {
+		type: Array,
+		optional: true
+	},
+	'ip.$': {
+		type: String
+	},
+	platform: {
+		type: Array,
+		optional: true
+	},
+	'platform.$': {
+		type: String
+	},
+	referrer: {
+		type: Array,
+		optional: true
+	},
+	'referrer.$': {
+		type: String
+	},
+	device: {
+		type: Array,
+		optional: true
+	},
+	'device.$': {
+		type: String,
+		optional: true,
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+	referrer: {
+		type: Array,
+		optional: true,
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},	
+	'referrer.$': {
+		type: String
+	},
+	abtest: {
+		type: String,
+		optional: true,
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+	details: {
+		type: Object,
+		optional: true,
+		blackbox: true,
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},	
+	geo: {
+		type: Object,
+		optional: true,
+		blackbox: true,
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+	seen:{
+		type: Array,
+		optional: true
+	},
+	'seen.$':{
+		type: String
+	},
+	createdAt: {
+		type: Date,
+		index: true,
+		autoValue: function(){
+			return new Date();
+		},
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+	visitedAt: {
+		type: Date,
+		index: true,
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+});
+Collections.Analytics.attachSchema(Schemas.Analytics);	
+Collections.Analytics.allow({
+  insert: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
   },
   update: function () {
 		console.log('[Collections.Contact]', this, Roles.userIsInRole(this.userId, ['admin'], 'admGroup'));

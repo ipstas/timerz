@@ -26,7 +26,7 @@ Meteor.publish('credits', function () {
 
 publishComposite('userdata', function(params) {
 	console.log('[pub userdate] params', params);
-	let user, list = {}, listChildren = {}, fields, updated, userFound, count = {}, counted;
+	let self = this, user, list = {}, listChildren = {}, fields, updated, userFound, count = {}, counted;
 
 	if (!params)
 		list = this.userId;
@@ -88,6 +88,17 @@ publishComposite('userdata', function(params) {
 					return data;		
 				}
 			},			
+			{
+				find(record) {		
+					//console.log('[pub userdata] analytics1', Roles.userIsInRole(self.userId, ['admin'], 'admGroup'), record._id );
+					if (!Roles.userIsInRole(self.userId, ['admin'], 'admGroup')) {
+						return [];							
+					}
+					let data = Collections.Analytics.find({userId: record._id});	
+					//console.log('[pub userdata] analytics2', record._id, data.fetch() );
+					return data;		
+				}
+			},			
 		]
 	}
 });
@@ -98,6 +109,20 @@ Meteor.publish('contact', function () {
 		return Collections.Contact.find();
 	return [];
 });
+Meteor.publish('analytics', function (params) {
+	console.log('[pubs analytics]', params);
+	if (!Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) return [];
+
+	let list;
+	params = params || {};
+	if (params.userId)
+		list = {userId: params.userId};
+	else
+		list = {};
+	return Collections.Analytics.find(list);
+
+});
+
 Meteor.publish('images', function () {
   return Collections.Images.find();
 });

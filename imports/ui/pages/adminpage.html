@@ -134,10 +134,12 @@
 						{{name}} {{username}} {{email}}<br/>
 						{{#with details}}
 							<div>
-							<code>
-								{{ip}} {{platform}} {{userAgent}}
-								{{referrer}}
-							</code>
+								<code>
+									details: {{ip}} {{platform}} {{userAgent}}
+								</code>	
+								<code>
+									ref: {{referrer}}
+								</code>
 							</div>
 						{{/with}}
 						{{#with geo}}
@@ -492,8 +494,7 @@
 				</div>
 
 				<div>Email: <code>{{emails.[0].address}}</code></div>
-				<div>{{#with profile.referred}}Ref: <code>{{ref}}</code>{{/with}}</div>
-				<div>GPS: <i class="fa {{ifGPS}}" aria-hidden="true"></i></div>
+
 				<div>
 					Push: <i class="fa {{ifPush}}" aria-hidden="true"></i> 
 					{{#each push.device}}<code>{{platform}} {{model}}</code> {{/each}}
@@ -519,15 +520,17 @@
 				{{/each}}
 			</div>
 
-			<div class="col-4 fontsmaller">
+<!-- 			<div class="col-4 fontsmaller">
 				Since <code>{{#with createdAt}}{{localDate}}{{/with}}</code><br/>
 				Last: <code>{{#with visitedAt}}{{localDate}}{{/with}}</code><br/>
 				Posts: <code>{{posts}}</code>
-			</div>
+			</div> -->
 			<div class="col-2">
 				<button class="delUser button btn btn-sm btn-danger">Delete</button>
 			</div>
-
+			<div id="userdetails" class="col-12">
+				{{>userdetails}}
+			</div>
 		</div>
 		<hr>
 	{{/each}}
@@ -546,6 +549,34 @@
 		</div>
 	</div>
 		
+</template>
+
+<template name='userdetails'> 
+	{{#with data}}
+		<div class="row badge row text-left text-muted text-wrap">
+			<div class="col-auto">Since {{#with createdAt}}{{localDate}}{{/with}}</div>
+			<div class="col-auto">Last {{#with visitedAt}}{{localDate}}{{/with}}</div>
+			<div class="col-auto">
+				{{#each ip}}{{this}} {{/each}} 
+			</div>
+			<div class="col-auto">
+				{{#each platform}}{{this}} {{/each}} 
+			</div>
+			<div class="col-auto">
+				{{#each userAgent}}{{this}} {{/each}} 
+			</div>
+			<div class="col-auto">
+				{{#each referrer}}{{this}} {{/each}} 
+			</div>
+			{{#with geo}}
+				<div>
+					<code>
+						{{city}} {{region}}, {{zip}} {{country}}						
+					</code>
+				</div>
+			{{/with}}
+		</div>
+	{{/with}}
 </template>
 
 <template name='nonusers'> 

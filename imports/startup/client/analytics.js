@@ -387,9 +387,18 @@ const rollbarUser = function(t){
 	}) */
 }
 
+const userDetails = function(t){
+	Tracker.autorun((computation)=>{
+		if (!Meteor.userId()) return;
+		Meteor.call('user.analytics',{device: navigator.userAgent, platform: navigator.platform, referrer: document.referrer});
+		computation.stop();
+	})
+}
+
 Meteor.startup(()=>{
-	if (env != 'app') return window.analytics = null;
+	//if (env != 'app') return window.analytics = null;
 	
+	userDetails();
 	analyticsAll();
 	//rollbarUser();
 });

@@ -134,6 +134,16 @@ Template.landing.events({
 		t.contactUs.set(true);
 		$('html, body').animate({scrollTop: $("#contact").offset().top -1 }, 'slow');	
 	},
+	'click .tryMe' (e,t){
+		FlowRouter.go('/timers');
+		$('html, body').animate({scrollTop: $('body').offset().top -200 }, 'slow');
+		if (window.analytics)
+			analytics.track('Download -> webappNow', {
+				referrer: document.referrer,
+				category: "LangingSigned",
+				label: 'a'
+			});	
+	},
 	'click #webapp' (e,t){
 		FlowRouter.go('/timers');
 		$('html, body').animate({scrollTop: $('body').offset().top -200 }, 'slow');
@@ -141,7 +151,7 @@ Template.landing.events({
 			analytics.track('Download -> webapp', {
 				referrer: document.referrer,
 				category: "LangingSigned",
-				label: 'c'
+				label: 'a'
 			});	
 	},
 	'click #android' (e,t){
@@ -153,7 +163,7 @@ Template.landing.events({
 			analytics.track('Download -> android', {
 				referrer: document.referrer,
 				category: "LangingSigned",
-				label: 'c'
+				label: 'b'
 			});		
 	},
 	'click #ios' (e,t){

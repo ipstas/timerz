@@ -107,7 +107,53 @@ Meteor.methods({
 		return {updated: updated};
 	},
 
-	'user.geo'(params){
+	'user.analytics'(params){
+		//console.log('[user.analytics]', this.userId, params, this);
+		let set = {userId: this.userId, visitedAt: new Date()	};
+		
+		let ip = this.connection.httpHeaders['x-forwarded-for'];
+		ip = ip.split(',')[0];
+		//console.log('[user.analytics]2', this.userId, this.connection.httpHeaders['x-forwarded-for'], ip);
+		
+		//if (ip.includes(',')
+		
+		
+		let updated = Collections.Analytics.upsert({userId: this.userId},{
+			$set:set, 
+			$addToSet:{platform: params.platform, device: params.device, referrer: params.referrer, ip: ip},  
+		});
+		console.log('[user.analytics]3', updated, this.userId, this.connection.httpHeaders['x-forwarded-for'], params);
+	},
+	'user.geo'(){
+		console.log('user.contactsGeo start', this, '\n');
+		if (!Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) return console.warn('[methods] user.contactsGeo not an admin:', this.userId);
+		this.unblock();
+		//const iplocation = require('iplocation');
+		const geoip = require('geoip-lite');
+		var data = Collections.Analytics.find({'ip': {$exists: true}, geo: {$exists: false}}).fetch();
+		n = 0;
+		
+		//get geolocation from ip
+		async function geoUpd(record){
+			//let geo = await iplocation(record.details.ip);
+			let geo = await geoip.lookup(record.details.ip);
+			let updated = await Collections.Analytics.update(record._id, {$set: {geo: geo}});
+			await console.log('user.geo', updated, 'res:', geo, '\n');
+		}		
+		
+		for (let record of data){	
+			try{
+				geoUpd(record);
+			} catch (e){
+				console.warn('user.contactsGeo err:', record.details.ip,  e );
+			}
+			n++;
+		}
+		
+		//if (verbose) 
+			console.log('updated contacts with geolocation:', n);
+	},
+	'user.geoOld'(params){
 		if (!Roles.userIsInRole(this.userId, ['admin'])) return;
 		this.unblock();
 		const iplocation = require('iplocation');
