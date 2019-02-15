@@ -117,16 +117,18 @@ Meteor.methods({
 	'user.analytics'(params){
 		//console.log('[user.analytics]', this.userId, params, this);
 		const geoip = require('geoip-lite');
-		async function ifGeo(record, geo){
+		const self = this;
+		async function ifGeo(record, ip, geo){
 			if (!geo)
-				return console.warn('[user.analytics geo] empty', geo, record.ip, record.userId);
-			console.log('[user.analytics2] geo NOT NULL', 'geo:', geo, '\n');
+				return console.warn('[user.analytics geo] empty', record.ip, record.userId, geo);
+			//console.log('[user.analytics2] geo NOT NULL', 'geo:', geo, '\n');
+			console.log('[user.analytics1] geo', record.userId, record.ip, params.referrer, 'geo:', geo, '\n');
 			Collections.Analytics.update(record._id, {$addToSet: {geo: geo}});
 		}
 		async function geoUpd(record, ip){
 			let geo = await geoip.lookup(ip);
-			await console.log('[user.analytics1] geo', record, 'geo:', geo, '\n');
-			await ifGeo(record, geo);
+			//await console.log('[user.analytics1] geo', record.userId, record.ip, params.referrer, 'geo:', geo, '\n');
+			await ifGeo(record, ip, geo);
 			
 			//let updated = await Collections.Analytics.update(record._id, {$addToSet: {geo: geo}});
 			//await console.log('user.analytics2', updated, 'res:', geo, '\n');
@@ -148,7 +150,7 @@ Meteor.methods({
 		let analytics = Collections.Analytics.findOne({userId: this.userId});
 		geoUpd(analytics, ip);
 		
-		console.log('[user.analytics]3', updated, this.userId, this.connection.httpHeaders['x-forwarded-for'], params);
+		//console.log('[user.analytics]3', updated, this.userId, this.connection.httpHeaders['x-forwarded-for'], params);
 	},
 	'user.geo'(){
 		console.log('user.contactsGeo start', this, '\n');

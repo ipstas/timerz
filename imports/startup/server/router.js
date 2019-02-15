@@ -46,7 +46,7 @@ let env = __meteor_runtime_config__.ROOT_URL.match(/www|stg|app/) || ['dev'];
 env = env[0];
 
 const inject = {
-	title: 'Timerz, the best way to track you multiple projects',
+	title: 'Timerz, the best way to track your multiple projects',
 	description: 'Easy to creat timer tracker, can be switched manually or by your movement',
 	author: 'Orangry, Inc',
 	icon: domain + '/img/timer.png',
@@ -223,6 +223,47 @@ Picker.route('/timers/:username', function(params, req, res, next) {
 		"@type" : "Photograph",
 		"about": inject.title,
 		"author" : user.username,
+		//"audio" : audio,
+		//"comment" : comments,
+		//"dateCreated" : post.createdAt,
+		"interactivityType" : "active",
+		"text": inject.description,
+		"url": inject.url,
+		//"keywords": post.tags,
+		//"contentLocation": post.place,
+		"image": share.image,
+		// "location" : {
+			// "@type" : "Place",
+			// "name" : "Hollywood Bowl"
+		// }
+	};
+	share.jsonLD = JSON.stringify(share.jsonLD); 
+	share.jsonLD = '<script type="application/ld+json" dochead="1">' + share.jsonLD + '</script>';
+	
+	consoleIn(share, req, res);
+	injectIt(share);
+  //res.end();
+
+	next();
+	return;
+});
+
+Picker.route('/feedback', function(params, req, res, next) {
+	if (params.username == 'bootstrap-theme.css.map' || params._id == 'bootstrap.css.map') return;
+	
+	let data, user, page, location, comments, meta, share = {};
+
+	share.route = '/feedback';
+	share.url = domain + share.route;
+	share.image = domain + '/timer.png';
+	share.title = 'Timerz, the best way to track multiple projects';
+	share.description = 'Please give us a feedback or offer a new feature';
+	
+	share.jsonLD = {
+		"@context" : "http://schema.org",
+		"@type" : "Photograph",
+		"about": inject.title,
+		"author" : 'Orangry Inc',
 		//"audio" : audio,
 		//"comment" : comments,
 		//"dateCreated" : post.createdAt,

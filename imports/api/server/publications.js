@@ -25,7 +25,7 @@ Meteor.publish('credits', function () {
 });
 
 publishComposite('userdata', function(params) {
-	console.log('[pub userdate] params', params);
+	//console.log('[pub userdate] params', params);
 	let self = this, user, list = {}, listChildren = {}, fields, updated, userFound, count = {}, counted;
 
 	if (!params)
@@ -34,7 +34,7 @@ publishComposite('userdata', function(params) {
 		list = {};				
 	else if (params.username) {
 		user = Meteor.users.findOne({username: params.username},{fields: {profile: 0}});
-		console.log('[pub userdate] user', user);
+		//console.log('[pub userdate] user', user);
 		if (user && this.userId == user._id)
 			list = {_id: this.userId};
 		else if (user)
@@ -75,8 +75,8 @@ publishComposite('userdata', function(params) {
 			params.sort = params.sort || {timeStarted: -1, createdAt: -1};
 			
 			user = Meteor.users.find(list, {fields: fields}, {sort: params.sort, limit : params.limit});	
-			if (params.debug) 
-				console.log('[pub userdata] params:', params, 'for:', list, '\nfields:', fields, '\nusers:', user.count(), '\n\n');
+/* 			if (params.debug) 
+				console.log('[pub userdata] params:', params, 'for:', list, '\nfields:', fields, '\nusers:', user.count(), '\n\n'); */
 			
 			return user;
 		},

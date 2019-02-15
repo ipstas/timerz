@@ -138,7 +138,7 @@ FlowRouter.route('/signIn', {
   },
 });
 
-	FlowRouter.route('/404', {
+FlowRouter.route('/404', {
   name: '404',
   action() {
 		console.log('404', this);
