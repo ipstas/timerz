@@ -100,6 +100,12 @@ Template.user.events({
 		t.newRecord.set(true);
 		t.editRecord.set(false);
 		Modal.show('newTimerModal');
+		if (window.analytics)
+			analytics.track('Timer created', {
+				referrer: document.referrer,
+				category: "Timer",
+				label: Meteor.user().username;
+			});	
 		//FlowRouter.setQueryParams({add: true});
 	},	
 	'click .editRecord'(e,t){
@@ -112,6 +118,12 @@ Template.user.events({
 			showdata.set();
 		
 		//Modal.show('editTimerModal', this);
+		if (window.analytics)
+			analytics.track('Timer edited', {
+				referrer: document.referrer,
+				category: "Timer",
+				label: Meteor.user().username;
+			});	
 	},
 	'click .close'(e,t){
 		Meteor.setTimeout(()=>{

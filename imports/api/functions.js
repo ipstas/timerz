@@ -38,6 +38,14 @@ export const initCurrTimer = function(currentTimer){
 	console.log('[functions.js] initCurrTimer', initTimer);
 	//computation.stop();
 	Session.set('currentTimer',	initTimer);
+	
+	if (window.analytics)
+		analytics.track('Timer started', {
+			referrer: document.referrer,
+			category: "Timer",
+			label: Meteor.user().username;
+		});	
+			
 	return initTimer;
 		
 }
@@ -57,6 +65,12 @@ export const stopSession = function (params){
 		BackgroundLocation.stop();
 	Session.set('gps');
 	Session.set('currentTimer');
+	if (window.analytics)
+		analytics.track('Timer stopped', {
+			referrer: document.referrer,
+			category: "Timer",
+			label: Meteor.user().username;
+		});		
 }
 
 export const infCheck = function (t){
