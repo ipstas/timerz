@@ -1,12 +1,10 @@
 <template name="user">	
 	<section id="timers" class="xlTimers container-fluid text-center animated fadeIn">
-		<div class="row text-center">
-			<div class="col-lg-3 offset-lg-3 col-md-3 offset-md-3 col-sm-4 col-4 h1 ">
-				Timers
-			</div>
-
-			<div class="col-lg-3 col-md-3 col-sm-4 col-4">
-				{{#if author}}<button class="btn btn-lg btn-outline-info newRecord"><i class="fa fa-plus" aria-hidden="true"></i></button>{{/if}}
+		<div class="row text-left">
+			<div class="col-md-4 col-sm-6 col-12 h2">
+				{{#if author}}<button class="btn btn-lg btn-outline-info newRecord"><i class="fa fa-plus" aria-hidden="true"></i></button>{{/if}}&nbsp; 
+				<span class="d-none d-inline" style="background-color:white;">&nbsp;</span> 
+				<span class="h1">Timers</span>	
 			</div>
 		</div>
 
@@ -65,23 +63,6 @@
 	</div>
 	<div class="row text-center text-muted table-bordered">
 		<div class="col"></div>
-<!-- 		<div class="col-sm-4 d-none d-sm-block">			
-			Title
-		</div>
-		<div class="col-sm-2 col-4">		
-			Created / Spent	
-		</div>
-		<div class="col-sm-2 col-4">		
-			Tags
-		</div>
-		<div class="col-sm-2 col-4">		
-			Days / Sessions
-		</div>
-		<div class="col-sm-1 d-none d-sm-block">		
-			Public		
-		</div>
-		<div class="col-sm-1 d-none d-sm-block">		
-		</div> -->
 	</div>
 	<div class="xlUsertimers row text-left">		
 		{{#each timers}}
@@ -106,13 +87,17 @@
 				<span class="pointer linkblue d-inline"><a href="/report/{{_id}}">{{title}}</a></span> 
  				
 			</div>
-			<div class="col-6 col-sm-2 pointer showToday">	
+			<div class="col-6 col-sm-2 pointer text-right showToday">	
 				{{#unless showToday}}
-					<div><span class="text-info">total</span> | <span class="text-muted">today</span>
-					<div class="h2" ><span class="text-black-50 badge badge-default">{{spent}}</span> </div></div>
+					<div>
+						<div class="p-2" ><span class="text-info">total</span> | <span class="text-muted">today</span></div>
+						<div class="h2" ><span class="text-black-50 badge badge-default">{{spent}}</span> </div>
+					</div>
 				{{else}}
-					<div><span class="text-muted">total</span> | <span class="text-info">today</span>  
-					<div class="h2" ><span class="text-black-50 badge badge-default">{{spenttoday}}</span> </div></div>			
+					<div>
+						<div class="p-2" ><span class="text-muted">total</span> | <span class="text-info">today</span></div>
+						<div class="h2" ><span class="text-black-50 badge badge-default">{{spenttoday}}</span> </div>
+					</div>			
 				{{/unless}}
 			</div>			
 			<div class="col-auto h2">					
@@ -254,16 +239,16 @@
 <template name="showsessions">
 	<div id="showsessions" class="xlSessions container-fluid text-center animated fadeIn">
 		<h2>{{title}}</h2>
-		<div class="row">
+<!-- 		<div class="row">
 			<div class="col-4 offset-2">Start / Stop</div><div class="col-2">Timing</div><div class="col-4">Notes</div>
-		</div>			
+		</div>		 -->	
 		{{#each data}}
 			<div class="row">
 				{{#unless $eq editRecord _id}}
-					<div class="col-1">
+					<div class="col-2">
 						<i class="pointer editRecord fa fa-pencil" aria-hidden="true"></i>
 					</div>
-					<div class="editRecord col-5">{{start}} {{stop}}</div>
+					<div class="editRecord col-4">{{start}} </div>
 					<div class="editRecord col-4"><span class="badge badge-default">{{timing}}</span></div>			
 					<div class="col-2">
 						<i class="pointer text-danger delRecord fa fa-remove" aria-hidden="true"></i>
