@@ -474,7 +474,7 @@ Template.usertimer.events({
 		// if there is timer, switch it off
 		if (Session.get('currentTimer')) {
 			console.log('currentTimer:', this, initTimer);
-			initTimer = cSession.get('currentTimer');
+			initTimer = Session.get('currentTimer');
 			stopSession({_id: initTimer._id, timer: Session.get('currentTimer'), caller: 'usertimer previous stopTime'});
 		}		
 		// start timer
