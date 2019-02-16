@@ -15,39 +15,52 @@ Accounts.ui.config({
 });
 
 if ('AccountsTemplates' in window) {
-AccountsTemplates.configure({
-  defaultLayout: 'layoutLanding',
-  defaultLayoutRegions: {
-    nav: 'nav',
-    footer: 'footer',
-  },
-  defaultContentRegion: 'main',
-  showForgotPasswordLink: true,
-  overrideLoginErrors: true,
-  enablePasswordChange: true,
+	AccountsTemplates.configure({
+		defaultLayout: 'layoutLanding',
+		defaultLayoutRegions: {
+			nav: 'nav',
+			footer: 'footer',
+		},
+		defaultContentRegion: 'main',
+		showForgotPasswordLink: true,
+		//overrideLoginErrors: true,
+		enablePasswordChange: true,
 
-  // sendVerificationEmail: true,
-  // enforceEmailVerification: true,
-  //confirmPassword: true,
-  //continuousValidation: false,
-  //displayFormLabels: true,
-  //forbidClientAccountCreation: true,
-  //formValidationFeedback: true,
-  //homeRoutePath: '/',
-  //showAddRemoveServices: false,
-  //showPlaceholders: true,
+		// sendVerificationEmail: true,
+		// enforceEmailVerification: true,
+		//confirmPassword: true,
+		//continuousValidation: false,
+		//displayFormLabels: true,
+		//forbidClientAccountCreation: true,
+		//formValidationFeedback: true,
+		//homeRoutePath: '/',
+		//showAddRemoveServices: false,
+		//showPlaceholders: true,
 
-  negativeValidation: true,
-  positiveValidation: true,
-  negativeFeedback: false,
-  positiveFeedback: true,
+		negativeValidation: true,
+		positiveValidation: true,
+		negativeFeedback: false,
+		positiveFeedback: true,
 
-  // Privacy Policy and Terms of Use
-  //privacyUrl: 'privacy',
-  //termsUrl: 'terms-of-use',
-});
+		// Privacy Policy and Terms of Use
+		//privacyUrl: 'privacy',
+		//termsUrl: 'terms-of-use',
+		texts: {
+			errors: {
+				// accountsCreationDisabled: "Client side accounts creation is disabled!!!",
+				// cannotRemoveService: "Cannot remove the only active service!",
+				// captchaVerification: "Captcha verification failed!",
+				loginForbidden: "error.accounts.Wrong username or password",
+				mustBeLoggedIn: "error.accounts.Please login",
+				pwdMismatch: "error.pwdsDontMatch",
+				// validationErrors: "Validation Errors",
+				// verifyEmailFirst: "Please verify your email first. Check the email and follow the link!",
+			}
+		},
+	
+	});
 
-var pwd = AccountsTemplates.removeField('password');
+	var pwd = AccountsTemplates.removeField('password');
 	AccountsTemplates.removeField('email');
 	AccountsTemplates.addFields([
 		{

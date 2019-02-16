@@ -1499,9 +1499,9 @@ Template.integration.events({
 
 
 const buttonEl = [
-	{label: 'sortDate', value: 'by Reg'},
-	{label: 'sortVisit', value: 'by Visit'},
-	{label: 'sortGraf', value: 'by Graffiti'},
+	{label: 'sortDate', value: 'by created'},
+	{label: 'sortVisit', value: 'by visited'},
+	{label: 'sortGraf', value: 'by timers'},
 ];
 Template.sortElementAdm.onCreated(()=> {
 	let t = Template.instance();
