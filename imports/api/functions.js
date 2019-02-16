@@ -108,36 +108,36 @@ export const cordovaLocation = function(params){
 					t.error.set(error);
 					Bert.alert(error, 'danger');
 				}
-					switch(status){
-							case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
-									console.log("[settings] Permission not requested", status);
-									break;
-							case cordova.plugins.diagnostic.permissionStatus.DENIED:
-									console.log("[settings] Permission denied", status);
-									Session.set('useGPS');
-									break;
-							case cordova.plugins.diagnostic.permissionStatus.GRANTED:
-									console.log("[settings] Permission granted always", status);
-									break;
-							case cordova.plugins.diagnostic.permissionStatus.GRANTED_WHEN_IN_USE:
-									console.log("[settings] Permission granted only when in use", status);
-									break;
-							case cordova.plugins.diagnostic.permissionStatus.DENIED_AlWAYS:
-									console.log("[settings] Permission denied for app", status);
-									Session.set('useGPS');
-									error = 'You have denied location for this app, to enable you need to open settings on your device and enable location in App-level permissions';
-									t.error.set(error);
-									Bert.alert(error, 'danger');
-									break;
-							default :
-									console.log("[settings] Permission granted only when in use", status);
-									Session.set('useGPS');
-									error = 'You have denied location for this app, to enable you need to open settings on your device and enable location in App-level permissions!!';
-									t.error.set(error);
-									Bert.alert(error, 'danger');
-					}
+				switch(status){
+					case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
+							console.log("[settings] Permission not requested", status);
+							break;
+					case cordova.plugins.diagnostic.permissionStatus.DENIED:
+							console.log("[settings] Permission denied", status);
+							Session.set('useGPS');
+							break;
+					case cordova.plugins.diagnostic.permissionStatus.GRANTED:
+							console.log("[settings] Permission granted always", status);
+							break;
+					case cordova.plugins.diagnostic.permissionStatus.GRANTED_WHEN_IN_USE:
+							console.log("[settings] Permission granted only when in use", status);
+							break;
+					case cordova.plugins.diagnostic.permissionStatus.DENIED_AlWAYS:
+							console.log("[settings] Permission denied for app", status);
+							Session.set('useGPS');
+							error = 'You have denied location for this app, to enable you need to open settings on your device and enable location in App-level permissions';
+							t.error.set(error);
+							Bert.alert(error, 'danger');
+							break;
+					default :
+							console.log("[settings] Permission granted only when in use", status);
+							Session.set('useGPS');
+							error = 'You have denied location for this app, to enable you need to open settings on your device and enable location in App-level permissions!!';
+							t.error.set(error);
+							Bert.alert(error, 'danger');
+				}
 			}, function(error){
-					console.error(error);
+				console.error(error);
 			}, cordova.plugins.diagnostic.locationAuthorizationMode.ALWAYS);				
 	}, function(error){
 		console.error("The following error occurred: "+error);

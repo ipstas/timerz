@@ -430,14 +430,14 @@ Template.usertimer.helpers({
 	stateGPS(){
 		if (this.timeStarted && this.gps)
 			return 'text-info showGPS';
-		else if (this.timeStarted && Meteor.isCordova && Session.get('gps'))
+		else if (this.timeStarted && Meteor.isCordova && Session.get('useGPS'))
 			return 'text-info animated tada infinite';
-		else if (this.timeStarted && Session.get('gps'))
-			return 'text-info showGPS';
-		else if (this.timeStarted)
+		else if (this.timeStarted && Meteor.isCordova )
 			return 'text-warning turnGPS';
+		else if (this.timeStarted)
+			return 'text-muted dskGPS';
 		else
-			return 'text-muted';
+			return 'text-muted ';
 	},
 	sorted(){
 		var sort;
@@ -512,6 +512,9 @@ Template.usertimer.events({
 	},	
 	'click .turnGPS'(e,t){
 		Bert.alert('Turn on "Use GPS" in app settings if you need gps swttch-off', 'warning');
+	},
+	'click .dskGPS'(e,t){
+		Bert.alert('gps swttch-off is available on mobile only', 'warning');
 	}
 	
 });
