@@ -11,9 +11,10 @@ import { Random } from 'meteor/random'
 export const initCurrTimer = function(currentTimer){
 	if (!Meteor.userId()) return;
 	var initTimer = Collections.Timers.findOne({userId: Meteor.userId(), timeStarted: {$exists: true}});
-	if (initTimer && Session.get('useGPS') && initTimer.useGPS && !initTimer.gps) {
+	if (initTimer && initTimer.useGPS && !initTimer.gps && Session.get('useGPS') ) {
 		if (Meteor.isCordova)
 			BackgroundLocation.getPlugin();
+		cordovaLocation({start: true});
 		navigator.geolocation.getCurrentPosition(function(gps){
 				initTimer.update = Collections.Timers.update(initTimer._id,{$set:{'gps.latitude': gps.coords.latitude, 'gps.longitude': gps.coords.longitude}});
 				if (Session.get('debug')) console.log('[usertimer startTime] gps set:', initTimer._id, Collections.Timers.findOne(initTimer._id), gps.coords);
@@ -30,10 +31,11 @@ export const initCurrTimer = function(currentTimer){
 			},
 			{ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }
 		);		
+	}	else if (Meteor.isCordova && initTimer && initTimer.useGPS && !Session.get('useGPS')) {
+		console.log('[usertimer startTime] user useGPS off:', Session.get('useGPS'), this.useGPS);
+		Bert.alert('You need to enable "Use GPS" in app settings to use gps switch off feature','warning');
 	}
-
-	else 
-		console.log('[usertimer startTime] gps off:', Session.get('useGPS'), this.useGPS);
+		
 
 	console.log('[functions.js] initCurrTimer', initTimer);
 	//computation.stop();
@@ -71,6 +73,77 @@ export const stopSession = function (params){
 			category: "Timer",
 			label: Meteor.user().username,
 		});		
+}
+
+export const cordovaLocation = function(params){
+	if (!Meteor.isCordova) return;
+	params.t = params.t || {};
+	params.t.error = params.t.error || new ReactiveVar();
+	let error;
+	
+	cordova.plugins.diagnostic.isLocationEnabled(function(enabled){
+		console.log("[settings] Location setting is ", (enabled ? "enabled" : "disabled"));
+		if (enabled && params.start)
+			BackgroundLocation.start();		
+		else if (enabled)
+			BackgroundLocation.stop();			
+		else {
+			BackgroundLocation.stop();			
+			cordova.plugins.diagnostic.switchToLocationSettings();
+		}
+			
+	}, function(error){
+		console.error("The following error occurred: ", error);
+	});		
+	cordova.plugins.diagnostic.isLocationAuthorized(function(authorized){
+		console.log("[settings] Location is ", (authorized ? "authorized" : "unauthorized"));
+		if (!authorized)
+			cordova.plugins.diagnostic.requestLocationAuthorization(function(status){
+				console.log('[settings] permissionStatus:', status, 'cordova:', cordova.plugins.diagnostic.permissionStatus.DENIED_AlWAYS);
+				//
+				if ( status == 'DENIED_AlWAYS'){
+					console.log("[settings] Permission granted only when in use IF:", status);
+					Session.set('useGPS');
+					error = 'You have denied location for this app, to enable you need to open settings on your device and enable location in App-level permissions!';
+					t.error.set(error);
+					Bert.alert(error, 'danger');
+				}
+					switch(status){
+							case cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED:
+									console.log("[settings] Permission not requested", status);
+									break;
+							case cordova.plugins.diagnostic.permissionStatus.DENIED:
+									console.log("[settings] Permission denied", status);
+									Session.set('useGPS');
+									break;
+							case cordova.plugins.diagnostic.permissionStatus.GRANTED:
+									console.log("[settings] Permission granted always", status);
+									break;
+							case cordova.plugins.diagnostic.permissionStatus.GRANTED_WHEN_IN_USE:
+									console.log("[settings] Permission granted only when in use", status);
+									break;
+							case cordova.plugins.diagnostic.permissionStatus.DENIED_AlWAYS:
+									console.log("[settings] Permission denied for app", status);
+									Session.set('useGPS');
+									error = 'You have denied location for this app, to enable you need to open settings on your device and enable location in App-level permissions';
+									t.error.set(error);
+									Bert.alert(error, 'danger');
+									break;
+							default :
+									console.log("[settings] Permission granted only when in use", status);
+									Session.set('useGPS');
+									error = 'You have denied location for this app, to enable you need to open settings on your device and enable location in App-level permissions!!';
+									t.error.set(error);
+									Bert.alert(error, 'danger');
+					}
+			}, function(error){
+					console.error(error);
+			}, cordova.plugins.diagnostic.locationAuthorizationMode.ALWAYS);				
+	}, function(error){
+		console.error("The following error occurred: "+error);
+	});		
+
+	return params;
 }
 
 export const infCheck = function (t){

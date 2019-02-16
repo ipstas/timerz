@@ -28,6 +28,7 @@ BlazeLayout.setRoot('body');
 Template.layoutLanding.onRendered(()=>{
 	//$('#loadingspinner').fadeOut('slow');
 	$('.injectloading').addClass('animated fadeOut');
+	$('#loadingspinner').fadeOut();
 	Meteor.setTimeout(()=>{
 		$('.injectloading').addClass('d-none');
 	},1000)

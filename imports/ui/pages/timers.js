@@ -427,6 +427,14 @@ Template.usertimer.helpers({
 		let t = Template.instance();
 		return t.showGPS.get();
 	},
+	stateGPS(){
+		if (this.timeStarted && this.gps)
+			return 'text-info showGPS';
+		else if (this.timeStarted)
+			return 'text-warning turnGPS';
+		else
+			return 'text-muted';
+	},
 	sorted(){
 		var sort;
 		if (Session.get('sort').createdAt)
@@ -498,6 +506,9 @@ Template.usertimer.events({
 	'click .showToday'(e,t){
 		showToday.set(!showToday.get());
 	},	
+	'click .turnGPS'(e,t){
+		Bert.alert('Turn on "Use GPS" in app settings if you need gps swttch-off', 'warning');
+	}
 	
 });
 

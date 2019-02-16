@@ -401,6 +401,14 @@
 			<h4 class="brand-heading">SETTINGS</h4>
 		</div>
 	</div>
+
+	{{#with error}}
+		<div class="row">
+			<div class="col-12 animated slideInTop">
+				<span class="badge badge-danger text-wrap">{{this}}</span>
+			</div>
+		</div>
+	{{/with}}
 	
 	<div class="row">
 		<div class="col-7 leftswitch">
@@ -493,7 +501,7 @@
 	
 	{{/if}}
 	
-	<div class="row">
+<!-- 	<div class="row">
 		<div class="col-12 col-md-8 offset-md-2">
 			
 			{{#if changePwd}}
@@ -503,7 +511,7 @@
 				{{> atNavButton}}
 			{{/if}}
 		</div>	
-	</div>
+	</div> -->
 
 </template>
 

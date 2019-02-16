@@ -1,4 +1,6 @@
 import OKGAnalytics, { analytics } from '@okgrow/auto-analytics';
+import { Schemas } from '/imports/api/collections.js';
+import { Collections } from '/imports/api/collections.js';
 
 let env = __meteor_runtime_config__.ROOT_URL.match(/www|stg|app/) || ['dev'];
 env = env[0];

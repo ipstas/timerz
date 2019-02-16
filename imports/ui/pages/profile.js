@@ -13,6 +13,7 @@ import '../stylesheets/autoform.css';
 
 import {requestPermission} from '/imports/startup/client/push-client.js';
 import {getPermission} from '/imports/startup/client/push-client.js';
+import {cordovaLocation} from '/imports/api/functions.js';
 
 var options;
 
@@ -570,6 +571,7 @@ Template.privacy.helpers({
 Template.settings.onCreated(function () {
 	Meteor.users.attachSchema(Schemas.User);
 	let t = Template.instance();
+	t.error = new ReactiveVar();
 	t.ready = new ReactiveVar();
 	t.next = new ReactiveVar(6);
 	t.limit = new ReactiveVar(6);
@@ -634,11 +636,19 @@ Template.settings.helpers({
 			return 'checked';
 	},	
 	useGPS(){
+		let t = Template.instance();
+		let error;
+		t.error.set(); 
 		console.log('[useGPS]', Session.get('useGPS'));
-		if (Session.get('useGPS'))
-			return 'checked';
-		//return false;
+		if (!Session.get('useGPS')) 
+			return Session.set('gps');
+		cordovaLocation({t: t});
+		return 'checked';
 	},	
+	error(){
+		let t = Template.instance();
+		return t.error.get();
+	},
 	autoload(){
 		if (Session.get('autoload')) return 'checked';
 	},
@@ -723,7 +733,7 @@ Template.settings.events({
 		},1500);
 	},	
 	'change .useGPS' ( e, t ) {
-		Session.setPersistent('useGPS', !Session.get('useAdvanced'));
+		Session.setPersistent('useGPS', !Session.get('useGPS'));
 		if (!Meteor.isCordova) {
 			Meteor.setTimeout(()=>{
 				Session.setPersistent('useGPS');

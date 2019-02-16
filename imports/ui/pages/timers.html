@@ -32,6 +32,13 @@
 <!-- 			<div class="pointer linkbluewhite editRecord h2 shadow animated fadeIn" style="background-color:{{color}};"> {{title}} </div>  -->
 			<span class="shadow" style="background-color:{{color}};">&nbsp;</span> 
 			<span class="" > {{title}} </span>
+			{{#if useGPS}}
+				{{#if gps}}
+					<span class="pointer linkblue showGPS d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+				{{else}}
+					<span class="pointer text-warning turnGPS d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+				{{/if}}		
+			{{/if}}
 			{{#with timeStarted}}<div class=""><span class="badge badge-default">{{this}}</span></div>{{/with}}	
 		</div>			
 		<div class="col-auto text-center align-self-end stopTime">
@@ -100,13 +107,12 @@
 					</div>			
 				{{/unless}}
 			</div>			
-			<div class="col-auto h2">					
-				{{#if gps}}
-					<span class="pointer linkblue showGPS float-right d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+			<div class="col-auto h2">				
+				<span class="pointer text-info editRecord d-inline p-2"><i class="fa fa-cog" aria-hidden="true"></i></span>	
+				<span class="pointer text-info showDetails d-inline p-2"><i class="fa fa-eye" aria-hidden="true"></i></span>
+				{{#if useGPS}}
+					<span class="pointer {{stateGPS}} d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
 				{{/if}}
-				<span class="pointer linkblue editRecord float-right d-inline p-2"><i class="fa fa-cog" aria-hidden="true"></i></span>
-				<span class="pointer linkblue showDetails float-right d-inline p-2"><i class="fa fa-eye" aria-hidden="true"></i></span>	
-				
 			</div>			
 
 		</div>
