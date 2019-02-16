@@ -38,15 +38,15 @@ Template.navbox.events({
 	'click .menuClick'(e,t) {
 		console.log('menuClick', e, t.active.get());
 		if ($('#menu').hasClass('slideOutLeft'))
-			$('#menu').removeClass('hidden d-none').removeClass('slideOutLeft').addClass('slideInLeft');
+			$('#menu').removeClass('hidden d-none').removeClass('slideOutLeft').addClass('slideInLeft').fadeIn();
 		else
-			$('#menu').removeClass('slideInLeft ').addClass(' slideOutLeft');
+			$('#menu').removeClass('slideInLeft ').addClass(' slideOutLeft').fadeOut();
 		//template.active.set();
 		e.preventDefault();
 	},
   'click ul li'(e,t) {
 		console.log('ul li', e, t.active.get());
-		$('#menu').removeClass('slideInLeft ').addClass(' slideOutLeft');
+		$('#menu').removeClass('slideInLeft ').addClass(' slideOutLeft').fadeOut();
 	},
 });
 
