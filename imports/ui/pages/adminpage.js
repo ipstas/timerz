@@ -949,6 +949,10 @@ Template.userdetails.helpers({
 		console.log('[userdetails] user', this._id, this, 'data:', data);
 		return data;
 	},
+	localDate(){
+		//console.log('date', this);
+		return this.toLocaleDateString();
+	},
 });
 Template.userdetails.events({
 

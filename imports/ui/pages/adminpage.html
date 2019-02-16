@@ -445,17 +445,11 @@
 	</div>
 
 	<div class="row text-left">
-		<div class="col-2">
-			Avatar
-		</div>
-		<div class="col-4">
-			User
-		</div>
 		<div class="col-12 sortIt">
 			{{>sortElementAdm}}
 		</div>
-
 	</div>
+	
 	{{#each user}}
 		<div class="row text-left">
 		
@@ -512,11 +506,11 @@
 				{{/each}}
 			</div>
 
-<!-- 			<div class="col-4 fontsmaller">
+			<div class="col-4 fontsmaller">
 				Since <code>{{#with createdAt}}{{localDate}}{{/with}}</code><br/>
 				Last: <code>{{#with visitedAt}}{{localDate}}{{/with}}</code><br/>
-				Posts: <code>{{posts}}</code>
-			</div> -->
+				Timers: <code>{{timers}}</code>
+			</div>
 			<div class="col-2">
 				<button class="delUser button btn btn-sm btn-danger">Delete</button>
 			</div>
@@ -546,23 +540,13 @@
 <template name='userdetails'> 
 	{{#with data}}
 		<div class="row row text-left text-muted">
-			<div class="col-auto">Since {{#with createdAt}}{{localDate}}{{/with}}</div>
-			<div class="col-auto">Last {{#with visitedAt}}{{localDate}}{{/with}}</div>
-			<div class="col-auto">
-				{{#each ip}}<span class="badge text-wrap">{{this}}</span> {{/each}} 
-			</div>
-			<div class="col-auto">
-				{{#each platform}}<span class="badge text-wrap">{{this}}</span> {{/each}} 
-			</div>
-			<div class="col-auto">
-				{{#each userAgent}}<span class="badge text-wrap">{{this}}</span> {{/each}} 
-			</div>
-			<div class="col-auto">
-				{{#each referrer}}<span class="badge text-wrap">{{this}}</span> {{/each}} 
-			</div>
-			<div class="col-auto">
-				{{#each geo}}<span class="badge text-wrap">{{city}} {{region}}, {{zip}}</span> {{country}}{{/each}}						
-			</div>
+<!-- 			<div class="col-auto">Since {{#with createdAt}}{{localDate}}{{/with}}</div> -->
+			<div class="col-auto"><span class="badge text-wrap">Last {{#with visitedAt}}{{localDate}}{{/with}}</span></div>
+			<div class="col-auto">{{#each ip}}<span class="badge text-wrap">{{this}}</span> {{/each}}</div>
+			<div class="col-auto">{{#each platform}}<span class="badge text-wrap">{{this}}</span> {{/each}}</div>
+			<div class="col-auto">{{#each userAgent}}<span class="badge text-wrap">{{this}}</span> {{/each}}</div>
+			<div class="col-auto">{{#each referrer}}<span class="badge text-wrap">{{this}}</span> {{/each}}</div>
+			<div class="col-auto">{{#each geo}}<span class="badge text-wrap">{{city}} {{region}}, {{zip}}</span> {{country}}{{/each}}</div>
 		</div>
 	{{/with}}
 </template>
