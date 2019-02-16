@@ -619,7 +619,7 @@ Template.showsessions.onCreated( () => {
 });
 Template.showsessions.helpers({
 	data(){
-		var data = Collections.Sessions.find({timerId: this._id},{sort: {stop: -1}});
+		var data = Collections.Sessions.find({timerId: this._id},{sort: {start: -1}});
 		return data;
 	},
 	start(){

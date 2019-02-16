@@ -8,10 +8,10 @@
 		</div>
 	</section>
 
-	<section id="report" class="xlTimers container-fluid animated fadeIn">
+	<section id="report" class="xlTimers container animated fadeIn">
 
 		<div class="row">
-			<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-8 offset-sm-2 col-12">
+			<div class="col-lg-10 offset-lg-1 col-12">
 				{{#with timer}} {{> timerreport}} {{/with}}
 			</div>
 		</div>
@@ -21,35 +21,35 @@
 
 <template name="timerreport">
 	<div class="xlUsertimers row text-left">
-		<div class="col-12 text-center h2">
+		<div class="col-12  h2">
 			Timer Report for <span class="pointer linkbluewhite editRecord  shadow animated fadeIn" style="background-color:{{color}};"> {{title}} </span>
 		</div>
 	</div>
 	<div class="xlUsertimers row text-left">
-		<div class="col-12 text-center h4 p-1">
+		<div class="col-auto  h4 p-1">
 			{{>quickForm id="slctMonth" collection=collection schema=schema label=false type=method template="bootstrap3-inline" doc=doc autosave=true }}
 		</div>
 	</div>
 	{{debug}}
 	<div class="xlUsertimers row text-left">
-		<div class="col-12 text-center">
+		<div class="col-auto">
 			Showing for period: {{doc.year}}-{{doc.month}}
 		</div>
 	</div>
 	{{#each day}}
 		{{debug}}
-		<div class="row text-right">
-			<div class="col-6">
-				Date: {{_id}}
+		<div class="row">
+			<div class="col-6 col-lg-3 text-left">
+				{{_id}}
 			</div>
-			<div class="col-6">
+			<div class="col-6 col-lg-3 text-right">
 				{{spentHuman}}
 			</div>
 		</div>
 	{{/each}}
 		
-	<div class="xlUsertimers row text-left">
-		<div class="col-12 h3">
+	<div class="xlUsertimers row text-right">
+		<div class="col-12 col-lg-6 h3">
 			Total: {{totalHuman}}
 		</div>
 	</div>
