@@ -1,7 +1,7 @@
 <template name="user">	
 	<section id="timers" class="xlTimers container-fluid text-center animated fadeIn">
 		<div class="row text-left">
-			<div class="col-md-4 col-sm-6 col-12 h2">
+			<div class="col-12 h2">
 				{{#if author}}<button class="btn btn-lg btn-outline-info newRecord"><i class="fa fa-plus" aria-hidden="true"></i></button>{{/if}}&nbsp; 
 				<span class="d-none d-inline" style="background-color:white;">&nbsp;</span> 
 				<span class="h1">Timers</span>	
@@ -85,7 +85,7 @@
 <template name="usertimer">
 	<div class="col-12 animated fadeIn">
 		<div class="row align-items-center">
-			<div class="col-md-4 col-sm-6 col-12 h2">			
+			<div class="col-md-9 col-12 h2">			
 				{{#if ifAuthor}}
 					<button class="btn btn-lg btn-outline-success {{state.cssclass}}"><i class="fa {{state.icon}}" aria-hidden="true"></i></button>
 					&nbsp;
@@ -94,7 +94,7 @@
 				<span class="pointer linkblue d-inline"><a href="/report/{{_id}}">{{title}}</a></span> 
  				
 			</div>
-			<div class="col-6 col-sm-2 pointer text-right showToday">	
+			<div class="col-md-3 col-4 pointer text-right showToday">	
 				{{#unless showToday}}
 					<div>
 						<div class="p-2" ><span class="text-info">total</span> | <span class="text-muted">today</span></div>
@@ -118,19 +118,19 @@
 		</div>
 		{{#if $eq showDetails _id}}
 			<div class="row bg-light align-items-center animated fadeInLeft">
-				<div class="col-md-2 col-sm-4 col-4">		
+				<div class="col-md-3 col-4">		
 					{{#each tags}}<span class="selectTag badge badge-info">{{this}}</span> {{/each}}	
 				</div>
-				<div class="col-md-2 col-sm-4 col-4">
-					<div class=" badge badge-default">since: {{createdAt}}</div>
+				<div class="col-md-6 col-5">
+					<div class=" badge badge-default">since: {{createdAt}}</div><br/>
 					{{#if countDaily}}
-						<div class="pointer linkblue showDaily badge badge-default">days: {{countDaily}}</div>
+						<div class="pointer linkblue showDaily badge badge-default">days: {{countDaily}}</div><br/>
 					{{/if}}
 					{{#if countSessions}}
 						<div class="pointer linkblue showSessions badge badge-default">sessions: {{countSessions}}</div> 
 					{{/if}}	
 				</div>
-				<div class="col-md-2 col-sm-4 col-4 ">		
+				<div class="col-md-3 col-3">		
 					{{#with publicTimer}}
 						<div>public: <i class="text-black-50 fa fa-check-square-o" aria-hidden="true"></i></div>
 					{{/with}}									
