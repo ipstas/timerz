@@ -70,7 +70,7 @@ FlowRouter.route('/timers/', {
 	action: function(params, queryParams) {
 		Tracker.autorun(function(computation){
 			if (!Meteor.userId()) 
-				return FlowRouter.go('/signIn');
+				return FlowRouter.go('/sign-in');
 			if (Meteor.userId() && !Meteor.user()) return;
 			FlowRouter.go('/timers/' + Meteor.user().username);
 			computation.stop();
