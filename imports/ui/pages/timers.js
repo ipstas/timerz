@@ -430,6 +430,10 @@ Template.usertimer.helpers({
 	stateGPS(){
 		if (this.timeStarted && this.gps)
 			return 'text-info showGPS';
+		else if (this.timeStarted && Meteor.isCordova && Session.get('gps'))
+			return 'text-info animated tada infinite';
+		else if (this.timeStarted && Session.get('gps'))
+			return 'text-info showGPS';
 		else if (this.timeStarted)
 			return 'text-warning turnGPS';
 		else
