@@ -8,6 +8,7 @@ import { Meteor } from 'meteor/meteor';
 export const Schemas = {};
 export const Collections = {};
 
+Collections.Logs = new Mongo.Collection('logs');
 Collections.Texts = new Mongo.Collection('texts');
 Collections.Terms = new Mongo.Collection('terms');
 Collections.Credits = new Mongo.Collection('credits');
@@ -170,6 +171,55 @@ Schemas.User = new SimpleSchema({
 	}
 });
 Meteor.users.attachSchema(Schemas.User);
+
+Schemas.Logs = new SimpleSchema({
+  'userId': {
+    type: String,
+  },
+	log: {
+		type: Object,
+		optional: true,
+		blackbox: true,
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},	
+	createdAt: {
+		type: Date,
+		optional: true,	
+		autoValue: function(){
+			if (this.isInsert)
+				return new Date();
+		},
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
+	},
+});
+Collections.Logs.attachSchema(Schemas.Logs);
+Collections.Logs.allow({
+  insert: function () {
+		return true;
+  },
+  update: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  remove: function () {
+		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+			return true;
+  }
+});
 
 Schemas.Texts = new SimpleSchema({
   'title': {
@@ -397,6 +447,22 @@ Schemas.Texts = new SimpleSchema({
         type: 'cloudinary'
       }
     }
+	},
+	createdAt: {
+		type: Date,
+		optional: true,	
+		autoValue: function(){
+			if (this.isInsert)
+				return new Date();
+		},
+		autoform: {
+			afFieldInput: {
+				type: "hidden"
+			},
+			afFormGroup: {
+				label: false,
+			}
+		},
 	},
 });
 Collections.Texts.attachSchema(Schemas.Texts);
