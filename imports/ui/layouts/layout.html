@@ -27,23 +27,26 @@
 		{{> Template.dynamic template=nav}}
 	</section>
 
-	<section id="main" class="maincont mainSwipe pb-5">
-		<div class="container-fluid ">
-			<div class="row justify-content-between minheight70">
-				<div id="bars" class="h2 menuClick slideInLeft col-auto m-1">
-					<i class="fa fa-bars p-1 d-block d-sm-none "></i>
+	
+	<section id="topmenu" class="">		
+		<div class="p-1 minheight70">
+			<div id="bars" class="barstop d-inline-block h2 m-1 menuClick slideInLeft">
+				<i class="fa fa-bars p-1 d-block d-sm-none "></i>
+			</div>
+			{{#with newContact}}
+				<div id="notification" class="h3 col-auto m-1 align-self-center">
+					<a class="{{isActiveRoute 'adminpage'}} animated fadeInTop" href="/adminpage?get=contacts"><i class="fa fa-fw fa-bullhorn text-red animated tada infinite" aria-hidden="true" data-toggle="tooltip" title="You ve got mail!"></i></a>
 				</div>
-				{{#with newContact}}
-					<div id="notification" class="h3 col-auto m-1 align-self-center">
-						<a class="{{isActiveRoute 'adminpage'}} animated fadeInTop" href="/adminpage?get=contacts"><i class="fa fa-fw fa-bullhorn text-red animated tada infinite" aria-hidden="true" data-toggle="tooltip" title="You ve got mail!"></i></a>
-					</div>
-				{{/with}}
-				<div class="col-auto align-self-end">
-					<div class="row">
-						{{> Template.dynamic template='currenttimer'}}				
-					</div>
-				</div>					
-			</div>	
+			{{/with}}
+			<div class="d-inline-block float-right">
+				<div class="row">
+					{{> Template.dynamic template='currenttimer'}}				
+				</div>
+			</div>					
+		</div>	
+	</section>
+	<section id="main" class="maincont mainSwipe pb-5">	
+		<div class="container-fluid ">
 			{{> Template.dynamic template=main}}		
 		</div>
 	</section>
