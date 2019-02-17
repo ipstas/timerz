@@ -92,10 +92,21 @@ Template.landing.helpers({
 			length = data.screens.length;
 		return data;
   },
+	behav(){
+		if (navigator.userAgent.substring('Mac OS'))
+			return 'scroll'
+		return 'fixed';
+	},
   banner1() {
 		//console.log('[banner]', this, this.images );
 		//console.log('[banner]', _.findWhere(this.images, {text: 'banner1'}) );
-    return _.findWhere(this.images, {text: 'banner1'}) || '/img/banner.jpg';
+    let banner = _.findWhere(this.images, {text: 'banner1'});
+		if (banner && banner.image)
+			banner.image = banner.image.replace(/upload/,'upload/w_1024,fl_progressive');
+		else
+			banner.image = '/img/banner.jpg';
+		console.log('[banner]', banner, _.findWhere(this.images, {text: 'banner1'}));
+		return banner;
   },
   banner2() {
     return _.findWhere(this.images, {text: 'banner2'}) || '/img/banner.jpg';
@@ -113,7 +124,10 @@ Template.landing.helpers({
 	},
 	enlarged(){
 		let t = Template.instance();
-		if (this.txt == t.enlarge.get()) return 'enlarged animated fadeIn';
+		if (this.txt == t.enlarge.get()) 
+			return 'enlarged animated fadeIn';
+		return 'z-one';
+		
 	},
 	newRecord(){
 		let t = Template.instance();

@@ -6,7 +6,7 @@
 	{{/if}}
 	
 	{{#with landing}}
-		<section id="banner" class="landing" style="background-image: url({{banner1.image}})">
+		<section id="banner" class="landing" style="background-image: url({{banner1.image}}); backround-attachment: {{behav}}">
 			<div class="inner">
 				<header>
 					<h1>{{intro}}</h1>
@@ -17,10 +17,10 @@
 		</section>
 
 		<!-- One -->
-		<section id="one" class="landing wrapper post bg-img" style="background-image: url({{banner2.image}})">
+		<section id="one" class="landing wrapper post bg-img" style="background-image: url({{banner2.image}}); background-attachment: {{behav}}">
 			<div class="inside">
 				<div class="row pt-3 align-items-center justify-content-center">
-					<div class="col-lg-4 col-sm-4 d-none d-sm-flex height80 flex-center text-right">
+					<div class="col-lg-4 col-md4 col-sm-4 d-none d-sm-flex height80 flex-center text-right">
 						<div class="screens d-inline-flex">
 							{{#each screens}}
 								<div class="screen-inside d-inline-block {{step}} {{enlarged}} pointer enlargeImg"><img src="{{src}}" class="img-fluid img-thumbnail" /></div>
@@ -29,7 +29,7 @@
 					</div>
 					<div class="col-md-1 d-none d-md-flex height80 flex-center ">
 					</div>
-					<div class="col-lg-4 col-sm-7 col-10 height80 flex-center ">
+					<div class="col-lg-4 col-md-4 col-sm-7 col-10 height80 flex-center ">
 						<article class="box">
 							<header>
 								<h1>{{about.h2}}</h1>
@@ -54,7 +54,7 @@
 		</section>
 
 		<!-- Two -->
-		<section id="two" class="landing wrapper post bg-img" style="background-image: url({{banner3.image}})">
+		<section id="two" class="landing wrapper post bg-img" style="background-image: url({{banner3.image}}); background-attachment: {{behav}}">
 			<div class="inner animated fadeIn">
 				<article class="box">
 					<header>
@@ -89,7 +89,7 @@
 		</section>
 
 		<!-- Contact Section -->
-		<section id="contact" class="landing wrapper post bg-img" style="background-image: url({{banner4.image}})">
+		<section id="contact" class="landing wrapper post bg-img" style="background-image: url({{banner4.image}}); background-attachment: {{behav}}">
 			<div class="inner animated fadeIn">
 				<article class="box">
 					<header>
@@ -122,7 +122,7 @@
 			</div>
     {{/if}}
 	{{else}}
-		<section id="banner" class="landing" style="background-image: url(/img/banner.jpg)">
+		<section id="banner" class="landing" style="background-image: url(/img/banner.jpg); background-attachment: {{behav}}">
 			<div class="inner">
 				<header>
 					<h1>Timerz</h1>
