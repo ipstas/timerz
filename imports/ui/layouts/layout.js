@@ -34,6 +34,18 @@ Template.layoutLanding.onRendered(()=>{
 	},1000)
 	//$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
+	console.log
+	const mainSwipeRight = new Hammer(document.getElementById('main'));
+	if (mainSwipeRight)
+		mainSwipeRight.on("swiperight panright tap press", function(e) {
+			console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
+			if (e.type == 'swiperight' && e.target.id != 'editBox') {
+				$('#menu').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
+				$('#bars').removeClass('rotate90');		
+			} 		
+		});
+	else 
+		console.warn('[layoutLanding] no mainSwipeRight');
 });
 Template.layoutLanding.events({
 	'click .page-scroll'(event, template){
@@ -70,11 +82,21 @@ Template.layout.onCreated(()=>{
 	Meteor.subscribe('contact');
 });
 Template.layout.onRendered(()=>{
-	$('#loadingspinner').fadeOut('slow');
 	$('#injectloadingspinner').fadeOut();
 	$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
-});
+	const mainSwipeRight = new Hammer(document.getElementById('main'));
+	if (mainSwipeRight)
+		mainSwipeRight.on("swiperight panright tap press", function(e) {
+			console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
+			if (e.type == 'swiperight' && e.target.id != 'editBox') {
+				$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
+				$('#bars').removeClass('rotate90');		
+			} 		
+		});
+	else 
+		console.warn('[layout] no mainSwipeRight');
+	});
 Template.layout.helpers({
   newContact() {
     if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator'], 'admGroup')) return;
@@ -110,13 +132,13 @@ Template.layout.events({
 	},
 	'click .menuClick'(e,t) {
 		console.log('[layout] menuClick', e);
-		if ($('#navsection').hasClass('d-none') || $('#menudsk').hasClass('slideOutLeft')) {
+		if ($('#navsection').hasClass('slideOutLeft')) {
 			//$('#menudsk').removeClass('d-none z-down slideOutLeft').addClass('slideInLeft');
-			$('#navsection').removeClass('z-down d-none').addClass('z-up slideInLeft').fadeIn();
+			$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
 			$('#bars').addClass('rotate90');
 		} else {
 			//$('#menudsk').removeClass('slideInLeft ').addClass(' slideOutLeft');
-			$('#navsection').removeClass('z-up').addClass('z-down').fadeOut();
+			$('#navsection').removeClass('slideInLeft').addClass('slideOutLeft').fadeOut();
 			$('#bars').removeClass('rotate90');
 		}
 		//navigator.vibrate(200);
@@ -125,7 +147,7 @@ Template.layout.events({
   'click ul li'(e,t) {
 		if ($('html').width() > 574) return;
 		//$('#menudsk').removeClass('slideInLeft ').addClass(' slideOutLeft').addClass('d-none');
-		$('#navsection').removeClass('z-up').addClass('z-down d-none').fadeOut();
+		$('#navsection').removeClass('z-up').addClass('slideOutLeft').fadeOut();
 		$('#bars').removeClass('rotate90');
 		//navigator.vibrate(200);
 		//e.preventDefault();

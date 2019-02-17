@@ -114,6 +114,7 @@ Template.user.events({
 		if (!t.editRecord.get()){
 			showdata.set(this);
 			currtemplate.set('edittimer');
+			$('.editBox').removeClass('slideOutRight').addClass('slideInRight').fadeIn();
 		}	else
 			showdata.set();
 		
@@ -131,7 +132,7 @@ Template.user.events({
 			t.editRecord.set(false);		
 			showdata.set();
 		},1000)
-		$('#editBox').addClass('slideOutRight');	
+		$('.editBox').removeClass('slideInRight').addClass('slideOutRight').fadeOut();	
 		//Modal.show('editTimerModal', this);
 	},
 });
@@ -197,7 +198,19 @@ Template.currenttimer.helpers({
 	animation(){
 		if (!this.timeStarted)
 			return 'animation: none; color: grey !important;';
-	}
+	},
+	stateGPS(){
+		if (this.timeStarted && this.gps)
+			return 'text-info showGPS';
+		else if (this.timeStarted && Meteor.isCordova && Session.get('useGPS'))
+			return 'text-info animated tada infinite';
+		else if (this.timeStarted && Meteor.isCordova )
+			return 'text-warning turnGPS';
+		else if (this.timeStarted)
+			return 'text-muted dskGPS';
+		else
+			return 'text-muted ';
+	},
 });
 Template.currenttimer.events({
 	'click .stopTime'(e,t){
@@ -321,12 +334,14 @@ Template.usertimers.events({
 		data = _.sortBy(data, 'date');
 		showdata.set({timerId: this._id, data: this.daily});
 		currtemplate.set('showdaily');
+		$('.editBox').removeClass('slideOutRight').addClass('slideInRight').fadeIn();
 		//Modal.show('showDailyModal', {timerId: this._id, data: this.daily});
 	},
 	'click .showSessions'(e,t){
 		showdata.set(this);
 		currtemplate.set('showsessions');
 		console.log("[usertimers] showsessions:", this);
+		$('.editBox').removeClass('slideOutRight').addClass('slideInRight').fadeIn();
 		//Modal.show('showSessionsModal', {timerId: this._id, data:data});
 	},
 
@@ -524,6 +539,12 @@ Template.editBox.onCreated(() => {
 });
 Template.editBox.onRendered(() => {
 	let t = Template.instance();
+	$('.editBox').removeClass('slideOutRight').addClass('slideInRight').fadeIn();
+	const editBoxSwipeRight = new Hammer(document.getElementById('editBox'));
+	editBoxSwipeRight.on("swiperight panright", function(e) {
+		console.log('[editBox hammer]', e, " gesture detected:", e.type) ;
+		$('.editBox').removeClass('slideInRight').addClass('slideOutRight').fadeOut();		
+	});
 });
 Template.editBox.onDestroyed(() => {
 	//$('#datepicker').datepicker('destroy');

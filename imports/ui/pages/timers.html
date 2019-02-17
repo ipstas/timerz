@@ -1,5 +1,5 @@
 <template name="user">	
-	<section id="timers" class="xlTimers container-fluid text-center animated fadeIn">
+	<section id="timers" class="mainSwipe container-fluid text-center animated fadeIn">
 		<div class="row text-left">
 			<div class="col-12 h2">
 				{{#if author}}<button class="btn btn-lg btn-outline-info newRecord"><i class="fa fa-plus" aria-hidden="true"></i></button>{{/if}}&nbsp; 
@@ -7,14 +7,14 @@
 				<span class="h1">Timers</span>	
 			</div>
 		</div>
-
 		{{> usertimers}}
-		
-		{{#with showdata}}
-			{{>editBox}}
-		{{/with}}
-
 	</section>
+	
+	{{#with showdata}}
+		<section id="editBox" class="container-fluid">
+			{{>editBox}}
+		</section>
+	{{/with}}
 </template>
 
 <template name="currenttimer">
@@ -33,11 +33,7 @@
 			<span class="shadow" style="background-color:{{color}};">&nbsp;</span> 
 			<span class="" > {{title}} </span>
 			{{#if useGPS}}
-				{{#if gps}}
-					<span class="pointer linkblue showGPS d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-				{{else}}
-					<span class="pointer text-warning turnGPS d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-				{{/if}}		
+				<span class="{{stateGPS}} d-inline p-2"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
 			{{/if}}
 			{{#with timeStarted}}<div class=""><span class="badge badge-default">{{this}}</span></div>{{/with}}	
 		</div>			
@@ -71,7 +67,7 @@
 	<div class="row text-center text-muted table-bordered">
 		<div class="col"></div>
 	</div>
-	<div class="xlUsertimers row text-left">		
+	<div class="xlUsertimers row text-left ">		
 		{{#each timers}}
 			{{>usertimer}}
 		{{else}}
@@ -83,7 +79,7 @@
 </template>
 
 <template name="usertimer">
-	<div class="col-12 animated fadeIn">
+	<div class="col-12 animated fadeInLeft">
 		<div class="row align-items-center">
 			<div class="col-md-9 col-12 h2">			
 				{{#if ifAuthor}}
@@ -143,11 +139,11 @@
 		{{#if $eq showGPS _id}}
 			<div class="row bg-light align-items-center animated fadeInLeft">
 				<div class="col-12 ">									
-					{{#if useGPS}}{{#if gps}}				
+					{{#if gps}}				
 							<span class="badge badge-default">lat {{gps.latitude}}</span> 
 							<span class="badge badge-default">lng {{gps.longitude}}</span> 
 							<span class="badge badge-default">dev {{deviation.dev}}</span>
-					{{/if}}{{/if}}				
+					{{/if}}				
 				</div>
 			</div>
 		{{/if}}
@@ -186,7 +182,7 @@
 </template>
 
 <template name="editBox">
-	<div id="editBox" class="bg-info editbox animated slideInRight">
+	<div id="" class="bg-info editbox editBox animated slideInRight">
 		<span href="#" class="close pointer floating-top-right"><i class="fa fa-times"></i></span>
 		{{> Template.dynamic template=currtemplate}}
 <!-- 		{{>edittimer}} -->

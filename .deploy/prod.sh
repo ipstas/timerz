@@ -1,17 +1,16 @@
 #!/bin/bash
 echo
 echo
-echo deployment started $ENVIRONMENTS at `date`
-.git/hooks/post-commit
+
+#.git/hooks/post-commit
 
 DEBUG=mup*
 
 rm -rf /tmp/*-*-*-*-*; 
 
-
+.deploy/version.sh
 ls -l .meteor/local/build/programs/web.browser/app/app.js.map
 cp .deploy/mobile-config-prod.js mobile-config.js
-echo export const code_version = \"`git rev-parse --verify HEAD`\" > imports/startup/both/code_version.js
 DEBUG=mup* mup deploy --config .deploy/mup-prod.js --settings settings.json --cached-build --verbose
 
 EXIT=$?
@@ -24,18 +23,11 @@ then
 	exit
 fi
 
-ENVIRONMENT='prod'
-# ACCESS_TOKEN='39492888a00a41ce9473e566797fda3d'
-
+ACCESS_TOKEN='e6dd9721d83849b584d964ad76f818fb'
+ENVIRONMENT='production'
 LOCAL_USERNAME=`whoami`
-VERSION=`git --git-dir=.git  rev-parse master`
-REVISION=`git log -n 1 --pretty=format:"%H"`
-
-# curl https://api.rollbar.com/api/1/deploy/ \
-  # -F access_token=$ACCESS_TOKEN \
-  # -F environment=$ENVIRONMENT \
-  # -F revision=$REVISION \
-  # -F local_username=$LOCAL_USERNAME
+REVISION=`git rev-parse --verify HEAD`
+curl https://api.rollbar.com/api/1/deploy/ -F access_token=$ACCESS_TOKEN -F environment=$ENVIRONMENT -F revision=$REVISION -F local_username=$LOCAL_USERNAME
 
 # curl https://api.rollbar.com/api/1/sourcemap \
   # -F access_token=$ACCESS_TOKEN \

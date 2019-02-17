@@ -1,8 +1,19 @@
 import './nav.html';
 
 
+
 Template.navbox.onCreated(function(){
 	this.active = new ReactiveVar();
+});
+Template.navbox.onRendered(function(){
+	const menuSwipeLeft = new Hammer(document.getElementById('menu'));
+	menuSwipeLeft.on("swipeleft panright tap press", function(e) {
+		console.log('[navbox hammer]', e.type +" gesture detected.") ;
+		if (e.type == 'swipeleft') {
+			$('#menu').removeClass('slideInLeft ').addClass(' slideOutLeft').fadeOut();
+			$('#bars').removeClass('rotate90');		
+		} 		
+	});
 });
 Template.navbox.helpers({
 	topLocation(){
@@ -53,6 +64,18 @@ Template.navbox.events({
 Template.navdsk.onCreated(function(){
 	this.active = new ReactiveVar();
 });
+Template.navdsk.onRendered(function(){
+
+	const menuSwipeLeft = new Hammer(document.getElementById('menudsk'));
+	menuSwipeLeft.on("swipeleft panright tap press", function(e) {
+		console.log('[navdsk hammer]', e, " gesture detected:", e.type) ;
+		if (e.type == 'swipeleft') {
+			$('#navsection').removeClass('slideInLeft').addClass('slideOutLeft');
+			$('#bars').removeClass('rotate90');		
+		} 		
+	});
+
+});
 Template.navdsk.helpers({
 	topLocation(){
 		return (FlowRouter.getRouteName() == 'landing');
@@ -62,14 +85,4 @@ Template.navdsk.helpers({
 	}
 });
 Template.navdsk.events({
-
-	'click #menu-close': function(event,template) {
-/* 		//console.log('menu-toggle', event, template.active.get());
-		$('#menu').removeClass('slideInRight ').addClass(' slideOutRight');
-		//template.active.set();
-		event.preventDefault(); */
-	},
-/*   'click ul li': function(event,template) {
-		$('#menu').removeClass('slideInRight ').addClass(' slideOutRight');
-	}, */
 });
