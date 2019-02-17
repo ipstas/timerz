@@ -1,10 +1,10 @@
 <template name="footer">
 	<!-- Footer -->
-	<section id="footer" class="footer-bottom bgtransparent70 p-1">
-		<div class="container-fluid text-right text-small">
+	<section id="footer" class="footer-bottom bgtransparent70">
+		<div class="text-right text-small">
 			<a href="http://www.xlazz.com" class="text-muted" target=_blank>
-				&copy;XLazz, 2016-2019 
-			</a>
+				<span class="badge text-muted">&copy;XLazz, 2016-2019</span>
+			</a> 
 			<a href="https://twitter.com/eXtragLasses" class="text-muted" target=_blank>
 				<i class="fa fa-twitter fa-fw"></i> 
 			</a>
@@ -14,7 +14,7 @@
 			{{#with env}}
 				<span class="badge text-muted">{{srv}} </span>
 				<span class="badge text-muted">{{version.complete}} </span>
-				{{#if update}}<span class="badge badge-dark pointer updateVersion">Update</span>{{/if}}
+				{{#if update}}<span class="btn btn-dark updateVersion">Update</span>{{/if}}
 			{{/with}}
 		</div>
 	</section>
