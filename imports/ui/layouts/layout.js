@@ -87,20 +87,22 @@ Template.layout.onRendered(()=>{
 	$('#injectloadingspinner').fadeOut();
 	$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
-	
-	if ($('html').width() < 576){
-		const mainSwipeRight = new Hammer(document.getElementById('main'));
-		if (mainSwipeRight)
+
+	let mainSwipeRight;
+	Tracker.autorun(()=>{
+		if (rwindow.outerWidth() < 576){
+			mainSwipeRight = new Hammer(document.getElementById('main'));
 			mainSwipeRight.on("swiperight panright tap press", function(e) {
+				if (rwindow.outerWidth() > 575) return;
 				console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
 				if (e.type == 'swiperight' && e.target.id != 'editBox') {
 					$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
 					$('#bars').removeClass('rotate90');		
 				} 		
 			});
-		else 
-			console.warn('[layout] no mainSwipeRight');
-	}
+		}
+	});
+	
 });
 Template.layout.helpers({
   newContact() {

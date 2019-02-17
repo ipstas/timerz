@@ -68,26 +68,27 @@ Template.navdsk.onCreated(function(){
 	this.active = new ReactiveVar();
 });
 Template.navdsk.onRendered(function(){
-
-	if ($('html').width() < 576){
-		const menuSwipeLeft = new Hammer(document.getElementById('menudsk'));
-		menuSwipeLeft.on("swipeleft panright tap press", function(e) {
-			console.log('[navdsk hammer]', e, " gesture detected:", e.type) ;
-			if (e.type == 'swipeleft') {
-				$('#navsection').removeClass('slideInLeft').addClass('slideOutLeft');
-				$('#bars').removeClass('rotate90');		
-			} 		
-		});
-	}
-
+	let menuSwipeLeft;
+	Tracker.autorun(()=>{
+		if (rwindow.outerWidth() < 576){
+			menuSwipeLeft = new Hammer(document.getElementById('menudsk'));
+			menuSwipeLeft.on("swipeleft panright tap press", function(e) {
+				if (rwindow.outerWidth() > 575) return;
+				console.log('[navdsk hammer]', e, " gesture detected:", e.type) ;
+				if (e.type == 'swipeleft') {
+					$('#navsection').removeClass('slideInLeft').addClass('slideOutLeft').fadeOut();
+					$('#bars').removeClass('rotate90');		
+				} 		
+			});
+		} else {
+			$('#navsection').removeClass('slideOutLeft ').addClass('slideInLeft').fadeIn();
+		}
+	});
 });
 Template.navdsk.helpers({
 	topLocation(){
 		return (FlowRouter.getRouteName() == 'landing');
 	},
-	active(){
-		return Template.instance().active.get();
-	}
 });
 Template.navdsk.events({
 });
