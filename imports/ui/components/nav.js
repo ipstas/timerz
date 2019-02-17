@@ -6,14 +6,17 @@ Template.navbox.onCreated(function(){
 	this.active = new ReactiveVar();
 });
 Template.navbox.onRendered(function(){
-	const menuSwipeLeft = new Hammer(document.getElementById('menu'));
-	menuSwipeLeft.on("swipeleft panright tap press", function(e) {
-		console.log('[navbox hammer]', e.type +" gesture detected.") ;
-		if (e.type == 'swipeleft') {
-			$('#menu').removeClass('slideInLeft ').addClass(' slideOutLeft').fadeOut();
-			$('#bars').removeClass('rotate90');		
-		} 		
-	});
+	
+		const menuSwipeLeft = new Hammer(document.getElementById('menu'));
+		menuSwipeLeft.on("swipeleft panright tap press", function(e) {
+			console.log('[navbox hammer]', e.type +" gesture detected.") ;
+			if (e.type == 'swipeleft') {
+				$('#menu').removeClass('slideInLeft ').addClass(' slideOutLeft').fadeOut();
+				$('#bars').removeClass('rotate90');		
+			} 		
+		});	
+	
+
 });
 Template.navbox.helpers({
 	topLocation(){
@@ -66,14 +69,16 @@ Template.navdsk.onCreated(function(){
 });
 Template.navdsk.onRendered(function(){
 
-	const menuSwipeLeft = new Hammer(document.getElementById('menudsk'));
-	menuSwipeLeft.on("swipeleft panright tap press", function(e) {
-		console.log('[navdsk hammer]', e, " gesture detected:", e.type) ;
-		if (e.type == 'swipeleft') {
-			$('#navsection').removeClass('slideInLeft').addClass('slideOutLeft');
-			$('#bars').removeClass('rotate90');		
-		} 		
-	});
+	if ($('html').width() < 576){
+		const menuSwipeLeft = new Hammer(document.getElementById('menudsk'));
+		menuSwipeLeft.on("swipeleft panright tap press", function(e) {
+			console.log('[navdsk hammer]', e, " gesture detected:", e.type) ;
+			if (e.type == 'swipeleft') {
+				$('#navsection').removeClass('slideInLeft').addClass('slideOutLeft');
+				$('#bars').removeClass('rotate90');		
+			} 		
+		});
+	}
 
 });
 Template.navdsk.helpers({

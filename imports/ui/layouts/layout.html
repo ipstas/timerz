@@ -23,27 +23,29 @@
 
 	</section>	 -->
 
-	<section id="navsection" class="sidebar-fixed-left d-none d-sm-block animated slideOutLeft">
+	<section id="navsection" class="sidebar-fixed-left d-none d-sm-block animated">
 		{{> Template.dynamic template=nav}}
 	</section>
 
-	<section id="main" class="maincont mainSwipe container-fluid pb-5">
-		<div class="row justify-content-between minheight70">
-			<div id="bars" class="h2 menuClick slideInLeft col-auto m-1">
-				<i class="fa fa-bars p-1 d-block d-sm-none "></i>
-			</div>
-			{{#with newContact}}
-				<div id="notification" class="h2 col-auto m-1 align-self-center">
-					<a class="{{isActiveRoute 'adminpage'}} animated fadeInTop" href="/adminpage?get=contacts"><i class="fa fa-fw fa-bullhorn text-red animated tada infinite" aria-hidden="true" data-toggle="tooltip" title="You ve got mail!"></i></a>
+	<section id="main" class="maincont mainSwipe pb-5">
+		<div class="container-fluid ">
+			<div class="row justify-content-between minheight70">
+				<div id="bars" class="h2 menuClick slideInLeft col-auto m-1">
+					<i class="fa fa-bars p-1 d-block d-sm-none "></i>
 				</div>
-			{{/with}}
-			<div class="col-auto align-self-end">
-				<div class="row">
-					{{> Template.dynamic template='currenttimer'}}				
-				</div>
-			</div>					
-		</div>			
-		{{> Template.dynamic template=main}}		
+				{{#with newContact}}
+					<div id="notification" class="h3 col-auto m-1 align-self-center">
+						<a class="{{isActiveRoute 'adminpage'}} animated fadeInTop" href="/adminpage?get=contacts"><i class="fa fa-fw fa-bullhorn text-red animated tada infinite" aria-hidden="true" data-toggle="tooltip" title="You ve got mail!"></i></a>
+					</div>
+				{{/with}}
+				<div class="col-auto align-self-end">
+					<div class="row">
+						{{> Template.dynamic template='currenttimer'}}				
+					</div>
+				</div>					
+			</div>	
+			{{> Template.dynamic template=main}}		
+		</div>
 	</section>
 	{{> Template.dynamic template='footer'}}
 </template>

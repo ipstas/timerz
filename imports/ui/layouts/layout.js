@@ -34,7 +34,8 @@ Template.layoutLanding.onRendered(()=>{
 	},1000)
 	//$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
-	console.log
+
+
 	const mainSwipeRight = new Hammer(document.getElementById('main'));
 	if (mainSwipeRight)
 		mainSwipeRight.on("swiperight panright tap press", function(e) {
@@ -46,6 +47,7 @@ Template.layoutLanding.onRendered(()=>{
 		});
 	else 
 		console.warn('[layoutLanding] no mainSwipeRight');
+	
 });
 Template.layoutLanding.events({
 	'click .page-scroll'(event, template){
@@ -85,18 +87,21 @@ Template.layout.onRendered(()=>{
 	$('#injectloadingspinner').fadeOut();
 	$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
-	const mainSwipeRight = new Hammer(document.getElementById('main'));
-	if (mainSwipeRight)
-		mainSwipeRight.on("swiperight panright tap press", function(e) {
-			console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
-			if (e.type == 'swiperight' && e.target.id != 'editBox') {
-				$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
-				$('#bars').removeClass('rotate90');		
-			} 		
-		});
-	else 
-		console.warn('[layout] no mainSwipeRight');
-	});
+	
+	if ($('html').width() < 576){
+		const mainSwipeRight = new Hammer(document.getElementById('main'));
+		if (mainSwipeRight)
+			mainSwipeRight.on("swiperight panright tap press", function(e) {
+				console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
+				if (e.type == 'swiperight' && e.target.id != 'editBox') {
+					$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
+					$('#bars').removeClass('rotate90');		
+				} 		
+			});
+		else 
+			console.warn('[layout] no mainSwipeRight');
+	}
+});
 Template.layout.helpers({
   newContact() {
     if (!Roles.userIsInRole(Meteor.userId(), ['admin', 'moderator'], 'admGroup')) return;

@@ -1,5 +1,5 @@
 <template name="user">	
-	<section id="timers" class="mainSwipe container-fluid text-center animated fadeIn">
+	<section id="timers" class="mainSwipe text-center animated fadeIn">
 		<div class="row text-left">
 			<div class="col-12 h2">
 				{{#if author}}<button class="btn btn-lg btn-outline-info newRecord"><i class="fa fa-plus" aria-hidden="true"></i></button>{{/if}}&nbsp; 
@@ -81,7 +81,7 @@
 <template name="usertimer">
 	<div class="col-12 animated fadeInLeft">
 		<div class="row align-items-center">
-			<div class="col-md-9 col-12 h2">			
+			<div class="col-lg-6 col-md-9 col-12 h2">			
 				{{#if ifAuthor}}
 					<button class="btn btn-lg btn-outline-success {{state.cssclass}}"><i class="fa {{state.icon}}" aria-hidden="true"></i></button>
 					&nbsp;
@@ -90,7 +90,7 @@
 				<span class="pointer linkblue d-inline"><a href="/report/{{_id}}">{{title}}</a></span> 
  				
 			</div>
-			<div class="col-md-3 col-4 pointer text-right showToday">	
+			<div class="col-lg-3 col-md-3 col-4 pointer text-right showToday">	
 				{{#unless showToday}}
 					<div>
 						<div class="p-2" ><span class="text-info">total</span> | <span class="text-muted">today</span></div>
@@ -103,7 +103,7 @@
 					</div>			
 				{{/unless}}
 			</div>			
-			<div class="col-auto h2">				
+			<div class="col-lg-3 col-auto  h2">				
 				<span class="pointer text-info editRecord d-inline p-2"><i class="fa fa-cog" aria-hidden="true"></i></span>	
 				<span class="pointer text-info showDetails d-inline p-2"><i class="fa fa-eye" aria-hidden="true"></i></span>
 				{{#if useGPS}}

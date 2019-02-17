@@ -539,12 +539,15 @@ Template.editBox.onCreated(() => {
 });
 Template.editBox.onRendered(() => {
 	let t = Template.instance();
-	$('.editBox').removeClass('slideOutRight').addClass('slideInRight').fadeIn();
-	const editBoxSwipeRight = new Hammer(document.getElementById('editBox'));
-	editBoxSwipeRight.on("swiperight panright", function(e) {
-		console.log('[editBox hammer]', e, " gesture detected:", e.type) ;
-		$('.editBox').removeClass('slideInRight').addClass('slideOutRight').fadeOut();		
-	});
+	
+	if ($('html').width() < 576){
+		$('.editBox').removeClass('slideOutRight').addClass('slideInRight').fadeIn();
+		const editBoxSwipeRight = new Hammer(document.getElementById('editBox'));
+		editBoxSwipeRight.on("swiperight panright", function(e) {
+			console.log('[editBox hammer]', e, " gesture detected:", e.type) ;
+			$('.editBox').removeClass('slideInRight').addClass('slideOutRight').fadeOut();		
+		});
+	}
 });
 Template.editBox.onDestroyed(() => {
 	//$('#datepicker').datepicker('destroy');
