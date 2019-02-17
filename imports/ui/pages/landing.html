@@ -18,18 +18,37 @@
 
 		<!-- One -->
 		<section id="one" class="landing wrapper post bg-img" style="background-image: url({{banner2.image}})">
-			<div class="inner animated fadeIn">
-				<article class="box">
-					<header>
-						<h1>{{about.h2}}</h1>
-					</header>
-					<div class="content h4">
-						{{{about.text}}}
+			<div class="inside">
+				<div class="row pt-3 align-items-center justify-content-center">
+					<div class="col-lg-4 col-sm-4 d-none d-sm-flex height80 flex-center text-right">
+						<div class="screens d-inline-flex">
+							{{#each screens}}
+								<div class="screen-inside d-inline-block {{step}} {{enlarged}} pointer enlargeImg"><img src="{{src}}" class="img-fluid img-thumbnail" /></div>
+							{{/each}}
+						</div>					
 					</div>
-<!-- 					<footer>
-						<a href="generic.html" class="button alt">Learn More</a>
-					</footer> -->
-				</article>
+					<div class="col-md-1 d-none d-md-flex height80 flex-center ">
+					</div>
+					<div class="col-lg-4 col-sm-7 col-10 height80 flex-center ">
+						<article class="box">
+							<header>
+								<h1>{{about.h2}}</h1>
+							</header>
+							<div class="content h4">
+								{{{about.text}}}
+							</div>
+							<div class="screens-xs d-inline-flex d-sm-none">
+								{{#each screens}}
+									<div id="{{txt}}" class="screen-inside d-inline-block {{step}} {{enlarged}} pointer enlargeImg p-1"><img src="{{src}}" class="img-fluid img-thumbnail" /></div>
+								{{/each}}
+							</div>
+						</article>					
+					</div>					
+				</div>
+			</div>
+
+			<div class="inner animated fadeIn">
+
 			</div>
 			<div class="more linkwhitewhite pointer toTwo"><i class="fa fa-chevron-circle-down fa-5x" aria-hidden="true"></i></div>
 		</section>
@@ -39,7 +58,7 @@
 			<div class="inner animated fadeIn">
 				<article class="box">
 					<header>
-						<h2>{{solutions.h2}}</h2>
+						<h1>{{solutions.h2}}</h1>
 					</header>
 					<div class="content h4">
 						{{{solutions.text}}}
@@ -74,7 +93,7 @@
 			<div class="inner animated fadeIn">
 				<article class="box">
 					<header>
-						<h2>{{contact.h2}}</h2>
+						<h1>{{contact.h2}}</h1>
 					</header>
 					<div class="content h3">
 						<div class="p">{{{contact.text}}}</div>
@@ -106,7 +125,7 @@
 		<section id="banner" class="landing" style="background-image: url(/img/banner.jpg)">
 			<div class="inner">
 				<header>
-					<h4>Timerz</h4>
+					<h1>Timerz</h1>
 				</header>
 				<div class="content h4">Server is reloaded, please wait</div>
 			</div>

@@ -368,6 +368,27 @@ Schemas.Texts = new SimpleSchema({
 			rows: 3,
 		},
   },	
+	screens: {
+		type: Array,
+		optional: true,
+	},	
+	'screens.$': {
+		type: Object,
+		optional: true,
+	},
+  'screens.$.txt': {
+    type: String,
+		optional: true,
+  },
+  'screens.$.src': {
+    type: String,
+		optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'cloudinary'
+      }
+    }
+  },
 	images: {
 		type: Array,
 		optional: true,

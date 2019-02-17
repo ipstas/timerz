@@ -9,12 +9,14 @@ import '../components/collectform.js';
 //import '../pages/tour.js';
 
 var vrloaded = 'Loading...';
+let step = 0;
+let length = 0;
 
 Template.landing.onCreated(function () {
 	
 	let t = Template.instance();
   t.state = new ReactiveDict();
-	t.vrloading = new ReactiveVar();
+	t.enlarge = new ReactiveVar();
 	t.contactUs = new ReactiveVar();
 	t.newRecord = new ReactiveVar();
 	t.editRecord = new ReactiveVar();
@@ -85,7 +87,10 @@ Template.landing.helpers({
 		return abtest;
 	},
   landing() {
-    return Collections.Texts.findOne({title:'landingtimers'});
+    let data = Collections.Texts.findOne({title:'landingtimers'}) ;
+		if (data && data.screens)
+			length = data.screens.length;
+		return data;
   },
   banner1() {
 		//console.log('[banner]', this, this.images );
@@ -101,6 +106,15 @@ Template.landing.helpers({
   banner4() {
     return _.findWhere(this.images, {text: 'banner4'}) || '/img/banner.jpg';
   },
+	step(){
+		step = step + 1;
+		if (step > length) step = 1;
+		return 'screen_' + step;
+	},
+	enlarged(){
+		let t = Template.instance();
+		if (this.txt == t.enlarge.get()) return 'enlarged animated fadeIn';
+	},
 	newRecord(){
 		let t = Template.instance();
 		return t.newRecord.get();
@@ -175,6 +189,13 @@ Template.landing.events({
 				category: "LangingSigned",
 				label: 'a'
 			});	
+	},
+	'click .enlargeImg'(e,t){
+		console.log('[clicked enlarge]', e, this);
+		if (!t.enlarge.get())
+			t.enlarge.set(this.txt);
+		else
+			t.enlarge.set()
 	},
 	'click #webapp' (e,t){
 		FlowRouter.go('/timers');
