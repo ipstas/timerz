@@ -208,26 +208,27 @@
 		overflow: hidden;
 		width: 25vw;
 	}
-	.screen_1{
-/* 		top:0;
-		left: 0; */
+	.screen_1:hover {
+		max-height: 12vh;
+	}
+	.screen_2:hover {
+		max-height: 12vh;
 	}
 	.screen_2{
 /* 		position: absolute;
 		top: 10vh;
 		right: 20vh; */
 	}
-	.enlarged{
-    z-index: 1000;
-    /* position: absolute; */
-    top: 0;
-    left: 0;
-    max-height: 100vh;
-    width: 100vw;
-    width: 100%;
-    overflow: overlay;
-    padding: 4px;
-	}
+}
+.enlarged{
+	z-index: 1000;
+	/* position: absolute; */
+	top: 0;
+	left: 0;
+	max-height: 100vh !important;
+	width: 100% !important;
+/*     overflow: overlay; */
+	padding: 4px;
 }
 
 .right-float-vert-middle{
