@@ -39,7 +39,7 @@ cloudinary.config({
 	api_secret: Meteor.settings.private.cloudinary.api_secret,
 	folder: 'ufg'
 });
-const analytics = '<!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-51455923-2"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "UA-121068149-1"); </script>';
+const analytics = '<!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-51455923-2"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag("js", new Date()); gtag("config", "UA-51455923-2"); </script>';
 
 let domain = __meteor_runtime_config__.ROOT_URL || 'dev';
 domain = domain.replace(/stg/,'app');
