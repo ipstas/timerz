@@ -23,16 +23,10 @@
 				</li>
 				<li>
 					<a class="h4" href="/archive/{{currentUser.username}}"><i class="fa fa-calendar" aria-hidden="true"></i> Archive</a>
-				</li>
-			{{else}}
+				</li>			
 				<li>
-					<a class="h4" href="/{{pathFor 'sign-in'}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
+					<a class="h4" href="{{pathFor 'feedback'}}"><i class="fa fa-commenting-o" aria-hidden="true"></i> Feedback</a>
 				</li>
-			{{/if}}
-			<li>
-				<a class="h4" href="{{pathFor 'feedback'}}"><i class="fa fa-commenting-o" aria-hidden="true"></i> Feedback</a>
-			</li>
-			{{#if currentUser}}
 				<li>
 					{{#if avatar}}
 						<a class="h4" href="{{pathFor 'profile' username=username}}"><img class="header_avatar" src="{{avatar}}" /> Profile</a>
@@ -42,10 +36,14 @@
 				</li>
 			{{else}}
 				<li>
+					<a class="h4" href="/{{pathFor 'sign-in'}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
+				</li>
+				<li>
 					<a class="h4" href="/{{pathFor 'sign-in'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a>
 <!-- 					<a class="h4" href="{{pathFor 'signIn'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a> -->
 				</li>
 			{{/if}}
+
 			{{#if isInRole 'admin' 'adm-group'}}
 				<li>
 					<a class="h4" href="{{pathFor 'adminpage'}}"><b><i class="fa fa-lock" aria-hidden="true"></i> Admin</b></a>

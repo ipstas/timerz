@@ -23,7 +23,6 @@ oauth2
 dynamic-import
 fourseven:scss
 less
-insecure
 #standard-minifier-css   # CSS minifier run for production mode
 
 
@@ -99,3 +98,4 @@ mdg:reload-on-resume
 meteorhacks:picker
 meteorhacks:inject-initial
 gadicohen:reactive-window
+allow-deny

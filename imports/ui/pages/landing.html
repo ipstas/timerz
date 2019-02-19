@@ -6,6 +6,7 @@
 	{{/if}}
 	
 	{{#with landing}}
+		{{#unless editRecord }}
 		<section id="banner" class="landing" style="background-image: url({{banner1.image}}); backround-attachment: {{behav}}">
 			<div class="inner">
 				<header>
@@ -107,7 +108,13 @@
 				</article>
 			</div>
 		</section>
-    {{#if editRecord }}
+			{{#if isInRole 'admin' 'adm-group'}}
+				<div class="right-float-vert-middle text-right d-none d-sm-flex">
+					<div class="btn btn-xs btn-danger editRecord"><b>Edit</b></div>
+				</div>
+			{{/if}}    
+
+		{{else}}
 			<div class="container">
 				<div class="row ">
 					<div class="col-12 animated fadeIn text-left">
@@ -116,11 +123,7 @@
 					</div>
 				</div>
 			</div>
-		{{else}}
-			<div class="right-float-vert-middle text-right d-none d-sm-flex">
-				<div class="btn btn-xs btn-danger editRecord"><b>Edit</b></div>
-			</div>
-    {{/if}}
+    {{/unless}}
 	{{else}}
 		<section id="banner" class="landing" style="background-image: url(/img/banner.jpg); background-attachment: {{behav}}">
 			<div class="inner">

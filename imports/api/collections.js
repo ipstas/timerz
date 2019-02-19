@@ -9,7 +9,7 @@ export const Schemas = {};
 export const Collections = {};
 
 Collections.Logs = new Mongo.Collection('logs');
-Collections.Texts = new Mongo.Collection('texts');
+const Texts = Collections.Texts = new Mongo.Collection('texts');
 Collections.Terms = new Mongo.Collection('terms');
 Collections.Credits = new Mongo.Collection('credits');
 Collections.Faq = new Mongo.Collection('faq');
@@ -207,16 +207,16 @@ Schemas.Logs = new SimpleSchema({
 	},
 });
 Collections.Logs.attachSchema(Schemas.Logs);
-Collections.Logs.allow({
-  insert: function () {
-		return true;
+Collections.Logs.deny({
+  insert: function (userId) {
+		return false;
   },
-  update: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  update: function (userId, doc, fields, modifier) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  remove: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  remove: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   }
 });
@@ -488,19 +488,37 @@ Schemas.Texts = new SimpleSchema({
 });
 Collections.Texts.attachSchema(Schemas.Texts);
 Collections.Texts.allow({
-  insert: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  insert: function (userId) {
+		console.log('[Collections.Texts.allow]', Roles.userIsInRole(userId, ['admin'], 'admGroup'),  userId, doc.userId);
+		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  update: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  update: function (userId, doc, fields, modifier) {
+		console.log('[Collections.Texts.allow] udpate', Roles.userIsInRole(userId, ['admin'], 'admGroup'), userId, doc.userId );
+		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  remove: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  remove: function (userId) {
+		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   }
 });
+/* Collections.Texts.deny({
+  insert: function (userId, doc, fields, modifier) {
+		console.log('[Collections.Texts.deny] insert', Roles.userIsInRole(userId, ['admin'], 'admGroup'), this.userId, userId );
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  update: function (userId, doc, fields, modifier) {
+		console.log('[Collections.Texts.deny] udpate:', Roles.userIsInRole(userId, ['admin'], 'admGroup'), this.userId, userId, '\ndoc:', doc, '\nfields:', fields, '\nmodifier:', modifier, '\n\n' );
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  remove: function (userId, doc, fields, modifier) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
+  }
+}); */
 
 Schemas.Terms = new SimpleSchema({
   type: {
@@ -530,17 +548,17 @@ Schemas.Terms = new SimpleSchema({
 	},
 });
 Collections.Terms.attachSchema(Schemas.Terms);
-Collections.Terms.allow({
-  insert: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+Collections.Terms.deny({
+  insert: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  update: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  update: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  remove: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  remove: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   }
 });
@@ -607,17 +625,17 @@ Schemas.Credits = new SimpleSchema({
 		},
 	},
 });
-Collections.Credits.allow({
-  insert: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+Collections.Credits.deny({
+  insert: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  update: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  update: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  remove: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  remove: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   }
 });
@@ -662,17 +680,17 @@ Schemas.Faq = new SimpleSchema({
 	},
 });
 Collections.Faq.attachSchema(Schemas.Faq);
-Collections.Faq.allow({
-  insert: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+Collections.Faq.deny({
+  insert: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  update: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  update: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  remove: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  remove: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   }
 });
@@ -968,17 +986,16 @@ Schemas.Contact = new SimpleSchema({
 	}
 });
 Collections.Contact.attachSchema(Schemas.Contact);	
-Collections.Contact.allow({
+Collections.Contact.deny({
   insert: function () {
-		return true;
+		return false;
   },
-  update: function () {
-		console.log('[Collections.Contact]', this, Roles.userIsInRole(this.userId, ['admin'], 'admGroup'));
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  update: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  remove: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  remove: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   }
 });
@@ -1126,18 +1143,17 @@ Schemas.Analytics = new SimpleSchema({
 	},
 });
 Collections.Analytics.attachSchema(Schemas.Analytics);	
-Collections.Analytics.allow({
-  insert: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+Collections.Analytics.deny({
+  insert: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  update: function () {
-		console.log('[Collections.Contact]', this, Roles.userIsInRole(this.userId, ['admin'], 'admGroup'));
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  update: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  remove: function () {
-		if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
+  remove: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   }
 });
@@ -1236,18 +1252,17 @@ Schemas.Pricing = new SimpleSchema({
   },
 });
 Collections.Pricing.attachSchema(Schemas.Pricing);
-Collections.Pricing.allow({
-  insert: function (userId, doc) {
-		if (Roles.userIsInRole(doc.userId, ['admin'], 'admGroup')) 
+Collections.Pricing.deny({
+  insert: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  update: function (userId, doc) {
-		//console.log('allow rules', Roles.userIsInRole(doc.userId, ['admin'], 'admGroup'), doc, this.userId, userId);
-		if (Roles.userIsInRole(doc.userId, ['admin'], 'admGroup')) 
+  update: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   },
-  remove: function (userId, doc) {
-		if (Roles.userIsInRole(doc.userId, ['admin'], 'admGroup')) 
+  remove: function (userId) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
   }
 });
@@ -1445,17 +1460,33 @@ Schemas.Timers = new SimpleSchema({
 });
 Collections.Timers.allow({
   insert: function (userId, doc) {
-		return true;
+		console.log('[Collections.Timers.allow] insert:', doc.userId == userId, userId, doc.userId, this.userId);
+		if (doc.userId == userId)
+			return true;
   },
   update: function (userId, doc) {
-		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+		console.log('[Collections.Timers.allow] update:', userId, doc.userId);
+		if (doc.userId == userId)
 			return true;
-    return doc.userId === userId;
   },
   remove: function (userId, doc) {
-		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+		if (doc.userId == userId)
 			return true;
-    return doc.userId === userId;
+  }
+});
+Collections.Timers.deny({
+  insert: function (userId, doc) {
+		console.log('[Collections.Timers.deny] insert:', doc.userId !== userId, userId, doc.userId);
+		if (doc.userId !== userId)
+			return true;
+  },
+  update: function (userId, doc) {
+		if (doc.userId !== userId)
+			return true;
+  },
+  remove: function (userId, doc) {
+		if (doc.userId !== userId)
+			return true;
   }
 });
 
@@ -1535,19 +1566,18 @@ Schemas.Sessions = new SimpleSchema({
   },
 
 });
-Collections.Sessions.allow({
+Collections.Sessions.deny({
   insert: function (userId, doc) {
-		return true;
+		if (doc.userId !== userId)
+			return true;
   },
   update: function (userId, doc) {
-		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+		if (doc.userId !== userId)
 			return true;
-    return doc.userId === userId;
   },
   remove: function (userId, doc) {
-		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
-			return true;
-    return doc.userId === userId;
+		if (doc.userId !== userId)
+			return true
   }
 });
 
@@ -1670,6 +1700,20 @@ Schemas.EmailsTmpl = new SimpleSchema({
 	},
 });
 Collections.EmailsTmpl.attachSchema(Schemas.EmailsTmpl);
+Collections.EmailsTmpl.deny({
+  insert: function (userId, doc) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  update: function (userId, doc) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
+  },
+  remove: function (userId, doc) {
+		if (!Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
+  }
+});
 
 Schemas.Push = new SimpleSchema({
 	type: {
@@ -1778,6 +1822,19 @@ Schemas.Push = new SimpleSchema({
 	},
 });
 Collections.Push.attachSchema(Schemas.Push);
+Collections.Push.deny({
+  insert: function (userId, doc) {
+		if (!userId) return true;
+  },
+  update: function (userId, doc) {
+		if (doc.userId !== userId)
+			return true
+  },
+  remove: function (userId, doc) {
+		if (doc.userId !== userId)
+			return true
+  }
+});
 
 Schemas.Settings = new SimpleSchema({
 	type: {
@@ -1843,4 +1900,17 @@ Schemas.Settings = new SimpleSchema({
 	'personal.$.userId': {
 		type: String,
 	},
+});
+Collections.Settings.deny({
+  insert: function (userId, doc) {
+		if (!userId) return true;
+  },
+  update: function (userId, doc) {
+		if (doc.userId !== userId)
+			return true
+  },
+  remove: function (userId, doc) {
+		if (doc.userId !== userId)
+			return true
+  }
 });
