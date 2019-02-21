@@ -2,7 +2,11 @@
 	<section id="timers" class="mainSwipe text-center animated fadeIn">
 		<div class="row text-left">
 			<div class="col-12 h2">
-				{{#if author}}<button class="btn btn-lg btn-outline-info newRecord"><i class="fa fa-plus" aria-hidden="true"></i></button>{{/if}}&nbsp; 
+				{{#if author}}
+					<button class="btn btn-lg btn-outline-info newRecord"><i class="fa fa-plus" aria-hidden="true"></i></button>
+				{{else}}
+					<div>Public timers for {{user}}</div>
+				{{/if}}&nbsp; 
 				<span class="d-none d-inline" style="background-color:white;">&nbsp;</span> 
 				<span class="h1">Timers</span>	
 			</div>
@@ -72,7 +76,7 @@
 			{{>usertimer}}
 		{{else}}
 			<div class="col-12 h2 m-5">
-				No timers yet. <a href="/archive/{{currentUser.username}}">Archive</a>
+				No timers yet
 			</div>
 		{{/each}}
 	</div>

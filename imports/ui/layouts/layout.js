@@ -166,3 +166,31 @@ Template.layout.events({
 		event.preventDefault();
 	}, */
 });
+
+Template.layoutSign.onCreated(()=>{
+	Meteor.subscribe('contact');
+});
+Template.layoutSign.onRendered(()=>{
+	$('#injectloadingspinner').fadeOut();
+	$('#loadingspinner').fadeOut();
+	$('body').css('overflow', 'auto');
+
+	let mainSwipeRight;
+	Tracker.autorun(()=>{
+		if (rwindow.outerWidth() < 576){
+			mainSwipeRight = new Hammer(document.getElementById('main'));
+			mainSwipeRight.on("swiperight panright tap press", function(e) {
+				if (rwindow.outerWidth() > 575) return;
+				console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
+				if (e.type == 'swiperight' && e.target.id != 'editBox') {
+					$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
+					$('#bars').removeClass('rotate90');		
+				} 		
+			});
+		}
+	});
+	
+});
+
+
+

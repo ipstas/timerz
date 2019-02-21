@@ -71,6 +71,9 @@ Template.user.helpers({
 		if (Meteor.user())
 			return (FlowRouter.getParam("username") == Meteor.user().username);
 	},
+	user(){
+		return FlowRouter.getParam("username");
+	},
 	currentTimer(){
 		let t = Template.instance();
 		return currentTimer.get();

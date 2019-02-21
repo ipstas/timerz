@@ -126,8 +126,7 @@ Template.landing.helpers({
 		let t = Template.instance();
 		if (this.txt == t.enlarge.get()) 
 			return 'enlarged animated fadeIn';
-		return 'z-one';
-		
+		return 'z-one';		
 	},
 	newRecord(){
 		let t = Template.instance();

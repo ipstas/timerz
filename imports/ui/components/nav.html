@@ -36,10 +36,10 @@
 				</li>
 			{{else}}
 				<li>
-					<a class="h4" href="/{{pathFor 'sign-in'}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
+					<a class="h4" href="{{pathFor 'signIn'}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
 				</li>
 				<li>
-					<a class="h4" href="/{{pathFor 'sign-in'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a>
+					<a class="h4" href="{{pathFor 'signIn'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a>
 <!-- 					<a class="h4" href="{{pathFor 'signIn'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a> -->
 				</li>
 			{{/if}}
@@ -83,7 +83,7 @@
 				</li>
 			{{else}}
 				<li class="{{isActiveRoute 'timers' class='activewhitewhite'}}">
-					<a class="h4" href="/{{pathFor 'sign-in'}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
+					<a class="h4" href="{{pathFor 'signIn'}}"><i class="fa fa-clock-o" aria-hidden="true"></i> Timers</a>
 				</li>
 			{{/if}}
 			{{#with currentUser}}
@@ -98,7 +98,7 @@
 				</li>
 			{{else}}
 				<li>
-					<a class="h4" href="/{{pathFor 'sign-in'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a>
+					<a class="h4" href="{{pathFor 'signIn'}}"><b><i class="fa fa-user-secret"></i></b> Check In</a>
 				</li>
 			{{/with}}
 			<li class="{{isActiveRoute 'feedback' class='activewhitewhite'}}">
@@ -164,7 +164,7 @@
 		</li>
 	{{else}}
 		<li>
-			<a href="{{pathFor 'sign-in'}}"><b><i class="fa fa-user-secret"></i> Profile</b></a>
+			<a href="{{pathFor 'signIn'}}"><b><i class="fa fa-user-secret"></i> Profile</b></a>
 		</li>
 	{{/if}}
 	{{#if isInRole 'admin' 'adm-group'}}

@@ -488,7 +488,7 @@ Schemas.Texts = new SimpleSchema({
 });
 Collections.Texts.attachSchema(Schemas.Texts);
 Collections.Texts.allow({
-  insert: function (userId) {
+  insert: function (userId, doc) {
 		console.log('[Collections.Texts.allow]', Roles.userIsInRole(userId, ['admin'], 'admGroup'),  userId, doc.userId);
 		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
 			return true;
@@ -987,7 +987,7 @@ Schemas.Contact = new SimpleSchema({
 });
 Collections.Contact.attachSchema(Schemas.Contact);	
 Collections.Contact.deny({
-  insert: function () {
+  insert: function (userId, doc) {
 		return false;
   },
   update: function (userId) {
@@ -1469,7 +1469,7 @@ Collections.Timers.allow({
 		if (doc.userId == userId)
 			return true;
   },
-  remove: function (userId, doc) {4
+  remove: function (userId, doc) {
 		if (doc.userId == userId)
 			return true;
   }

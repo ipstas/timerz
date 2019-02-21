@@ -70,7 +70,7 @@ FlowRouter.route('/timers/', {
 	action: function(params, queryParams) {
 		Tracker.autorun(function(computation){
 			if (!Meteor.userId()) 
-				return FlowRouter.go('/sign-in');
+				return FlowRouter.go('/signIn');
 			if (Meteor.userId() && !Meteor.user()) return;
 			FlowRouter.go('/timers/' + Meteor.user().username);
 			computation.stop();
@@ -133,9 +133,9 @@ FlowRouter.route('/feedback', {
 FlowRouter.route('/signIn', {
   name: 'signIn',
   action: function(params, queryParams) {
-		FlowRouter.go('/sign-in');
+		//FlowRouter.go('/sign-in');
 		console.log('signIn', this, params, queryParams);
-    BlazeLayout.render('layout', { nav: navdsk, main: 'signIn' });
+    BlazeLayout.render('layoutSign', { main: 'signIn' });
   },
 });
 
