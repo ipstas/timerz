@@ -3,6 +3,10 @@ import {Schemas} from '/imports/api/collections.js';
 import {stopSession} from '/imports/api/functions.js';
 
 Meteor.startup(function() {
+	
+	if (Meteor.isCordova && Session.get('useGPS') !== false && Session.get('useGPS') !== true) 
+		Session.setPersistent('useGPS', true);
+	
 	Tracker.autorun(()=>{	
 		if (!Meteor.isCordova) return;
 		if (!Meteor.user()) return;

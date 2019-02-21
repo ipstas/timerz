@@ -736,7 +736,7 @@ Template.settings.events({
 		Session.setPersistent('useGPS', !Session.get('useGPS'));
 		if (!Meteor.isCordova) {
 			Meteor.setTimeout(()=>{
-				Session.setPersistent('useGPS');
+				Session.setPersistent('useGPS', false);
 				Bert.alert('This feature is available in mobile only', 'info', 'growl-top-right', 'fas fa-info');
 			},1500);
 			return;
@@ -821,7 +821,7 @@ Template.connectAccounts.events({
 		console.log('[connectAccounts] connectfacebook his', this);
 		t.errorState.set();
 
-		Meteor.linkWithFacebook({requestPermissions:  ['email', 'public_profile', 'user_friends', 'user_likes']}, (err, r)=> {
+		Meteor.linkWithFacebook({requestPermissions:  ['email', 'public_profile']}, (err, r)=> {
 			console.log('linkWithFacebook', err, r);
 			if (err)
 				t.errorState.set(err.error);

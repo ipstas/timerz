@@ -1384,6 +1384,7 @@ Schemas.Timers = new SimpleSchema({
 	},
 	useGPS:{
 		type: Boolean,
+		label: "GPS mobile only",
 		optional: true,
 	},
 	archived: {

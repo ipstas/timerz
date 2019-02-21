@@ -453,7 +453,7 @@ Template.usertimer.helpers({
 		else if (this.timeStarted && Meteor.isCordova )
 			return 'text-warning turnGPS';
 		else if (this.timeStarted)
-			return 'text-muted dskGPS';
+			return 'dskGPS';
 		else
 			return 'text-muted ';
 	},
