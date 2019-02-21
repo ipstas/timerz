@@ -21,11 +21,12 @@ export const loadScripts = function (){
 				cache: true,
 				success:function(script, textStatus, jqXHR){
 					if (!window.FB)
-						return Bert.alert('You have blocked FB, some features will not be working properly', 'danger');
-					if (Meteor.settings.public.facebook)
-						FB.init(Meteor.settings.public.facebook);
-					else 
-						return console.warn('ajaxscripts FB is not configured');
+						return console.error ('[ajaxscripts] FB init was blocked for:', Meteor.userId());
+						//return Bert.alert('You have blocked FB, some features will not be working properly', 'danger');
+					else if (!Meteor.settings.public.facebook)
+						return console.error('[ajaxscripts] FB is not configured');
+					else
+						FB.init(Meteor.settings.public.facebook);						
 					 
 					$('#loginbutton,#feedbutton,.fb-share').removeAttr('disabled');
 					

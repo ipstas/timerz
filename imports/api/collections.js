@@ -1460,7 +1460,7 @@ Schemas.Timers = new SimpleSchema({
 });
 Collections.Timers.allow({
   insert: function (userId, doc) {
-		console.log('[Collections.Timers.allow] insert:', doc.userId == userId, userId, doc.userId, this.userId);
+		console.log('[Collections.Timers.allow] insert:', doc.userId == userId, userId, doc.userId);
 		if (doc.userId == userId)
 			return true;
   },
@@ -1469,7 +1469,7 @@ Collections.Timers.allow({
 		if (doc.userId == userId)
 			return true;
   },
-  remove: function (userId, doc) {
+  remove: function (userId, doc) {4
 		if (doc.userId == userId)
 			return true;
   }
@@ -1566,7 +1566,24 @@ Schemas.Sessions = new SimpleSchema({
   },
 
 });
-Collections.Sessions.deny({
+Collections.Sessions.allow({
+  insert: function (userId, doc) {
+		console.log('[Collections.Sessions.allow] insert:', doc.userId == userId, userId, doc.userId);
+		if (doc.userId == userId)
+			return true;
+  },
+  update: function (userId, doc) {
+		console.log('[Collections.Sessions.allow] update:', doc.userId == userId, userId, doc.userId);
+		if (doc.userId == userId)
+			return true;
+  },
+  remove: function (userId, doc) {
+		console.log('[Collections.Sessions.allow] remove:', doc.userId == userId, userId, doc.userId);
+		if (doc.userId == userId)
+			return true
+  }
+});
+/* Collections.Sessions.deny({
   insert: function (userId, doc) {
 		if (doc.userId !== userId)
 			return true;
@@ -1579,7 +1596,7 @@ Collections.Sessions.deny({
 		if (doc.userId !== userId)
 			return true
   }
-});
+}); */
 
 Schemas.Monthly = new SimpleSchema({
 	createdAt:{
