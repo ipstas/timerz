@@ -115,6 +115,13 @@
 			</div>			
 
 		</div>
+		{{#if sessAlert}}
+			<div class="row align-items-center">
+				<div class="col-12 small text-muted animated fadeIn">
+					Session with less than 60secs will be discarded at the stop
+				</div>
+			</div>
+		{{/if}}
 		{{#if $eq showDetails _id}}
 			<div class="row bg-light align-items-center animated fadeInLeft">
 				<div class="col-md-3 col-4">		

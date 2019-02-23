@@ -429,6 +429,11 @@ Template.usertimer.helpers({
 		if (currentTimer.get() && currentTimer.get()._id == this._id)
 			return moment.utc(counter).format("hh:mm:ss");
 	},
+	sessAlert(){	
+		let session = timeSpent.get();
+		if (this.timeStarted && session < 60000)
+			return true;
+	},
 	deviation(){
 		return Session.get('deviation');
 	},
