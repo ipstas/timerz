@@ -17,6 +17,13 @@
 		</div>
 		
 	</section>
+	
+	{{#with showdata}}
+		<section id="editBox" class="container-fluid">
+			{{>editBox }}
+		</section>
+	{{/with}}
+	
 </template>
 
 <template name="timerreport">
@@ -39,7 +46,7 @@
 	{{#each day}}
 		{{debug}}
 		<div class="row">
-			<div class="col-6 col-lg-3 text-left">
+			<div class="col-6 col-lg-3 text-left pointer showSessions">
 				{{_id}}
 			</div>
 			<div class="col-6 col-lg-3 text-right">
@@ -51,6 +58,12 @@
 	<div class="xlUsertimers row text-right">
 		<div class="col-12 col-lg-6 h3">
 			Total: {{totalHuman}}
+		</div>
+	</div>	
+	
+	<div id="histogram" class="xlUsertimers row text-left">
+		<div class="col-12 ">
+			<div id="hist"></div>
 		</div>
 	</div>
 </template>

@@ -16,6 +16,8 @@
     "cloudinary-jquery-file-upload": "^2.6.2",
     "cordova-plugin-request-location-accuracy": "^2.2.3",
     "cordova.plugins.diagnostic": "^4.0.11",
+    "d3": "^5.9.1",
+    "d3-array": "^2.0.3",
     "docker-names": "^1.1.1",
     "fibers": "^2.0.2",
     "firebase": "^4.13.1",

@@ -557,12 +557,15 @@ Template.editBox.onDestroyed(() => {
 });
 Template.editBox.helpers({
 	currtemplate(){
-		return currtemplate.get();
+		return currtemplate.get() || 'showsessions';
 	},
 });
 Template.editBox.events({
 	'click .archive'(e,t){
 
+	},
+	'click .close'(e,t){
+		$('.editBox').removeClass('slideInRight ').addClass('slideOutRight').fadeOut();
 	},
 });
 
@@ -631,6 +634,7 @@ Template.showdaily.onCreated( () => {
 Template.showdaily.helpers({
 	data(){
 		let data = Collections.Timers.findOne(this.timerId);
+		data.daily = _.sortBy(data.daily, 'date');
 		console.log('showDailyModal', data, this);
 		// doc.stop = new Date(parseInt(doc.stop / 60000) * 60000);
 		// doc.start = new Date(parseInt(doc.start / 60000) * 60000);
@@ -664,7 +668,18 @@ Template.showsessions.onCreated( () => {
 });
 Template.showsessions.helpers({
 	data(){
-		var data = Collections.Sessions.find({timerId: this._id},{sort: {start: -1}});
+		let date, date1, list = {timerId: this._id};
+		if (this.dateSes) {
+			date = new Date(this.dateSes);
+			var today = new Date(this.dateSes);
+			var tomorrow = new Date(today);
+			tomorrow.setDate(today.getDate()+1);
+			date1 = new Date(tomorrow);
+			//date1 = new Date(new Date().setDate(new Date(this.dateSes).getDate() + 1));		
+			list.$and = [{start: {$gte: date}}, {start: {$lte: date1}}];
+		}
+		const data = Collections.Sessions.find(list,{sort: {start: -1}});
+		console.log('[showsessions] data list:', date, date1, list, this, data.fetch());
 		return data;
 	},
 	start(){

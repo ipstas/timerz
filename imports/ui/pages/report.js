@@ -1,7 +1,9 @@
 import './report.html';
 
+import * as d3 from "d3";
 import moment from 'moment';
 window.moment = moment;
+window.d3 = d3;
 
 import './timers.html';
 import './timers.js';
@@ -23,6 +25,7 @@ import {imgOnScroll } from '/imports/api/functions.js';
 import { initCurrTimer } from '/imports/api/functions.js';
 
 Collections._localMonth = new Mongo.Collection(null);
+const showdata = new ReactiveVar(0);
 
 /* const hooksMonth = {
 	onSubmit: function (doc) {
@@ -85,6 +88,10 @@ Template.report.helpers({
 	timer(){
 		return Collections.Timers.findOne({_id: FlowRouter.getParam('_id')});
 	},
+	showdata(){
+		let t = Template.instance();		
+		return showdata.get();
+	},	
 });
 Template.report.events({
 	'change .soon' (e,t){
@@ -97,14 +104,136 @@ Template.report.events({
 	'click .done'(e,t){
 		Bert.alert('Loaded', 'info');
 	},
+	'click .showDaily'(e,t){
+		console.log('report showDailyModal', this);
+		var data = this.daily;
+		data = _.sortBy(data, 'date');
+		showdata.set({timerId: this._id, data: this.daily});
+		//currtemplate.set('showdaily');
+		$('.editBox').removeClass('slideOutRight').addClass('slideInRight').fadeIn();
+		//Modal.show('showDailyModal', {timerId: this._id, data: this.daily});
+	},
+/* 	'click .showSessions'(e,t){
+		showdata.set(this);
+		//currtemplate.set('showsessions');
+		console.log("[report] showsessions:", this);
+		$('.editBox').removeClass('slideOutRight').addClass('slideInRight').fadeIn();
+		//Modal.show('showSessionsModal', {timerId: this._id, data:data});
+	}, */
 });
 
 Template.timerreport.onCreated(() => {
   let t = Template.instance();
 	t.totalSpent = new ReactiveVar(0);
+	t.daily = new ReactiveVar(false);
 });
 Template.timerreport.onRendered(() => {
 	let t = Template.instance();
+	t.data.daily = 	 _.sortBy(t.data.daily, 'date');
+	console.log('[timerreport] t.data:', t.data);
+	
+/* 	var jsonCircles = [
+	{ "x_axis": 30, "y_axis": 30, "radius": 20, "color" : "green" },
+	{ "x_axis": 70, "y_axis": 70, "radius": 20, "color" : "purple"},
+	{ "x_axis": 110, "y_axis": 100, "radius": 20, "color" : "red"}]; */
+	
+	// parse the date / time
+
+/*     // Create the SVG drawing area
+    var svg = d3.select("#hist")
+		      .append("svg")
+		      .attr("width", width + margin.left + margin.right)
+		      .attr("height", height + margin.top + margin.bottom)
+		      .append("g")
+		      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");	 */
+
+	t.autorun(()=>{
+		if (!t.daily.get() || t.daily.get().length > 31 || rwindow.outerWidth() < 450) return;
+    var margin = {top: 20, right: 20, bottom: 30, left: 50};
+    var width  = $('#hist').width() - margin.left - margin.right;
+    var height = 300 - margin.top - margin.bottom;
+    var parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
+    var parseDate = d3.timeParse("%Y-%m-%d");
+		$('svg').remove();
+    var svg = d3.select("#hist")
+		      .append("svg")
+		      .attr("width", width + margin.left + margin.right)
+		      .attr("height", height + margin.top + margin.bottom)
+		      .append("g")
+		      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");	
+		let data = [], tick = 0, bins;
+		for (let d of t.daily.get()) {
+			tick = tick + 10;
+			d.dtg = parseDate(d._id);
+			d.value = d.spent / 1000 / 60 / 60;
+			//data.push({x: tick, y: d.value, value: d.value, date : d.dtg, _id: d._id, spent : d.spent, radius: 10, color: "blue"});
+			data.push({value: d.value, date : d.dtg});
+		}
+		console.log('[timerreport] data1:', t.daily.get(), data);
+		
+					// Determine the first and last dates in the data set
+					//var dayExtent = d3.extent(data, function (d) { return d.date; });
+					var dayExtent = [d3.timeDay.offset(d3.min(data, function(d) {
+															return d.date;
+													}), -2), d3.timeDay.offset(d3.max(data, function(d) {
+															return d.date;
+													}), +2)]
+					// Create one bin per day, use an offset to include the first and last days
+					var dayBins = d3.timeDays(d3.timeDay.offset(dayExtent[0],-1),
+																		d3.timeDay.offset(dayExtent[1], 1));
+					var x = d3.scaleTime()
+										.domain(dayExtent)
+										.rangeRound([0, width - 20]);
+					// Scale the range of the data in the y domain
+					var y = d3.scaleLinear()
+										.domain([0, d3.max(data, function(d) { return d.value;})])
+										.range([height, 0]);
+
+					var barWidth = width / dayBins.length -1;
+/* 					// Set the parameters for the histogram
+					var histogram = d3.histogram()
+														 .value(function(d) { return d.date || 0; })
+														 .domain(x.domain())
+														 .thresholds(x.ticks(dayBins.length));
+					// Group the data for the bars
+					bins = histogram(constructionData); */
+					console.log('[timerreport] dayBins:', dayBins, '\nbins:', bins, '\ndata:', data, 'x,y', x,y);
+
+					// Append the bar rectangles to the svg element
+					svg.selectAll("rect")
+					 .data(data)
+					 .enter().append("rect")
+					 .attr("class", "bar")
+					 .attr("x", function(d) { console.log('[timerreport] hist d:', d); return x(d.date); })
+					 .attr("y", function(d) { return y(d.value); })
+					 .attr("width", barWidth)
+					 .attr("height", function(d) { return height - y(d.value); });
+					 
+					// Add the x axis
+					var xAxis = d3.axisBottom(x)
+										.tickArguments([d3.timeDay.every(1)]);
+					svg.append("g")
+							 .attr("transform", "translate(0," + height + ")")
+							 .call(d3.axisBottom(x));
+							 //.call(xAxis);
+
+					// Add the y Axis
+					svg.append("g")
+							.call(d3.axisLeft(y));
+
+					// text label for the y axis
+					svg.append("text")
+							.attr("transform", "rotate(-90)")
+							.attr("y", 0 - margin.left)
+							.attr("x",0 - (height / 2))
+							.attr("dy", "1em")
+							.style("text-anchor", "middle")
+							.text("Hrs");       	
+	
+	});
+    
+				
+	
 });
 Template.timerreport.helpers({
 	schema(){
@@ -137,14 +266,16 @@ Template.timerreport.helpers({
 			select.month = select.month || '';
 			period = select.year + '-' + select.month;
 		}
-		data = _.find(this.daily, (day)=>{
+		data = _.sortBy(this.daily, 'date');
+		data = _.find(data, (day)=>{
 			if (day._id.match(period)) daily.push(day)
 		});
 		for (let day of daily) {
 			total = total + day.spent;
 		}
 		t.totalSpent.set(total);
-		console.log('daily', this.daily, select, period, data, daily);
+		console.log('[timerreport.helpers] daily', daily, period, this.daily, select, data );
+		t.daily.set(daily);
 		return daily;
 	},
 
@@ -170,7 +301,7 @@ Template.timerreport.helpers({
 	},
 
 	debug(){
-		console.log('debug timerreport', this);
+		//console.log('debug timerreport', this);
 	}
 });
 Template.timerreport.events({
@@ -188,8 +319,14 @@ Template.timerreport.events({
 		Modal.show('showDailyModal', {timerId: this._id, data: this.daily});
 	},
 	'click .showSessions'(e,t){
-		var data = Collections.Sessions.find({timerId: this._id},{sort: {stop: -1}});
-		Modal.show('showSessionsModal', {timerId: this._id, data:data});
+		const date = new Date(this._id);
+		const date1 = new Date(new Date().setDate(new Date(this._id).getDate() + 1));
+		const data = Collections.Sessions.find({timerId: FlowRouter.getParam('_id'), $and: [{start: {$gte: date}}, {start: {$lte: date1}}] })
+		//var data = Collections.Sessions.find({timerId: this._id},{sort: {stop: -1}});
+		console.log('[timerreport] clicked showSessions', this, '\ndata:', date, date1, data.fetch());
+		showdata.set({_id: FlowRouter.getParam('_id'), dateSes: this.date});
+		$('.editBox').removeClass(' slideOutRight').addClass('slideInRight').fadeIn();
+		//Modal.show('showSessionsModal', {timerId: this._id, data:data});
 	},
 });
 
