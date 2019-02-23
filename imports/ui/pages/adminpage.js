@@ -941,6 +941,29 @@ Template.allusers.events({
 	},
 });
 
+Template.countTimers.onCreated( () => {
+	AutoForm.debug(); 
+	var sub;
+	//PostSubs.subscribe('userdata', {limit: 10});
+	let t = Template.instance();
+	t.count = new ReactiveVar();
+
+
+	Meteor.call('count.timers', {userId: t.data._id}, (e,r)=>{
+		if (r) console.warn('[countTimers] ERR count.timers ', e,r);
+		t.count.set(r);
+	});
+});
+Template.countTimers.helpers({
+	count(){
+		let t = Template.instance();
+		return t.count.get();
+	},
+});
+Template.countTimers.events({
+
+});
+
 Template.userdetails.onCreated( () => {	
 });
 Template.userdetails.helpers({

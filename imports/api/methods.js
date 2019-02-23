@@ -283,7 +283,9 @@ Meteor.methods({
 		return data;
 	},
 
-	
+	'count.timers'(params){
+		return {timers: Collections.Timers.find({userId: params.userId}).count(), sessions: Collections.Sessions.find({userId: params.userId}).count()};
+	},
 	'count.members'(){
 		return Collections.MemberMaster.find().count();
 	},		

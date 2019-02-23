@@ -504,7 +504,7 @@
 			<div class="col-4 fontsmaller">
 				Since <code>{{#with createdAt}}{{localDate}}{{/with}}</code><br/>
 				Last: <code>{{#with visitedAt}}{{localDate}}{{/with}}</code><br/>
-				Timers: <code>{{timers}}</code>
+				Timers: <code>{{>countTimers}}</code>
 			</div>
 <!-- 			<div class="col-2">
 				<button class="delUser button btn btn-sm btn-danger">Delete</button>
@@ -529,6 +529,12 @@
 			{{/if}}
 		</div>
 	</div>
+		
+</template>
+
+<template name='countTimers'> 
+
+	{{count.timers}}/{{count.sessions}}
 		
 </template>
 
