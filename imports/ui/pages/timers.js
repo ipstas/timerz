@@ -562,6 +562,8 @@ Template.editBox.onDestroyed(() => {
 });
 Template.editBox.helpers({
 	currtemplate(){
+		if (FlowRouter.getRouteName() == 'report')
+			return 'showsessions';
 		return currtemplate.get() || 'showsessions';
 	},
 });
