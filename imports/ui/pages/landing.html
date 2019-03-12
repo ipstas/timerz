@@ -37,6 +37,13 @@
 							</header>
 							<div class="content h4">
 								{{{about.text}}}
+							</div>							
+							<div class="content h4">
+								{{#with currentUser}}
+									<div class="btn btn-lg btn-outline-dark"><a href="/dashboard/{{username}}">Dashboard</a></div>
+								{{else}}
+									<div class="btn btn-lg btn-outline-dark"><a href="/demo">Demo Dashboard</a></div>
+								{{/with}}
 							</div>
 							<div class="screens-xs d-inline-flex d-sm-none">
 								{{#each screens}}

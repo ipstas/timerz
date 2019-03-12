@@ -27,7 +27,7 @@ const version = new ReactiveVar();
 
 const selectors = [
 /* 	{ value: 'creators', label: 'Creators'}, */
-	{ value: 'tutorial', label: 'Tutorial'},
+/* 	{ value: 'tutorial', label: 'Tutorial'}, */
 	{ value: 'faq', label: 'FAQ'},
 	{ value: 'contactForm', label: 'Contact Us'},
 	{ value: 'terms', label: 'Terms & Conditions'},

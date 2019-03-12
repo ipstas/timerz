@@ -42,6 +42,9 @@ if ('AccountsTemplates' in window) {
 		negativeFeedback: false,
 		positiveFeedback: true,
 
+    homeRoutePath: '/dashboard',
+    redirectTimeout: 1000,
+		
 		// Privacy Policy and Terms of Use
 		//privacyUrl: 'privacy',
 		//termsUrl: 'terms-of-use',

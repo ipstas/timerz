@@ -151,7 +151,9 @@ Template.timerreport.onRendered(() => {
 		if (!t.daily.get() || t.daily.get().length > 31 || rwindow.outerWidth() < 375) return;
     var margin = {top: 20, right: 20, bottom: 30, left: 50};
     var width  = $('#hist').width() - margin.left - margin.right;
-    var height = $('#hist').width()/2 - margin.top - margin.bottom;
+    var height = $('#hist').width()/2;
+		if (height > 300) height = 300;
+    height = height - margin.top - margin.bottom;
     var parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
     var parseDate = d3.timeParse("%Y-%m-%d");
 		$('svg').remove();
