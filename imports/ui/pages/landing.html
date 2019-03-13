@@ -40,9 +40,9 @@
 							</div>							
 							<div class="content h4">
 								{{#with currentUser}}
-									<div class="btn btn-lg btn-outline-dark"><a href="/dashboard/{{username}}">Dashboard</a></div>
+									<a href="/timers/{{username}}"><div class="btn btn-lg btn-outline-light">Timers</div></a>
 								{{else}}
-									<div class="btn btn-lg btn-outline-dark"><a href="/demo">Demo Dashboard</a></div>
+									<a href="/timers/demouser"><div class="btn btn-lg btn-outline-light">Demo Timers</div></a>
 								{{/with}}
 							</div>
 							<div class="screens-xs d-inline-flex d-sm-none">
