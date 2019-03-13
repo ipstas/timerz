@@ -33,7 +33,7 @@ const timeSpent = new ReactiveVar(0);
 const currtemplate = new ReactiveVar(0);
 const showdata = new ReactiveVar(0);
 const showToday = new ReactiveVar();
-let interval;
+let interval, pushInterval;
 console.log('[timers.js] start:', currentTimer.get());
 
 Template.user.onCreated(() => {
@@ -144,7 +144,8 @@ Template.currenttimer.onCreated(() => {
 
 	//if (!Template.currentData() || !Template.currentData()._id) return;
 	let t = Template.instance();	
-	//console.log('[currenttimer data]', t.data, Template.currentData(), currentTimer.get());
+	if (Session.get('debug'))
+		console.log('[currenttimer data]', t.data, currentTimer.get());
 
 	if (Session.get('useGPS') && Session.get('currentTimer') && Session.get('currentTimer').useGPS) {
 		if (typeof(Location) != "undefined" && Location.locate) 
@@ -155,6 +156,7 @@ Template.currenttimer.onCreated(() => {
 				console.warn("[currenttimer] gps Oops! There was an error", err);
 			});	
 	}
+
 });
 Template.currenttimer.onRendered(() => {
 	let t = Template.instance();
@@ -168,11 +170,14 @@ Template.currenttimer.onRendered(() => {
 			}, 1000);
 		else if (!data.timeStarted)
 			Meteor.clearInterval(interval), interval = false;	
-		console.log('[currenttimer.onRendered] timespent', interval, data);
+		console.log('[currenttimer.onRendered] timespent', interval, data, t.data);
+		pushInterval = Meteor.setInterval(()=>{
+			Bert.alert('Your timer ' + data.title + ' is running since ' + data.timeStarted);
+		},60*60*1000);
 	});
 });
 Template.currenttimer.onDestroyed(()=> {
-/* 	Meteor.clearInterval(interval); */
+	Meteor.clearInterval(pushInterval);
 });
 Template.currenttimer.helpers({
 	currentTimer(){

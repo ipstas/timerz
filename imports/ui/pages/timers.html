@@ -212,11 +212,9 @@
 						{{> afQuickField name="title" }}
 						<span style="color:{{this}}">{{> afQuickField name="color" options="allowed" noselect=true}}</span>
 						{{> afQuickField name="tags" }}
-						<div class="row">
-							<div class="col-auto">{{> afFieldInput label="GPS" name="useGPS" }}</div>
-							<div class="col-auto">{{> afFieldInput label="Public" name="publicTimer" }}</div>			
-						</div>
-
+						{{> afQuickField label="GPS" name="useGPS" }}
+						{{> afQuickField label="Public" name="publicTimer" }}			
+						{{> afQuickField name="reminder" }}	
 						<button type="submit" class="btn btn-info submit">OK</button> 
 						<div class="btn btn-{{archive.btn}} archive">{{archive.name}}</div>
 					</fieldset>

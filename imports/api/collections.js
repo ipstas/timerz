@@ -1396,6 +1396,11 @@ Schemas.Timers = new SimpleSchema({
 		label: "GPS switch off (mobile only)",
 		optional: true,
 	},
+	reminder:{
+		type: Boolean,
+		label: "Remind me every hour",
+		optional: true,
+	},
 	archived: {
 		type: Boolean,
 		optional: true,

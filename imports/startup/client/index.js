@@ -8,4 +8,5 @@ import './routes.js';
 import './cordova.js';
 import './subs.js';
 import './gpsswitch.js';
+import './reminder.js';
 import '/imports/ui/components/modals.js';
