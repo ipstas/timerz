@@ -16,13 +16,17 @@ var onSubmitHook = function(error, state){
 					category: "Account",
 					label: document.referrer,
 				});		
+			
     }
   } 
 	Meteor.setTimeout(()=>{
-		if (!error)
-			FlowRouter.go('/timers');
+		if (Meteor.user() && !error && FlowRouter.getRouteName() == 'signIn')
+			FlowRouter.go('/timers/' + Meteor.user().username);
+		else if (!error && FlowRouter.getRouteName() == 'signIn')
+			FlowRouter.go('/timers');		
 	},500);
-	if (Session.get('debug')) console.log('[onSubmitHook] end err:', error, 'state:', state);
+
+	if (Session.get('debug')) console.log('[onSubmitHook] end err:', error, 'state:', state, 'route:', FlowRouter.getRouteName());
 };
 
 AccountsTemplates.configure({
