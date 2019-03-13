@@ -16,9 +16,9 @@ let settings = [
 	{type: 'inspectlet', func: 'inspectletInit', nonenv: 'dev2'} 
 ];
 Meteor.startup(() => {
-/* 	for (let setting of settings){
+	for (let setting of settings){
 		setting.createdAt = new Date();
 		setting.common = true;
 		Collections.Settings.upsert({type: setting.type}, {$set: setting});
-	}	 */
+	}	
 });
