@@ -128,9 +128,9 @@ Meteor.publish('contact', function () {
 	return [];
 });
 Meteor.publish('analytics', function (params) {
-	console.log('[pubs analytics]', params);
+	
 	if (!Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) return [];
-
+	console.log('[pubs analytics]', params);
 	let list;
 	params = params || {};
 	if (params.userId)

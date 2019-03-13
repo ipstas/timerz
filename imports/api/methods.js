@@ -118,39 +118,47 @@ Meteor.methods({
 		//console.log('[user.analytics]', this.userId, params, this);
 		const geoip = require('geoip-lite');
 		const self = this;
+		let headers = this.connection.headers;
+		
 		async function ifGeo(record, ip, geo){
+			if (!record)
+				return console.log('[user.analytics1] geo', ip, geo, '\n');
 			if (!geo)
 				return console.warn('[user.analytics geo] empty', record.ip, record.userId, geo);
-			//console.log('[user.analytics2] geo NOT NULL', 'geo:', geo, '\n');
 			console.log('[user.analytics1] geo', record.userId, record.ip, params.referrer, 'geo:', geo, '\n');
 			Collections.Analytics.update(record._id, {$addToSet: {geo: geo}});
 		}
 		async function geoUpd(record, ip){
 			let geo = await geoip.lookup(ip);
-			//await console.log('[user.analytics1] geo', record.userId, record.ip, params.referrer, 'geo:', geo, '\n');
 			await ifGeo(record, ip, geo);
-			
-			//let updated = await Collections.Analytics.update(record._id, {$addToSet: {geo: geo}});
-			//await console.log('user.analytics2', updated, 'res:', geo, '\n');
 		}	
-		
-		let set = {userId: this.userId, visitedAt: new Date()	};
-		
-		let ip = this.connection.httpHeaders['x-forwarded-for'];
+
+		let ip = headers['x-forwarded-for'];
 		ip = ip.split(',')[0];
-		//console.log('[user.analytics]2', this.userId, this.connection.httpHeaders['x-forwarded-for'], ip);
 		
-		//if (ip.includes(',')
+		let user = Meteor.users.findOne({_id: this.userId});
+		if (!user) {
+			geoUpd(null, ip);
+			return console.log('[user.analytics] non registered user', headers);
+		}
+			
+				
+		let count = Collections.Timers.find({userId: this.userId}).count();
+		let set = {count: count, visitedAt: new Date()};
 		
-		
+		let addToSet = {platform: params.platform, device: params.device, ip: ip};
+		if (!headers.referer.includes('timerz.net'))
+			addToSet.referrer = headers.referer;
+			
 		let updated = Collections.Analytics.upsert({userId: this.userId},{
-			$set:set, 
-			$addToSet:{platform: params.platform, device: params.device, referrer: params.referrer, ip: ip},  
+			$set: set, 
+			$addToSet: addToSet
 		});
-		let analytics = Collections.Analytics.findOne({userId: this.userId});
-		geoUpd(analytics, ip);
+		let record = Collections.Analytics.findOne({userId: this.userId});
+		geoUpd(record, ip);
 		
-		//console.log('[user.analytics]3', updated, this.userId, this.connection.httpHeaders['x-forwarded-for'], params);
+		//console.log('[user.analytics]', updated, this.userId, headers.referer, addToSet.referrer);
+		console.log('[user.analytics]', updated, this.userId, headers.referer, '\nset:', set, '\naddset:', addToSet, '\nheaders', headers);
 	},
 	'user.geo'(){
 		console.log('user.contactsGeo start', this, '\n');

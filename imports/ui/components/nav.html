@@ -44,7 +44,7 @@
 				</li>
 			{{/if}}
 
-			{{#if isInRole 'admin' 'adm-group'}}
+			{{#if isInRole 'admin' 'admGroup'}}
 				<li>
 					<a class="h4" href="{{pathFor 'adminpage'}}"><b><i class="fa fa-lock" aria-hidden="true"></i> Admin</b></a>
 				</li>
@@ -104,7 +104,7 @@
 			<li class="{{isActiveRoute 'feedback' class='activewhitewhite'}}">
 				<a class="h4" href="/feedback"><i class="fa fa-commenting-o" aria-hidden="true"></i> Feedback</a>
 			</li>
-			{{#if isInRole 'admin' 'adm-group'}}
+			{{#if isInRole 'admin' 'admGroup'}}
 				<li class="{{isActiveRoute 'adminpage' class='activewhitewhite'}}">
 					<a class="h4" href="{{pathFor 'adminpage'}}"><b><i class="fa fa-lock" aria-hidden="true"></i> Admin</b></a>
 				</li>
@@ -167,7 +167,7 @@
 			<a href="{{pathFor 'signIn'}}"><b><i class="fa fa-user-secret"></i> Profile</b></a>
 		</li>
 	{{/if}}
-	{{#if isInRole 'admin' 'adm-group'}}
+	{{#if isInRole 'admin' 'admGroup'}}
 		<li>
 			<a href="{{pathFor 'markers'}}"><b><i class="fa fa-lock" aria-hidden="true"></i> Markers</b></a>
 		</li>
