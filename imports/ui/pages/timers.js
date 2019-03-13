@@ -7,6 +7,7 @@ import './timers.html';
 import './currenttimer.js';
 import './profile.js';
 import './clock.js';
+import './chart.js';
 import '../stylesheets/animation.css';
 
 
@@ -735,11 +736,16 @@ Template.showsessions.events({
 	'click .delRecord' (e,t){
 		Collections.Sessions.remove(this._id);
 	},	
+	'submit' (e,t){
+		spentUpdate({timerId: this.timerId});
+		Meteor.call('timers.daily', {timerId: this.timerId, offset: 60*1000*(new Date().getTimezoneOffset())});
+	},	
 	'click .closeForm' (e,t){
 		e.preventDefault();	
 		spentUpdate({timerId: this.timerId});
 		t.editRecord.set();
 		console.log('closeForm', e,t,this);
+		Meteor.call('timers.daily', {timerId: this.timerId, offset: 60*1000*(new Date().getTimezoneOffset())});
 	},
 	'click .hideModal'(){
 		Modal.hide();

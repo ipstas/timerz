@@ -420,6 +420,14 @@
         "long": "~3"
       }
     },
+    "c3": {
+      "version": "0.6.13",
+      "resolved": "https://registry.npmjs.org/c3/-/c3-0.6.13.tgz",
+      "integrity": "sha512-F95/hNPNiMr1BEwpJvfiP7heH3U3vwV3TczIq9VzAcHYima/zQLzx3x2V6UNlLPg3KLKnKnncWtx0LLkQVnbCQ==",
+      "requires": {
+        "d3": "^5.0.0"
+      }
+    },
     "callsites": {
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/callsites/-/callsites-3.0.0.tgz",
