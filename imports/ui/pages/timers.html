@@ -202,12 +202,12 @@
 <template name="edittimer">
 	<div class="container-fluid">
 		<div class="row xlEdittimer">
-			<div class="col-10 offset-1 animated fadeIn text-center card addTimer">
+			<div class="col-12 animated fadeIn text-center card addTimer">
 				{{#autoForm collection=collection schema=schema  type="update" doc=this id="updateTimerForm" afFieldInput-placeholder="schemaLabel" }}
 <!-- 					{{#each afFieldNames}}
 						{{name}}
 					{{/each}}			 -->		
-					<fieldset>
+					<fieldset class="text-left">
 						
 						{{> afQuickField name="title" }}
 						<span style="color:{{this}}">{{> afQuickField name="color" options="allowed" noselect=true}}</span>
