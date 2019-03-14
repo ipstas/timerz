@@ -18,7 +18,7 @@ let settings = [
 Meteor.startup(() => {
 	for (let setting of settings){
 		setting.createdAt = new Date();
-		setting.common = true;
+		//setting.common = false;
 		Collections.Settings.upsert({type: setting.type}, {$set: setting});
 	}	
 });
