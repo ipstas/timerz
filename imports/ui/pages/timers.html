@@ -85,7 +85,7 @@
 <template name="usertimer">
 	<div class="col-12 animated fadeInLeft">
 		<div class="row align-items-center">
-			<div class="col-lg-3 col-12 h2">			
+			<div class="col-lg-4 col-12 h2">			
 				{{#if ifAuthor}}
 					<button class="btn btn-lg btn-outline-success {{state.cssclass}}"><i class="fa {{state.icon}}" aria-hidden="true"></i></button>
 				{{/if}}
@@ -93,7 +93,7 @@
 				<span class="pointer linkblue d-inline"><a href="/report/{{_id}}">{{title}}</a></span> 
  				
 			</div>
-			<div class="col-lg-6 col-8">
+			<div class="col-lg-6	 col-8">
 				{{>hist}}
 			</div>
 <!-- 			<div class="col-lg-3 col-md-3 col-4 pointer text-right showToday">	
@@ -109,7 +109,7 @@
 					</div>			
 				{{/unless}}
 			</div>			 -->
-			<div class="col-lg-3 col-4 h2">				
+			<div class="col-lg-2 col-4 h2">				
 				<span class="pointer text-info editRecord d-inline p-2"><i class="fa fa-cog" aria-hidden="true"></i></span>	
 <!-- 				<span class="pointer text-info showDetails d-inline p-2"><i class="fa fa-eye" aria-hidden="true"></i></span> -->
 				{{#if useGPS}}

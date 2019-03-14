@@ -23,7 +23,7 @@ Template.hist.onRendered(() => {
 		range.push({_id: moment(new Date(Date.now() - 60*60*24*i*1000)).format('YYYY-MM-DD')});
 	}
 	daily = _.union(daily, range);
-	daily = _.map(daily, (d)=>{ return {_id: d._id, hours: d.spent/60/60/1000 || 0}});
+	daily = _.map(daily, (d)=>{ return {_id: d._id, hours: parseInt(d.spent/60/60/100)/10 || 0}});
 	console.log('[hist.onCreated], daily', timeframe, daily);
 	var chart = c3.generate({
 		bindto: '#chart-' + t.data._id,
@@ -39,16 +39,18 @@ Template.hist.onRendered(() => {
 		},
 		axis: {
 			x: {
+				//show: false,
 				type: 'timeseries',
-				tick: {
+/* 				tick: {
 					format: '%m-%d'
-				},
+				}, */
         label: { // ADD
           text: t.data.title,
           position: 'outer-middle'
         }
 			},
       y: {
+				show: false,
         label: { // ADD
           text: 'hrs',
           position: 'outer-middle'
