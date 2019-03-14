@@ -29,6 +29,9 @@ Meteor.publish('faq', function () {
 Meteor.publish('credits', function () {
 	return Collections.Credits.find();
 });
+Meteor.publish('settings', function () {
+	return Collections.Settings.find();
+});
 
 publishComposite('userdata', function(params) {
 	//console.log('[pub userdate] params', params);

@@ -1,9 +1,11 @@
 Meteor.startup(function() {
-	Meteor.subscribe('currentTimer');
-	
-	if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) {
-		Meteor.subscribe('logs');
-		Meteor.subscribe('analytics');
-	}
-		
+
 });
+Meteor.subscribe('currentTimer');
+Meteor.subscribe('settings');		
+Tracker.autorun(()=>{
+	if (!Roles.userIsInRole(Meteor.userId(), ['admin'], 'admGroup')) 
+		return;
+	Meteor.subscribe('analytics');
+	Meteor.subscribe('logs');				
+})

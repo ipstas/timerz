@@ -693,7 +693,7 @@ Template.allusers.onCreated( () => {
 	AutoForm.debug(); 
 	var sub;
 	//PostSubs.subscribe('userdata', {limit: 10});
-	let t = Template.instance();
+	const t = Template.instance();
 	t.hidden = new ReactiveVar();
 	t.ready = new ReactiveVar(true);
 	t.next = new ReactiveVar(5);
@@ -809,6 +809,11 @@ Template.allusers.helpers({
 	},
 	push(){
 		return Collections.Push.findOne({userId: this._id});
+	},
+	analytics(){
+		let data = Collections.Analytics.findOne({userId: this._id});
+		console.log('[analytics]', this, data);
+		return data;
 	},
 	localDate(){
 		//console.log('date', this);
@@ -964,20 +969,22 @@ Template.countTimers.events({
 
 });
 
-Template.userdetails.onCreated( () => {	
+Template.userDetails.onCreated( () => {	
+	const t = Template.instance();
+	t.subscribe('analytics', {debug: Session.get('debug'), userId: t.data._id});
 });
-Template.userdetails.helpers({
+Template.userDetails.helpers({
 	data(){		
 		let data = Collections.Analytics.findOne({userId: this._id});		
 		console.log('[userdetails] user', this._id, this, 'data:', data);
 		return data;
-	},
+	},	
 	localDate(){
 		//console.log('date', this);
 		return this.toLocaleDateString();
 	},
 });
-Template.userdetails.events({
+Template.userDetails.events({
 
 });
 
@@ -1477,6 +1484,7 @@ Template.integration.onCreated(()=> {
 	
 	if (Session.get('sort'))
 		t.sort.set(Session.get('sort'));
+	//t.subsribe('settings');
 	
 });
 Template.integration.onRendered( ()=> {
@@ -1501,12 +1509,12 @@ Template.integration.helpers({
 	},
 	libraries(){
 		var data, sub;
-		var data = Collections.Settings.find({$or: [{common: true}, {personal: {$exists: false}}]});
+		var data = Collections.Settings.find({}, {sort: {type: 1}});
 		console.log('integration', data.count(), data.fetch());
 		return data;
 	},
 	enabled(){
-		if (this.enable)
+		if (this.common)
 			return 'checked';
 	},
 	debug(){
@@ -1516,7 +1524,8 @@ Template.integration.helpers({
 Template.integration.events({
 	'change .enableLib'(e,t){
 		console.log('clicked enableLib', this.type, e.target.checked, '\n', e, this);
-		Meteor.call('settings.set', {_id: this._id, type: this.type, enable: e.target.checked, common: true});
+		Collections.Settings.update({_id: this._id}, {$set:{common: e.target.checked, updatedAt: new Date()}});
+		//Meteor.call('settings.set', {_id: this._id, type: this.type, enable: e.target.checked, common: true});
 	},
 });
 
