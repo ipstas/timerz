@@ -1491,6 +1491,7 @@ Template.integration.onRendered( ()=> {
 /* 	Meteor.setTimeout(function(){
 		$('.toggleSwitch').bootstrapToggle();
 	},1000); */
+	$('.toggleSwitch').bootstrapToggle();
 });
 Template.integration.onDestroyed( ()=> {
 	//$('#datepicker').datepicker('destroy');
@@ -1523,8 +1524,9 @@ Template.integration.helpers({
 });
 Template.integration.events({
 	'change .enableLib'(e,t){
-		console.log('clicked enableLib', this.type, e.target.checked, '\n', e, this);
-		Collections.Settings.update({_id: this._id}, {$set:{common: e.target.checked, updatedAt: new Date()}});
+		
+		let update = Collections.Settings.update({_id: this._id}, {$set:{common: e.target.checked, updatedAt: new Date()}});
+		console.log('clicked enableLib', update, this.type, e.target.checked, '\n', this);
 		//Meteor.call('settings.set', {_id: this._id, type: this.type, enable: e.target.checked, common: true});
 	},
 });

@@ -16,6 +16,12 @@ Template.hist.onRendered(() => {
 	let timeframe = moment(new Date(Date.now() - 60*60*24*7*1000)).format('YYYY-MM-DD');
 	let daily = _.sortBy(t.data.daily,'_id');
 	daily = _.filter(daily, (d)=>{ return d._id > timeframe });
+	let range = [];
+	while (i < 8) {
+		i++;
+		range.push({_id: moment(new Date(Date.now() - 60*60*24*i*1000)).format('YYYY-MM-DD')});
+	}
+	daily = union(daily, range);
 	daily = _.map(daily, (d)=>{ return {_id: d._id, spent: d.spent/60/60/1000}})
 	console.log('[hist.onCreated], daily', timeframe, daily);
 	var chart = c3.generate({

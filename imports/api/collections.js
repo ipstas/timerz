@@ -1935,14 +1935,15 @@ Schemas.Settings = new SimpleSchema({
 });
 Collections.Settings.allow({
   insert: function (userId, doc) {
-		if (userId) return true;
+		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
   },
   update: function (userId, doc) {
-		if (doc.userId == userId)
-			return true
+		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
   },
   remove: function (userId, doc) {
-		if (doc.userId == userId)
-			return true
+		if (Roles.userIsInRole(userId, ['admin'], 'admGroup')) 
+			return true;
   }
 });
