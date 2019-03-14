@@ -7,3 +7,7 @@
 /* .domain {
     stroke-width: 5px;
 } */
+.chartC3 .tick text{
+	display: none !important;
+}
+.c3-axis .tick line {display: none;}

@@ -49,7 +49,9 @@ Template.hist.onRendered(() => {
 				//show: false,
 				type: 'timeseries',
 /* 				tick: {
-					format: '%m-%d'
+					culling: {
+						max: 1
+					}				
 				}, */
         label: { // ADD
           text: t.data.title,
