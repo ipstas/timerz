@@ -18,13 +18,20 @@ Template.hist.onRendered(() => {
 	daily = _.filter(daily, (d)=>{ return d._id > timeframe });
 	let range = [];
 	let i = 0;
-	while (i < 8) {
+	while (i < 8) {	
+		let date = new Date(Date.now() - 60*60*24*i*1000);
+		date = moment(date).format('YYYY-MM-DD');
+		if (!_.findWhere(daily, {_id: date})){
+			console.log('[chart] adding to range', date, _.findWhere(daily, {_id: date}));
+			range.push({_id: date, spent: 1});
+		}	else
+			console.log('[chart] found in range', date, _.findWhere(daily, {_id: date}));
 		i++;
-		range.push({_id: moment(new Date(Date.now() - 60*60*24*i*1000)).format('YYYY-MM-DD')});
 	}
 	daily = _.union(daily, range);
-	daily = _.map(daily, (d)=>{ return {_id: d._id, hours: parseInt(d.spent/60/60/100)/10 || 0}});
-	console.log('[hist.onCreated], daily', timeframe, daily);
+	daily = _.map(daily, (d)=>{ return {_id: d._id, hours: parseInt(d.spent/60/60/100)/10}});
+	daily = _.sortBy(daily,'_id');
+	console.log('[hist.onCreated], daily', t.data.title, timeframe, daily, range);
 	var chart = c3.generate({
 		bindto: '#chart-' + t.data._id,
 		data: {
