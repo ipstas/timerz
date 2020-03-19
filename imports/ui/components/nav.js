@@ -7,6 +7,7 @@ Template.navbox.onCreated(function(){
 });
 Template.navbox.onRendered(function(){
 	
+	if ('undefined' !== typeof Hammer) {
 		const menuSwipeLeft = new Hammer(document.getElementById('menu'));
 		menuSwipeLeft.on("swipeleft panright tap press", function(e) {
 			console.log('[navbox hammer]', e.type +" gesture detected.") ;
@@ -15,7 +16,7 @@ Template.navbox.onRendered(function(){
 				$('#bars').removeClass('rotate90');		
 			} 		
 		});	
-	
+	}
 
 });
 Template.navbox.helpers({
@@ -71,15 +72,17 @@ Template.navdsk.onRendered(function(){
 	let menuSwipeLeft;
 	Tracker.autorun(()=>{
 		if (rwindow.outerWidth() < 576){
-			menuSwipeLeft = new Hammer(document.getElementById('menudsk'));
-			menuSwipeLeft.on("swipeleft panright tap press", function(e) {
-				if (rwindow.outerWidth() > 575) return;
-				console.log('[navdsk hammer]', e, " gesture detected:", e.type) ;
-				if (e.type == 'swipeleft') {
-					$('#navsection').removeClass('slideInLeft').addClass('slideOutLeft').fadeOut();
-					$('#bars').removeClass('rotate90');		
-				} 		
-			});
+			if ('undefined' !== typeof Hammer) {
+				menuSwipeLeft = new Hammer(document.getElementById('menudsk'));
+				menuSwipeLeft.on("swipeleft panright tap press", function(e) {
+					if (rwindow.outerWidth() > 575) return;
+					console.log('[navdsk hammer]', e, " gesture detected:", e.type) ;
+					if (e.type == 'swipeleft') {
+						$('#navsection').removeClass('slideInLeft').addClass('slideOutLeft').fadeOut();
+						$('#bars').removeClass('rotate90');		
+					} 		
+				});
+			}
 		} else {
 			$('#navsection').removeClass('slideOutLeft ').addClass('slideInLeft').fadeIn();
 		}

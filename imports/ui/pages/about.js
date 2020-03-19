@@ -11,8 +11,13 @@ Reloader.configure({
 import { Collections } from '/imports/api/collections.js';
 import { Schemas } from '/imports/api/collections.js';
 import './about.html';
-import '../components/git.html';
-import code_version from '/imports/startup/both/code_version.js';
+try {
+	import '../components/git.html';
+	import code_version from '/imports/startup/both/code_version.js';
+}catch(err){
+
+}
+
 PostSubs = new SubsManager();
 
 //import Masonry from 'masonry-layout';

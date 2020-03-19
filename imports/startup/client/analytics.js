@@ -8,7 +8,11 @@ env = env[0];
 //env = 'stg2';
 //if (env == 'dev') env = 'dev2';
 
-import code_version from '/imports/startup/both/code_version.js';
+try {
+	import code_version from '/imports/startup/both/code_version.js'
+}catch(err){
+
+}
 
 const dyn_functions = [];
 dyn_functions['setOlarkDetails'] = function (t){

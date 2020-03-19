@@ -86,37 +86,38 @@ Template.landing.helpers({
 		}
 		return abtest;
 	},
-  landing() {
-    let data = Collections.Texts.findOne({title:'landingtimers'}) ;
+	landing() {
+		let data = Collections.Texts.findOne({title:'landingtimers'}) ;
 		if (data && data.screens)
 			length = data.screens.length;
 		return data;
-  },
+	},
 	behav(){
 		if (navigator.userAgent.substring('Mac OS'))
 			return 'scroll'
 		return 'fixed';
 	},
-  banner1() {
+	banner1() {
 		//console.log('[banner]', this, this.images );
 		//console.log('[banner]', _.findWhere(this.images, {text: 'banner1'}) );
-    let banner = _.findWhere(this.images, {text: 'banner1'});
+		let banner = _.findWhere(this.images, {text: 'banner1'}) || {};
+		console.log('[banner]1 a', banner, _.findWhere(this.images, {text: 'banner1'}));
 		if (banner && banner.image)
 			banner.image = banner.image.replace(/upload/,'upload/w_1024,fl_progressive');
 		else
 			banner.image = '/img/banner.jpg';
-		console.log('[banner]', banner, _.findWhere(this.images, {text: 'banner1'}));
+		console.log('[banner]1 b', banner, _.findWhere(this.images, {text: 'banner1'}));
 		return banner;
-  },
-  banner2() {
-    return _.findWhere(this.images, {text: 'banner2'}) || '/img/banner.jpg';
-  },
-  banner3() {
-    return _.findWhere(this.images, {text: 'banner3'}) || '/img/banner.jpg';
-  },
-  banner4() {
-    return _.findWhere(this.images, {text: 'banner4'}) || '/img/banner.jpg';
-  },
+	},
+	banner2() {
+		return _.findWhere(this.images, {text: 'banner2'}) || '/img/banner.jpg';
+	},
+	banner3() {
+		return _.findWhere(this.images, {text: 'banner3'}) || '/img/banner.jpg';
+	},
+	banner4() {
+		return _.findWhere(this.images, {text: 'banner4'}) || '/img/banner.jpg';
+	},
 	step(){
 		step = step + 1;
 		if (step > length) step = 1;

@@ -35,18 +35,19 @@ Template.layoutLanding.onRendered(()=>{
 	//$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
 
-
-	const mainSwipeRight = new Hammer(document.getElementById('main'));
-	if (mainSwipeRight)
-		mainSwipeRight.on("swiperight panright tap press", function(e) {
-			console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
-			if (e.type == 'swiperight' && e.target.id != 'editBox') {
-				$('#menu').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
-				$('#bars').removeClass('rotate90');		
-			} 		
-		});
-	else 
-		console.warn('[layoutLanding] no mainSwipeRight');
+	if ('undefined' !== typeof Hammer) {
+		const mainSwipeRight = new Hammer(document.getElementById('main'));
+		if (mainSwipeRight)
+			mainSwipeRight.on("swiperight panright tap press", function(e) {
+				console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
+				if (e.type == 'swiperight' && e.target.id != 'editBox') {
+					$('#menu').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
+					$('#bars').removeClass('rotate90');		
+				} 		
+			});
+		else 
+			console.warn('[layoutLanding] no mainSwipeRight');
+	}
 	
 });
 Template.layoutLanding.events({
@@ -88,20 +89,22 @@ Template.layout.onRendered(()=>{
 	$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
 
-	let mainSwipeRight;
-	Tracker.autorun(()=>{
-		if (rwindow.outerWidth() < 576){
-			mainSwipeRight = new Hammer(document.getElementById('main'));
-			mainSwipeRight.on("swiperight panright tap press", function(e) {
-				if (rwindow.outerWidth() > 575) return;
-				console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
-				if (e.type == 'swiperight' && e.target.id != 'editBox') {
-					$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
-					$('#bars').removeClass('rotate90');		
-				} 		
-			});
-		}
-	});
+	if ('undefined' !== typeof Hammer) {
+		let mainSwipeRight;
+		Tracker.autorun(()=>{
+			if (rwindow.outerWidth() < 576){
+				mainSwipeRight = new Hammer(document.getElementById('main'));
+				mainSwipeRight.on("swiperight panright tap press", function(e) {
+					if (rwindow.outerWidth() > 575) return;
+					console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
+					if (e.type == 'swiperight' && e.target.id != 'editBox') {
+						$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
+						$('#bars').removeClass('rotate90');		
+					} 		
+				});
+			}
+		});
+	}
 	
 });
 Template.layout.helpers({
@@ -175,20 +178,22 @@ Template.layoutSign.onRendered(()=>{
 	$('#loadingspinner').fadeOut();
 	$('body').css('overflow', 'auto');
 
-	let mainSwipeRight;
-	Tracker.autorun(()=>{
-		if (rwindow.outerWidth() < 576){
-			mainSwipeRight = new Hammer(document.getElementById('main'));
-			mainSwipeRight.on("swiperight panright tap press", function(e) {
-				if (rwindow.outerWidth() > 575) return;
-				console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
-				if (e.type == 'swiperight' && e.target.id != 'editBox') {
-					$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
-					$('#bars').removeClass('rotate90');		
-				} 		
-			});
-		}
-	});
+	if ('undefined' !== typeof Hammer) {
+		let mainSwipeRight;
+		Tracker.autorun(()=>{
+			if (rwindow.outerWidth() < 576){
+				mainSwipeRight = new Hammer(document.getElementById('main'));
+				mainSwipeRight.on("swiperight panright tap press", function(e) {
+					if (rwindow.outerWidth() > 575) return;
+					console.log('[main hammer]', e.target.id, e, " gesture detected:", e.type) ;
+					if (e.type == 'swiperight' && e.target.id != 'editBox') {
+						$('#navsection').removeClass('slideOutLeft d-none').addClass('slideInLeft').fadeIn();
+						$('#bars').removeClass('rotate90');		
+					} 		
+				});
+			}
+		});
+	}
 	
 });
 
