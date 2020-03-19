@@ -4,36 +4,36 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base            # Packages every Meteor app needs to have
-mobile-experience      # Packages for a great mobile UX
-mongo                  # The database Meteor supports right now
-ecmascript
-underscore
+meteor-base@1.4.0            # Packages every Meteor app needs to have
+mobile-experience@1.0.5      # Packages for a great mobile UX
+mongo@1.6.2                  # The database Meteor supports right now
+ecmascript@0.12.4
+underscore@1.0.10
 blaze-html-templates    # Compile .html files into Meteor Blaze views
-reactive-var            # Reactive variable for tracker
-reactive-dict
+reactive-var@1.0.11            # Reactive variable for tracker
+reactive-dict@1.3.0
 jquery                 # Helpful client-side library
-session
-tracker              # Meteor's client-side reactive programming library
-check
-email
-npm-bcrypt
-http
-oauth2
-dynamic-import
+session@1.2.0
+tracker@1.2.0              # Meteor's client-side reactive programming library
+check@1.3.1
+email@1.2.3
+npm-bcrypt@0.9.3
+http@1.4.2
+oauth2@1.2.1
+dynamic-import@0.5.1
 fourseven:scss
 less
 #standard-minifier-css   # CSS minifier run for production mode
 
 
-accounts-base
-accounts-ui
-service-configuration
-accounts-password
+accounts-base@1.4.3
+accounts-ui@1.3.1
+service-configuration@1.0.11
+accounts-password@1.5.1
 #accounts-google
 #google-config-ui
-accounts-facebook
-facebook-config-ui
+accounts-facebook@1.3.2
+facebook-config-ui@1.0.2
 useraccounts:bootstrap
 useraccounts:flow-routing
 bozhao:link-accounts
@@ -77,9 +77,6 @@ simple:rest
 #images
 ipstas:autoform-cloudinary3
 
-
-
-okgrow:analytics
 cultofcoders:persistent-session
 simply:reactive-local-storage
 meteorhacks:subs-manager
@@ -90,7 +87,7 @@ ipstas:userfeedback
 imajus:autoform-bootstrap4
 ipstas:background-geolocation-plus
 #ipstas:geolocation-plus
-browser-policy
+browser-policy@1.1.0
 
 #jamielob:reloader
 mdg:reload-on-resume
@@ -98,4 +95,4 @@ mdg:reload-on-resume
 meteorhacks:picker
 meteorhacks:inject-initial
 gadicohen:reactive-window
-allow-deny
+allow-deny@1.1.0

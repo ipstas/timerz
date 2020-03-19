@@ -1,4 +1,5 @@
-import OKGAnalytics, { analytics } from '@okgrow/auto-analytics';
+//import OKGAnalytics, { analytics } from '@okgrow/auto-analytics';
+//
 import { Schemas } from '/imports/api/collections.js';
 import { Collections } from '/imports/api/collections.js';
 

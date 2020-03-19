@@ -14,7 +14,7 @@ Template.footer.helpers({
 	env(){
 		let env = {};
 		env.srv = __meteor_runtime_config__.ROOT_URL.split('.')[0].split('/').slice(-1)[0];
-		env.hash = __meteor_runtime_config__.autoupdate.versions["web.cordova"].version;
+		//env.hash = __meteor_runtime_config__.autoupdate.versions["web.cordova"].version;
 		env.update = Reload.isWaitingForResume();
 		console.log('[footer] env', env, 'waiting:', Reload.isWaitingForResume(), 'ifnew:', Autoupdate.newClientAvailable(), __meteor_runtime_config__.autoupdate.versions["web.cordova"]);
 		return env;

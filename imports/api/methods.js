@@ -189,7 +189,7 @@ Meteor.methods({
 		//if (verbose) 
 			console.log('updated contacts with geolocation:', n);
 	},
-	'user.geoOld'(params){
+/* 	'user.geoOld'(params){
 		if (!Roles.userIsInRole(this.userId, ['admin'])) return;
 		this.unblock();
 		const iplocation = require('iplocation');
@@ -219,7 +219,7 @@ Meteor.methods({
 			Collections.Extusers.update(record._id, {$set: {posts: count}});
 		}
 		if (verbose) console.log('updated nonusers:', n);
-	},		
+	},	 */	
 	'user.contactsGeo'(){
 		console.log('user.contactsGeo start', this, '\n');
 		if (!Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) return console.warn('[methods] user.contactsGeo not an admin:', this.userId);
