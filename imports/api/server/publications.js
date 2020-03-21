@@ -8,6 +8,14 @@ import { Collections } from '../collections.js';
 //import { Markers } from '../collections.js';
 //import { MarkerFiles } from '../collections.js';
 
+Meteor.publish(null, function () {
+  if (this.userId) {
+    return Meteor.roleAssignment.find({ 'user._id': this.userId });
+  } else {
+    this.ready()
+  }
+})
+
 Meteor.publish('logs', function () {
 	if (Roles.userIsInRole(this.userId, ['admin'], 'admGroup')) 
 		return Collections.Logs.find();

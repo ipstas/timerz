@@ -19,12 +19,13 @@ if (!('PushManager' in window)) {
 
 	
 var config = {
-	apiKey: "AIzaSyDxIxayjWnIFtUELYbYkaO8CgQ3xH2n_2s",
-	authDomain: "virgo360-c30f0.firebaseapp.com",
-	databaseURL: "https://virgo360-c30f0.firebaseio.com",
-	projectId: "virgo360-c30f0",
-	storageBucket: "",
-	messagingSenderId: "537993546661"
+    apiKey: "AIzaSyBsBJ8boCp34qaY8JdejLSfOFjUQRg50tM",
+    authDomain: "hundredgraphs.firebaseapp.com",
+    databaseURL: "https://hundredgraphs.firebaseio.com",
+    projectId: "hundredgraphs",
+    storageBucket: "hundredgraphs.appspot.com",
+    messagingSenderId: "563816874739",
+    appId: "1:563816874739:web:9a123f0c19cf29fbf66d86"
 };
 firebase.initializeApp(config);
 const messaging = firebase.messaging();

@@ -1000,5 +1000,31 @@ Meteor.methods({
 			}
 		})
 	},
+  /**
+   * Moves the assignments from `Meteor.users` to `Meteor.roleAssignment`.
+   *
+   * @method _forwardMigrate2
+   * @param {Object} userSelector An opportunity to share the work among instances. It's advisable to do the division based on user-id.
+   * @for Roles
+   * @private
+   * @static
+   */
+  'maint._forwardMigrate2'(userSelector) {
+    userSelector = userSelector || {}
+    Object.assign(userSelector, { roles: { $ne: null } })
+
+    Meteor.users.find(userSelector).forEach(function (user, index) {
+      user.roles.filter((r) => r.assigned).forEach(r => {
+        // Added `ifExists` to make it less error-prone
+        Roles._addUserToRole(user._id, r._id, { scope: r.scope, ifExists: true })
+      })
+
+      Meteor.users.update({ _id: user._id }, { $unset: { roles: '' } })
+    })
+
+    // No need to keep the indexes around
+    Roles._dropCollectionIndex(Meteor.users, 'roles._id_1_roles.scope_1')
+    Roles._dropCollectionIndex(Meteor.users, 'roles.scope_1')
+  }
 });
 
