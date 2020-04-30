@@ -20,7 +20,7 @@
     "font-awesome": "^4.7.0",
     "geoip-lite": "^1.4.0",
     "gravatar": "^1.8.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jquery-knob": "^1.2.11",
     "jquery-ui": "^1.12.1",
     "mailchimp-api-v3": "^1.13.1",
