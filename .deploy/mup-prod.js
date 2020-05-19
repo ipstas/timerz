@@ -1,95 +1,95 @@
 module.exports = {
-	servers: {
-		one: {
-			"host": "xlazz.com",
-			"username": "root",
-			"pem": '~/.ssh/id_rsa_2018-2-12'
-		}
-	},
+  servers: {
+    one: {
+		"host": "xlazz.com",
+		"username": "root",
+		"pem": '~/.ssh/id_rsa_2018-2-12'
+    }
+  },
 
   // Formerly named 'meteor'. Configuration for deploying the app
   app: {
-		name: 'timerz',
-		path: '/srv/www/meteor/timerz',
+	name: 'timerz',
+	path: '/srv/www/meteor/timerz',
     // (optional, default is meteor) Plugins can provide additional types
     type: 'meteor',
 
     // lets you add docker volumes (optional). Can be used to
     // store files between app deploys and restarts.
-		volumes: {
-			'/localfiles':'/localfiles'
-		},
-		docker: {
-			image: 'abernix/meteord:node-12-base',
-			args: [
-				'--link=mongodb:mongodb'
-			],
-      // (optional) It is set to true when using a docker image
-      // that supports it. Builds a new docker image containing the
-      // app's bundle and npm dependencies to start the app faster and
-      // make deploys more reliable and easier to troubleshoot
-      prepareBundle: true,
-      // Additional docker build instructions, used during Prepare Bundle
-      // buildInstructions: [
-        // 'RUN apt-get update && apt-get install -y imagemagick'
-      // ],
-      // (optional, default is true) If true, the app is stopped during
-      // Prepare Bundle to help prevent running out of memory when building
-      // the docker image. Set to false to reduce downtime if your server has
-      // enough memory or swap.
-      stopAppDuringPrepareBundle: false,
+	volumes: {
+		'/localfiles':'/localfiles'
+	},
+	docker: {
+		image: 'abernix/meteord:node-8-base',
+		args: [
+			'--link=mongodb:mongodb'
+		],
+		// (optional) It is set to true when using a docker image
+		// that supports it. Builds a new docker image containing the
+		// app's bundle and npm dependencies to start the app faster and
+		// make deploys more reliable and easier to troubleshoot
+		prepareBundle: true,
+		// Additional docker build instructions, used during Prepare Bundle
+		// buildInstructions: [
+		// 'RUN apt-get update && apt-get install -y imagemagick'
+		// ],
+		// (optional, default is true) If true, the app is stopped during
+		// Prepare Bundle to help prevent running out of memory when building
+		// the docker image. Set to false to reduce downtime if your server has
+		// enough memory or swap.
+		stopAppDuringPrepareBundle: false,
 
-      // lets you bind the docker container to a
-      // specific network interface (optional)
-      //bind: '127.0.0.1',
+		// lets you bind the docker container to a
+		// specific network interface (optional)
+		//bind: '127.0.0.1',
 
-      // lets you add network connections to perform after run
-      // (runs docker network connect <net name> for each network listed here)
-      // networks: [
-        // 'net1'
-      // ]
+		// lets you add network connections to perform after run
+		// (runs docker network connect <net name> for each network listed here)
+		// networks: [
+		// 'net1'
+		// ]
     },
 
     // list of servers to deploy to, from the 'servers' list
     servers: {
-      one: {}
+		one: {}
     },
 
     // All options are optional.
     buildOptions: {
-      // Set to true to skip building mobile apps
-      // but still build the web.cordova architecture. (recommended)
-      serverOnly: true,
+		// Set to true to skip building mobile apps
+		// but still build the web.cordova architecture. (recommended)
+		serverOnly: true,
 
-      // Set to true to disable minification and bundling,
-      // and include debugOnly packages
-      debug: false,
+		// Set to true to disable minification and bundling,
+		// and include debugOnly packages
+		debug: false,
 
-      // defaults to a a folder in your tmp folder.
-      //buildLocation: '/my/build/folder',
+		// defaults to a a folder in your tmp folder.
+		//buildLocation: '/my/build/folder',
 
-      // Remove this property for mobileSettings to use your settings.json
-      // mobileSettings: {
-        // yourMobileSetting: 'setting value'
-      // },
+		// Remove this property for mobileSettings to use your settings.json
+		// mobileSettings: {
+		// yourMobileSetting: 'setting value'
+		// },
 
-      // your app url for mobile app access
-      server: 'https://www.timerz.com:443',
+		// your app url for mobile app access
+		server: 'https://www.timerz.net:443',
 
-      // When true, adds --allow-incompatible-updates arg to build command
-      allowIncompatibleUpdates: false,
+		// When true, adds --allow-incompatible-updates arg to build command
+		allowIncompatibleUpdates: false,
 
-      // Executable used to build the meteor project
-      // You can set to a local repo path if needed
-      executable: 'meteor'
+		// Executable used to build the meteor project
+		// You can set to a local repo path if needed
+		executable: 'meteor'
     },
     env: {
 		// If you are using SSL, this needs to start with https
-		ROOT_URL: 'https://www.timerz.com',
-		PORT: 8086,
+		ROOT_URL: 'https://www.timerz.net',
+		PORT: 8089,
 		// When using the built-in mongodb,
 		// this is overwritten with the correct url
-		MONGO_URL: 'mongodb://mongodb/xlazzstg',
+		MONGO_URL: 'mongodb://mongodb/timerz',
 		MONGO_OPLOG_URL: "mongodb://mongodb/local",
 
 		// The number of proxies in front of your server (optional, default is
@@ -130,41 +130,4 @@ module.exports = {
       // one: {}
     // }
   // }
-
-	// meteor: {
-		// name: 'timerz',
-		// path: '/srv/www/meteor/timerz',
-		// volumes: {
-			// '/localfiles':'/localfiles'
-		// },
-		// servers: {
-			// one: {}
-		// },
-		// buildOptions: {
-			// server: 'https://www.timerz.net:443', // your app url for mobile app access (optional)
-			// serverOnly: false, // skip building mobile apps, but still build the web.cordova architecture
-			// debug: false,
-			// cleanAfterBuild: true, // default
-			// allowIncompatibleUpdates: false //adds --allow-incompatible-updates arg to build command (optional)
-		// },
-		// env: {
-			// PORT: '8086',
-			// ROOT_URL: 'https://www.timerz.net',
-			// MONGO_URL: 'mongodb://mongodb/xlazzstg',
-			// MAIL_URL: 'smtp://172.17.0.1:25',
-			//host should be set for sparkpostmail
-			// METEOR_ENV: 'prod'
-		// },
-		// docker: {,
-			// image: 'abernix/meteord:node-12-base',
-			// args: [
-				// '--link=mongodb:mongodb'
-			// ],
-
-		// },
-
-		// deployCheckWaitTime: 100,
-		// enableUploadProgressBar: true
-	// }
-	
 };
