@@ -20,7 +20,7 @@ module.exports = {
 		'/localfiles':'/localfiles'
 	},
 	docker: {
-		image: 'abernix/meteord:node-8-base',
+		image: 'abernix/meteord:node-12-base',
 		args: [
 			'--link=mongodb:mongodb'
 		],
@@ -86,7 +86,7 @@ module.exports = {
     env: {
 		// If you are using SSL, this needs to start with https
 		ROOT_URL: 'https://stg.timerz.net',
-		PORT: 8090,
+		PORT: 8087,
 		// When using the built-in mongodb,
 		// this is overwritten with the correct url
 		MONGO_URL: 'mongodb://mongodb/timerz',

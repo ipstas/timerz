@@ -42,7 +42,7 @@
 	background-image: url("/img/banner4.jpg");
 }
 #contact{
-	background-image: url("/img/banner5.jpg");
+	background-image: url("/img/banner4.jpg");
 }
 
 #banner {
@@ -130,6 +130,18 @@
 	color: #343a40;
 	text-shadow: -2px -2px 0 rgba(0, 0, 0, 0.125);
 	text-transform: none;
+}
+
+header{
+	h2 {
+		text-shadow: 2px 2px 12px #e9ecef;
+	}
+	h1 {
+		text-shadow: 2px 2px 12px #e9ecef;
+	}
+	.h4 {
+		text-shadow: 2px 2px 12px #e9ecef;
+	}
 }
 
 .landing{
